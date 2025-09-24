@@ -1,0 +1,9 @@
+http://mu.batien.io.vn/mucore/
+http://mu.batien.io.vn/mucore/index.php?page_id=news
+http://mu.batien.io.vn/mucore/index.php?page_id=announcements
+http://mu.batien.io.vn/mucore/index.php?page_id=downloads
+http://mu.batien.io.vn/mucore/index.php?page_id=chat
+http://mu.batien.io.vn/mucore/index.php?page_id=rankings
+http://mu.batien.io.vn/mucore/index.php?page_id=register
+http://mu.batien.io.vn/mucore/index.php?page_id=terms
+http://mu.batien.io.vn/mucore/index.php?page_id=contact

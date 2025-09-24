@@ -1,0 +1,19 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: theo trình tự, không thể thay đổi</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Văn bản</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 4.194.304 ký tự<br />(Do không bao giờ dùng hết 4 triệu ký tự , nên có thể xem là không giới hạn ký tự)</td>
+	</tr>
+
+</table>

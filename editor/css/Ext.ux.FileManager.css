@@ -1,0 +1,71 @@
+
+.thumb-wrap{
+	float:left;
+	border:1px solid #fff;
+	height:120px;
+	width:120px;
+	margin:5px;
+	overflow:hidden;
+}
+
+.thumb{
+	height:90px;
+}
+
+.thumb-wrap p{
+	text-align:center;
+}
+
+.x-view-over{
+	filter:alpha(opacity=80);
+	opacity: 0.8;
+	-moz-opacity:0.8;
+}
+
+.x-view-selected{
+	background-color:#d0e4f3;
+	border-color:#0c82d4;
+}
+span.titulo{
+	font-size: 20px;
+	font-weight: bold;
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+.bmd-icon{
+	background: url(../images/default/bmd_icon.gif) center center no-repeat !important;
+}
+.tga-icon{
+	background: url(../images/default/tga_icon.gif) center center no-repeat !important;
+}
+.jpg-icon{
+	background: url(../images/default/jpg_icon.gif) center center no-repeat !important;
+}
+.bmp-icon{
+	background: url(../images/default/bmp_icon.gif) center center no-repeat !important;
+}
+.ozt-icon{
+	background: url(../images/default/ozt_icon.gif) center center no-repeat !important;
+}
+.ozj-icon{
+	background: url(../images/default/ozj_icon.gif) center center no-repeat !important;
+}
+.ozb-icon{
+	background: url(../images/default/ozb_icon.gif) center center no-repeat !important;
+}
+.up-icon{
+	background: url(../images/default/folder_up.png) no-repeat !important;
+}
+.up-file{
+	background: url(../images/default/up_file.gif) no-repeat !important;
+}
+.go-icon{
+	background: url(../images/default/folder_go.png) center center no-repeat !important;
+}
+.expand-icon{
+	background: url(../images/default/bullet_arrow_down.png) 3px center no-repeat !important;
+}
+.collapse-icon{
+	background: url(../images/default/bullet_arrow_up.png) 3px center no-repeat !important;
+}

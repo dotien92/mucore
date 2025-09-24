@@ -1,0 +1,83 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Thuộc tính</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ,1 hoặc 2<br />0: Thuộc tính Cổng tự do (Sử dụng cho lệnh di chuyển = M)<br />1: Thuộc tính Cổng vào (Nhân vật sẽ di chuyển sang Cổng đích đến tương ứng)<br />2: Thuộc tính Cổng ra (Nhân vật sẽ di chuyển đến đây)</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số Map</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Tọa độ X1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Tọa độ Y1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Tọa độ X2</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Tọa độ Y2</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+		
+	<tr>
+		<td class="titcol" colspan="2">Chì số Đích đến</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 511</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số Phương hướng</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 7</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Cấp độ yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số mới (Chưa Test)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+	
+</table>

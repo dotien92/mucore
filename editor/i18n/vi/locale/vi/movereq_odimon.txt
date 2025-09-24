@@ -1,0 +1,59 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Tên trong Client</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 32 ký tự</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Tên trong Server</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 32 ký tự<br />Chú ý:là dạng biến nên được không sử dụng khoảng cách khi đặt tên.</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Cấp độ yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số mới (Chưa Test)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 16.777.215</td>
+	</tr>
+	
+		<tr>
+		<td class="titcol" colspan="2">Zen yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 16.777.215</td>
+	</tr>
+	
+		<tr>
+		<td class="titcol" colspan="2">Chỉ số Cổng (Gate)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 16.777.215</td>
+	</tr>
+
+</table>

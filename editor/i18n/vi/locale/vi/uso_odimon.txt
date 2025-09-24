@@ -1,0 +1,16 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Hướng dẫn sử dụng</td>
+	</tr>
+`	<tr>
+		<td colspan="2" class="datoscol2">
+		
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="750" height="500">
+  			<param name="movie" value="work/vi/img//HuongDan.swf" />
+  			<param name="quality" value="high" />
+  			<embed src="work/vi/img//HuongDan.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="750" height="500"></embed>
+		</object>
+		
+		</td>
+	</tr>
+</table>

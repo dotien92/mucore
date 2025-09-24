@@ -1,0 +1,28 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Credits</td>
+	</tr>
+
+	<tr>
+		<td class="datoscol" colspan="2">&nbsp;</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">MagicHand:</td>
+	</tr>
+
+	<tr>
+		<td class="valcol"></td>
+		<td class="datoscol">For development of this project</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Odimon:</td>
+	</tr>
+
+	<tr>
+		<td class="valcol"></td>
+		<td class="datoscol">Translation into Vietnamese</td>
+	</tr>
+	
+</table>

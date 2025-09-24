@@ -1,0 +1,16 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Que se necesita para que funcione:</td>
+	</tr>
+	<tr>
+		<td class="valcol">1º Archivo:</td>
+		<td class="datoscol"><b>JewelOfHarmonyOption</b>xxx<b>.bmd</b> en la carpteta <b>"archivos"</b></td>
+	</tr>
+	<tr>
+		<td class="valcol">2º Archivo:</td>
+		<td class="datoscol"><b>JewelOfHarmonyOption</b>xxx<b>.txt</b> en la carpteta <b>"txt"</b></td>
+	</tr>
+	<tr>
+		<td class="titcol2" colspan="2">Esto se deba a que el archivo JewelOfHarmonyOption.bmd no contiene toda la información que se necesita para el server</td>
+	</tr>
+</table>

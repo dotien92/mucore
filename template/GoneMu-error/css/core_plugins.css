@@ -1,0 +1,139 @@
+.resetCount {
+	color: #FF0000;
+	font-size: 0.8em;
+}
+
+.characterTable {
+	margin: auto;
+        border-collapse: collapse;
+}
+.characterTable th {
+	background-color: #A9A9A9;
+}
+.even {
+
+}
+.odd {
+	background-color: #000000;
+}
+.green {
+        color: #00FF00;
+}
+.charInfo {
+        width: 100%;
+        height: 147px;
+        border: 0;
+}
+.cellPad {
+    padding-left: 15px;
+}
+.charInfoTable {
+    width: 100%;
+    border: 0;
+    padding-bottom: 15px;
+}
+#guildMaster {
+    background-color: #8F4229;
+    color: #FFFFFF;
+}
+#assistantGuildMaster {
+    background-color: #935E3B;
+    color: #FFFFFF;
+}
+.battleMaster {
+    background-color: #8C713F;
+    color: #FFFFFF;
+}
+.guildMember {
+    background-color: #232323;
+    color: #FFFFFF;
+}
+.status {
+    float: right;
+    width: 200px;
+    text-align: left;
+    color: white;
+}
+.hdTitle {
+    font-family : Georgia, Arial, Helvetica, sans-serif;
+    color : #cccccc;
+    font-size : 16px;
+    margin-top: 10px;
+}
+.hdHr {
+    height: 2px;
+    width: 450px;
+}
+.hdAuthor {
+    text-align: right;
+}
+#viewOlderNews {
+    text-align: right;
+        margin-top: 25px;
+}
+.important {
+    font-weight: bold;
+    color: #FFFFFF;
+}
+.importantLink {
+    font-weight: bold;
+    color: #8BAAAA;
+    text-decoration: underline;
+}
+.available {
+    color: #00FF00;
+}
+.unavailable {
+    color: #FF0000;
+}
+.thinProgressBar {
+    height: 7px;
+    width: 90px;
+}
+.importantNumber {
+    color: #AAAAAA;
+}
+.gmPanelEntry {
+    width: 105px;
+    height: 23px;
+    font-family: Arial, Tahoma, Serif;
+    color: #FFFFFF;
+    text-align: center;
+}
+.gmEdit {
+    background-color: #222222;
+    border: 1px outset #000000;
+    margin: auto;
+    width: 80%;
+    color: white;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    overflow: auto;
+}
+.gmEditTitle {
+    display: block;
+    font-family: arial;
+    font-size: 1.7em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #FFFFFF;
+}
+.gmPanelMainMenu {
+    text-align: center;
+}
+.indented {
+    margin-left: 25px;
+}
+.defUl {
+    list-style-type: square;
+}
+.pending {
+    color: #E97713;
+}
+.accepted {
+    color: #00FF00;
+}
+.refused {
+    color: #FF0000;
+}

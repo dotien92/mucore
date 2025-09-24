@@ -1,0 +1,154 @@
+/*    All Right Reserved FCV2005@hotmail.com    */
+#left_side {
+    background: #33CCFF;
+    width: 267px;
+    float: left;
+}
+#game_start:hover {
+	background:url(game_start.jpg);
+    width: 267px;
+	height: 182px;
+    float: left;
+	-webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -o-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+#game_start {
+	background:url(game_start_hover.jpg);
+    width: 267px;
+	height: 182px;
+    float: left;
+}
+#left_side_bt {
+	background:url(left_bt.jpg);
+    width: 267px;
+	height: 23px;
+    float: left;
+}
+/*    Red Modules    */
+#red_module_top {
+	background:url(red_module_top.jpg);
+    width: 267px;
+	height: 67px;
+    float: left;
+}
+#red_module_bg {
+	background:url(red_module_bg.jpg);
+    width: 267px;
+	height: 250px;
+    float: left;
+}
+#red_module_bt {
+	background:url(red_module_bt.jpg);
+    width: 267px;
+	height: 6px;
+    float: left;
+}
+/*    Gray Modules    */
+#gray_module_top {
+	background:url(gray_module_top.jpg);
+    width: 267px;
+	height: 67px;
+    float: left;
+}
+#gray_module_bg {
+	background:url(gray_module_bg.jpg);
+    width: 267px;
+	height: 150px;
+    float: left;
+}
+#gray_module_bt {
+	background:url(gray_module_bt.jpg);
+    width: 267px;
+	height: 8px;
+    float: left;
+}
+#module_title {
+	text-shadow: #000 0px 1px;
+	font-family: 'Archivo Narrow', sans-serif;
+	color: #fff;
+	font-size: 15px;
+	margin-left: 60px;
+	margin-top: 18px;
+}
+#module_area {
+	width:240px;
+	margin-left: 29px;
+}
+#login_field {
+	background: url(field.jpg);
+	width: 219px;
+	height: 33px;
+	color: #666;
+	margin-bottom:4px;
+	text-align: center;
+	font-size: 11px;
+	border: 0px;
+}
+#float_left{ 
+	float:left;
+}
+#float_right{ 
+	float:right;
+}
+#lost, #lost a  {
+	font-family:"Trebuchet MS";
+	color: rgba(255, 255, 255, 0.2);
+	text-decoration:none;
+	font-size:11px;
+	padding-top:5px;line-height: 1.5;
+	text-shadow:#000 0px 1px 0px; 
+}
+#lost:hover  {
+	font-family:"Trebuchet MS";
+	color:#fff;
+	text-decoration:none;
+	font-size:11px;
+	padding-top:5px;line-height: 1.5;
+	text-shadow:#000 0px 1px 0px; 
+	-webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+}
+#nfo1 {
+	background:#080606;
+	border-bottom:1px solid #1c1919;
+	height: 16px;
+	width: 219px;
+	padding-left: 5px;
+	padding-top: 5px;
+	color: #948781;
+	font-size: 12px;
+	padding-bottom: 4px;
+	font-family: "Trebuchet MS";
+}
+#nfo2 {  
+	height: 16px;
+	width: 219px;
+	padding-left: 5px;
+	padding-top: 5px;
+	color: #948781;
+	font-size: 12px;
+	padding-bottom: 4px;
+	font-family: "Trebuchet MS"; 
+}
+#sts { 
+	float: left;
+	color: #64534e;
+	padding-left: 5px;
+	font-weight: bold;text-shadow:#000 0px 1px 0px;  font-family: "Trebuchet MS";
+}
+#sts2 { 
+	float:right;
+	color: #363030;
+	padding-right:10px;
+	text-shadow:#000 0px 1px 0px;  
+	font-family: "Trebuchet MS";
+}
+
+.href4 {text-decoration:none;color:#FF0000;}
+.href4:hover {text-decoration:underline;color:#676767;}
+.href5 {text-decoration:none;color:#FF0000;font-size: 11px;}
+.href5:hover {text-decoration:underline;color:#676767;font-size: 11px;}

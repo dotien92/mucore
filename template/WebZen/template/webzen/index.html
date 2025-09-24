@@ -1,0 +1,832 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<!-- Mirrored from muonline.webzen.com/ by HTTrack Website Copier/3.x [XR&CO'2010], Mon, 06 Sep 2010 17:32:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head>
+	
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Welcome to official MU Online site, massively multiplayer online role-paying game! Find the latest news, trailers, game download, and the official forum." />
+<meta name="keywords" content="Global MU Online, MU Online, MU, Free MMORPG, multiplayer Online Game, online game rpg, Webzen Inc, Webzen, MU Season 4, Games" />
+<title> Official MU Online </title>
+<link type="text/css" rel="stylesheet" href="_Css/common.css" />
+<link type="text/css" rel="stylesheet" href="Games/global_gnb20100107.css" /> 
+<script type="text/javascript" src="_Script/jsRegistText.js"></script>
+<script type="text/javascript" src="_Script/jsMenuLinkFunction.js"></script>
+<script type="text/javascript" src="_Script/jsGeneralFunction.js"></script>
+<script type="text/javascript" src="_Script/jsBoardFunction.js"></script>
+<script type="text/javascript" src="_Script/jsGameController.js"></script>
+<script type="text/javascript" src="Games/global_gnb20100325.js"></script>
+<script type="text/javascript" src="_Script/jquery.js"></script>
+<script type="text/javascript">setNavLoginSts(false);</script>
+	<style type="text/css">
+	#Main_Layer { position:relative; width:100%; top:150px; margin:0; padding:0; z-index:10000; }
+	#Main_Layer #Layer_Align { position:absolute; width:340px; height:452px; left:50%; top:-20px;margin-left:-350px; }
+	#Layer_Box { position:absolute; width:340px; height:452px; margin:0; padding:0; z-index:99; }
+	#Layer_Box #LayerContent {font-size:0;line-height:0;}
+	#Layer_Box #CookieBox {height:33px; margin:0; padding:3px 10px 0 15px;font-size:0;line-height:0; background:url('SUN/event/100531_newMember/popup_img_02.jpg') left top no-repeat; }
+	#Layer_Box #CookieBox img { margin:2px 45px 0 0; vertical-align:middle; cursor:pointer; }
+	#Layer_Box #CookieBox img.close {margin-right:0;}
+	#Layer_Box #CookieBox input { width:14px; height:14px; margin:3px 3px 0 0; vertical-align:middle; }
+	</style>
+	<script type="text/javascript">
+	function fnEXP(ServerGuid)
+    {
+        fnSetCookie("WZ_MU_World_EXP", ServerGuid, 365);
+							
+        $.ajax(
+        { 
+            type: "POST", 
+            url: "/Default.aspx/GetEXP", 
+            data: "{'ServerGuid': '" + Number(ServerGuid) + "'}", 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json",
+            async: true,
+            success: function(msg) 
+            {
+                var objResult = msg;
+                
+                if(objResult != null)
+                {
+					$('#rptEXP').html(msg);
+                }
+            },
+            error: function(xhr, status, error) 
+            {
+                //alert(xhr.responseText);
+            }
+        })
+        
+        return false;
+    }
+    
+    function fnGuild(ServerGuid)
+    {
+        fnSetCookie("WZ_MU_World_Guild", ServerGuid, 365);
+		
+        $.ajax(
+        { 
+            type: "POST", 
+            url: "/Default.aspx/GetGuild", 
+            data: "{'ServerGuid': '" + Number(ServerGuid) + "'}", 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json",
+            async: true,
+            success: function(msg) 
+            {
+                var objResult = msg;
+                
+                if(objResult != null)
+                {
+                     $('#rptGuild').html(msg);
+                }
+            },
+            error: function(xhr, status, error) 
+            {
+                //alert(xhr.responseText);
+            }
+        })
+        
+        return false;
+    }
+	</script>
+	<script type="text/javascript">
+    var Main = {
+
+        PopupOpen: function(flag) 
+        {
+            if (fnGetCookie("WG_Mu_PopupNotice") != "done") 
+	        {
+	            document.getElementById("Main_Layer").style.display="block";
+	        }
+	        else
+	        {
+	            document.getElementById("Main_Layer").style.display="none";
+	        }
+            return;
+        },
+
+        PopupClose: function(flag) 
+        {
+            if (document.getElementById("Main_Layer_Cookie_Check").checked)
+		    {
+			    fnSetCookie("WG_Mu_PopupNotice", "done", 1);
+		    }
+    	    
+	        document.getElementById("Main_Layer").style.display="none";
+        }
+    }
+	</script>
+</head>
+<body onload="fnEXP(1);fnGuild(1);">
+<form name="form1" method="post" action="http://muonline.webzen.com/Default.aspx" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTY2OTQ4MDg1MWQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFFkxvZ2luUGFuZWwxJGJ0bk11TG9naW4ghBEj3+oMWY8ehhiuiWqsXsaPbw==" />
+<!-- Layer Popup -->
+<!--div id="Main_Layer">
+    <div id="Layer_Align">
+	    <div id="Layer_Box">
+		    <div id="LayerContent">
+		    	<a href="http://sunonline.webzen.com/News/Notice/Default.aspx?iBS=1179" alt="More Information on S.U.N Special Newbie Privileges"><img src="http://image.webzen.com/Global/SUN/event/100531_newMember/popup_img_01.gif" border="0" usemap="#MapNewbiesPop" /></a>
+			</div>
+	    </div>
+	    <div id="Layer_Shadow"></div>
+    </div>
+</div>
+<script language="javascript" type="text/javascript">Main.PopupOpen("Layer");</script-->
+<!-- // Layer Popup -->
+<div id="mainwrapper">
+	<!-- Visual -->
+	<div class="mainvisual">
+		<div class="left_image"></div>
+		<div class="right_image"></div>
+	</div><!-- //Visual -->
+<!-- Header -->
+	<div id="mainheader">
+		<script type="text/javascript">flash.TopMainNavi();</script>
+		<noscript>Your browser setting (setting the level to high) may have prevented a script from activating [Flash].<br />
+		Please set your browser security to Medium-High or Medium.</noscript>
+	</div>
+	<!-- //Header -->
+
+	<!-- Contents -->
+	<div id="mainbody">
+
+		<!-- Content Left -->
+		<div id="mainleft">
+			<div class="gamebutton">
+				<a href="javascript:startGame();"><img src="Mu/main/bt_gamestart.gif" width="195px" height="44px" alt="START GAME" /></a>
+				<a href="javascript:fnGoDownLoad();"><img src="Mu/main/bt_download.gif" width="195px" height="44px" alt="DOWNLOAD" /></a>
+			</div>
+			
+			<!-- s:100517추가 -->
+			<div class="mainWcoinButton"></div>
+			<!-- e:100517추가 -->
+			
+			<div class="quickbnr">
+				<h3>QUICK LINKS</h3>
+				<ul class="quicklink">
+					<li><a href="http://forum.webzen.com/forum182-computer-technical-tutorials-and-information.aspx"><b>Windows 7 Error Solution</b></a></li>
+<li><a href="http://forum.webzen.com/forum42-mu-online-guides-and-tips.aspx"><b>MU Online Guides</b></a></li>
+<li><a href="http://forum.webzen.com/forum43-guild-recruitments.aspx"><b>Join a Guild!</b></a></li>
+<table><tr><td height="5"></td></tr></table>
+
+<!--
+<li><font color="C6C092"> <b>Join Our Community !</b> </font></li>
+<p>- <a href="http://www.facebook.com/pages/MU-Online/123114467621?ref=nf" target="_blank"><em>MU Online </em> Facebook Fan Page</a></p>
+-->
+				</ul>
+
+				<h3 class="worldlink">WORLD LINKS</h3>
+				<div id="worldlink" class="selectlayer" onclick="select.action(this,0);">
+					<p><a href="#" class="default" onclick="return false;">GLOBAL</a></p>
+					<ul>
+						<li><a href="#">GLOBAL</a></li>
+						<li><a href="http://www.muonline.co.kr/" target="_blank">KOREA</a></li>
+						<li><a href="http://www.muchina.com/" target="_blank">CHINA</a></li>
+						<li><a href="http://www.muonline.com.tw/" target="_blank">TAIWAN</a></li>
+						<li><a href="http://www.muonline.jp/" target="_blank">JAPAN</a></li>
+						<li><a href="http://www.muonline.ph/" target="_blank">PHILIPPINES</a></li>
+						<li><a href="http://mu.gate.vn/" target="_blank">VIETNAM</a></li>
+					</ul>
+				</div>
+
+				
+								<!-- s:mu movie 100806 -->
+				<h3 class="trailer">MU CINEMATIC TRAILER</h3>
+				<div class="trailer_mov">
+					<object width="168" height="126"><param name="movie" value="http://www.youtube.com/v/IYYLXI6Dwbk?fs=1&amp;hl=ko_KR"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/IYYLXI6Dwbk?fs=1&amp;hl=ko_KR" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="168" height="126"></embed></object>
+				</div>
+				<!-- e:mu movie 100806 -->
+
+<ul class="leftbanner">
+<li class="sns">
+	<img src="Mu/data/banner/left_main_snsImg100408.jpg" border="0" usemap="#MapGo"></a>
+	<map name="MapGo">
+	<area shape="rect" coords="9,32,46,83" alt="Go to MU Facebook" href="http://www.facebook.com/pages/MU-Online/123114467621?ref=nf" target="_blank">
+	<area shape="rect" coords="50,32,87,84" alt="Go to MU YouTube" href="http://www.youtube.com/user/WEBZENMU" target="_blank">
+	<area shape="rect" coords="91,31,127,83" alt="Go to MU Orkut" href="http://www.orkut.com/Main#Community?cmm=98140362" target="_blank">
+	<area shape="rect" coords="132,31,168,84" alt="Go to MU Twitter" href="http://twitter.com/MUOnline_Webzen" target="_blank">
+	</map>
+</li>
+
+<!-- left Banner -->
+           <li><!--  20100810 뮤 다국어공지 퀵배너 -->
+	<a href="http://forum.webzen.com/forum236-news-and-announcements-other-languages.aspx"><img src="Mu/data/banner/left_main_100810.gif" border="0"></a></li>
+<!-- //left Banner -->
+</ul>
+			</div>
+		</div>
+		<!-- //Content Left -->
+
+		<!-- Content Center -->
+		<div id="maincenter">
+
+			<div class="centerbnr">
+				<script type="text/javascript">flash.MainPromotion('mainBannerXml.aspx');</script>
+				<noscript>Your browser setting (setting the level to high) may have prevented a script from activating [Flash].<br />
+				Please set your browser security to Medium-High or Medium.</noscript>
+			</div>
+
+	
+
+			<!-- s:100517 ItemShop -->
+			<div id="itemshop" class="itemshop">
+
+				<div class="is_title">
+					<h3>ITEM SHOP</h3>
+					<a href='http://itemshop.muonline.webzen.com/Main/Main_Mu.asp'><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+
+                
+				<ul class="is_list">
+				
+				
+				
+					<li>
+					    
+						<div class="img"><a href="#" onclick="itemLayerOpen(event, '146'); return false;">
+						
+						    <img src="Payment/FileUpload/PackProduct/pimg_l146.gif"  width="135" height="90" alt="" />
+						
+						<img src="Mu/main/round.gif" width="135" height="90" alt="" class="Round" /></a>
+						</div>
+						<div class="txt"><a href="#" onclick="itemLayerOpen(event, '146'); return false;">[Level up (Master)]</a></div>
+						<div class="info"><a href="#" onclick="itemLayerOpen(event, '146'); return false;">1570 <span>W Coin</span> <img src="Mu/common/temp/icon_wcoinp.gif" width="11" height="11" alt="p" /></a></div>
+						
+					</li>
+				</a>
+				
+				
+					<li>
+					    
+						<div class="img"><a href="#" onclick="itemLayerOpen(event, '144'); return false;">
+						
+						    <img src="Payment/FileUpload/PackProduct/pimg_l144.gif"  width="135" height="90" alt="" />
+						
+						<img src="Mu/main/round.gif" width="135" height="90" alt="" class="Round" /></a>
+						</div>
+						<div class="txt"><a href="#" onclick="itemLayerOpen(event, '144'); return false;">[Level up (normal)]</a></div>
+						<div class="info"><a href="#" onclick="itemLayerOpen(event, '144'); return false;">1570 <span>W Coin</span> <img src="Mu/common/temp/icon_wcoinp.gif" width="11" height="11" alt="p" /></a></div>
+						
+					</li>
+				</a>
+				
+				
+					<li>
+					    
+						<div class="img"><a href="#" onclick="itemLayerOpen(event, '81'); return false;">
+						
+						    <img src="Payment/FileUpload/PackProduct/pimg_l81.gif"  width="135" height="90" alt="" />
+						
+						<img src="Mu/main/round.gif" width="135" height="90" alt="" class="Round" /></a>
+						</div>
+						<div class="txt"><a href="#" onclick="itemLayerOpen(event, '81'); return false;">[Chaos Card  Mini]</a></div>
+						<div class="info"><a href="#" onclick="itemLayerOpen(event, '81'); return false;">80 <span>W Coin</span> <img src="Mu/common/temp/icon_wcoinp.gif" width="11" height="11" alt="p" /></a></div>
+						
+					</li>
+				</a>
+				
+				</ul>
+			</div>
+			<!-- e:100517 ItemShop -->
+
+			<!-- NEWS & EVENTS -->
+			<div class="newsforum">
+				<div class="nf_title">
+					<h3 class="news">NOTICE & EVENTS</h3>
+					<a href="News/Notice/index.html"><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+				<ul>
+				
+					<li>
+						<span class="w_text"><a href="News/Notice/Defaultff57.html?iBS=1511"><span>[ Notice ]</span> IDC Compensation on W Coin Items[Completed]</a></span>
+						<span class="w_date">SEP 01, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="News/Notice/Default56c9.html?iBS=1499"><span>[ Notice ]</span> IDC Relocation Compensation on W Coin Items</a></span>
+						<span class="w_date">AUG 26, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="News/Event/Default9324.html?iBS=1468"><span>[ Event ]</span> MU Online August GM Event2</a></span>
+						<span class="w_date">AUG 18, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="News/Notice/Default1dc1.html?iBS=1455"><span>[ Announcement ]</span> MU Fansite Page Now Available!</a></span>
+						<span class="w_date">AUG 12, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="News/Notice/Default746c.html?iBS=1442"><span>[ Notice ]</span> Aug 06 Banned User List (Account theft and H.P)</a></span>
+						<span class="w_date">AUG 06, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="News/Notice/Defaultbff8.html?iBS=1435"><span>[ Notice ]</span> Update Notice August 04,2010</a></span>
+						<span class="w_date">AUG 04, 2010</span>
+					</li>
+				
+				</ul>
+			</div>
+			<!-- //NEWS & EVENTS -->
+
+			<!-- FORUMS -->
+			<div class="newsforum">
+				<div class="nf_title">
+					<h3 class="forums">FORUMS</h3>
+					<a href="http://forum.webzen.com/"><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+				<ul>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic340221-looking-for-elfpowders-was-in-devotion-ally.aspx"> Looking for Elfpowders (was in Devotion ally)</a></span>
+						<span class="w_date">JUL 19, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic345266-you-have-reached-a-maximum-level-p.aspx"> You have reached a maximum level :P</a></span>
+						<span class="w_date">JUL 24, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic124447-check-your-url-before-logging-in.aspx"> Check your URL before logging in!</a></span>
+						<span class="w_date">JAN 21, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic326733-looking-for-my-old-friend-hightenesm-helheim.aspx"> Looking for my old friend Hightenesm (Helheim)</a></span>
+						<span class="w_date">JUL 09, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic348004-satan-wings-how-to-make.aspx"> Satan wings?, how to make</a></span>
+						<span class="w_date">JUL 26, 2010</span>
+					</li>
+				
+					<li>
+						<span class="w_text"><a href="http://forum.webzen.com/topic335465-greatz-feanor-gaion15-set-succefully-completed.aspx"> Greatz Feanor Gaion+15 set succefully completed</a></span>
+						<span class="w_date">JUL 16, 2010</span>
+					</li>
+				
+				</ul>
+			</div>
+			<!-- //FORUMS -->
+            <!-- Fansite 100806 -->
+			<div class="fansiteWrap">
+
+				<div class="nf_title">
+					<h3 class="fansite">FANSITE</h3>
+					<a href="Community/FanSite/index.html"><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+				
+				<div class="fanSiteMainList">
+					<div id="divFanSiteTop" class="firstBox"><div class="img"><a href="http://gmo-russian.clan.su/" target="_blank"><img src='../upload.webzen.com/files/mu/fansite/2010/08/15/201008151yen7hnnj5510k4s_small.jpg'></a></div><div class="txt"><a href="http://gmo-russian.clan.su/" target="_blank"><span>[ OTHERS ]</span>  Russian ...</a></div></div>
+					<ul class="listFansite">
+						
+						<li>
+							<span class="w_text"><a href="http://www.muholic.50webs.com/main.html" target="_blank"><span>[ SPANISH ]</span> MUholic</a></span>
+						</li>
+						
+						<li>
+							<span class="w_text"><a href="http://globalmu.ru/" target="_blank"><span>[ OTHERS ]</span> Russian Mu online</a></span>
+						</li>
+						
+						<li>
+							<span class="w_text"><a href="http://www.guiamuonline.com/" target="_blank"><span>[ SPANISH ]</span> Guia Mu Online</a></span>
+						</li>
+						
+						<li>
+							<span class="w_text"><a href="http://worldmuonline.cba.pl/" target="_blank"><span>[ POLISH ]</span> WorldMuOnline</a></span>
+						</li>
+						
+					</ul>
+				</div>
+
+			</div>
+			<!-- //Fansite 100806 -->
+		</div>
+		<!-- //Contents Center -->
+
+		<!-- Content Right -->
+		<div id="mainright">
+			<div class="servertime">
+				<h3>Global Server Time</h3>
+				<span class="stime" id="ServerTime"><span>09:36:17</span> SEP 06, 2010
+            <script type="text/javascript" language="javascript">
+            <!--
+            clock.init('9/6/2010 9:36:17 AM','ServerTime',1000);
+            -->
+            </script>
+            </span>
+			</div>
+
+			<table id="LoginPanel1_pnlLogInBefore" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>
+	
+<script type="text/javascript">
+function fnValidateForm()
+{
+	var txtUserID = document.getElementById("txtUserID");
+	var txtUserPW = document.getElementById("txtPassWD");
+	
+	//ID Check
+	if(!fnValidateEmpty(txtUserID, TEXT11)) return false;
+
+	if(txtUserID.value.search(/[^a-zA-Z0-9]/) != -1)
+	{
+		alert(TEXT12);
+		txtUserID.focus();
+		return false;
+	}
+	if(!fnValidateSize(txtUserID, TEXT13, 4, 0, 0)) return false;
+	if(fnIsNumeric(txtUserID.value))
+	{
+		alert(TEXT14);
+		txtUserID.focus();
+		return false;
+	}
+
+	//PassWD Check
+	if(!fnValidateEmpty(txtUserPW, TEXT16)) return false;
+	if(txtUserPW.value.search(/[^a-zA-Z0-9]/) != -1)
+	{
+		alert(TEXT17);
+		txtUserPW.focus();
+		return false;
+	}
+	if((txtUserPW.value.search(/[^a-zA-Z]/) == -1) || (txtUserPW.value.search(/[^0-9]/) == -1))
+	{
+		alert(TEXT18);
+		txtUserPW.focus();
+		return false;
+	}
+	if(!fnValidateSize(txtUserPW, TEXT19, 6, 0, 0)) return false;
+	if(txtUserID.value == txtUserPW.value)
+	{
+		alert(TEXT27);
+		txtUserPW.focus();
+		return false;
+	}
+
+	$.ajax(
+        { 
+            type: "POST", 
+            url: "/_Common/procLogin.aspx/GetLoginProcess", 
+            data: "{'strID': '" + $('#txtUserID').val() + "', 'strPW': '" + $('#txtPassWD').val() + "'}", 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json",
+            async: false,
+            success: function(msg) 
+            {
+                var objResult = msg;
+                
+                if(objResult != null && objResult.length ==3)
+                {
+                    if(objResult[0] == 1)
+                    {
+                        location.href = document.URL;
+                    }
+                    else if(objResult[0] == 2)
+                    {
+                        location.href='http://member.webzen.com/Account/Join/viewRegistEmailKeyNotYet.aspx';
+                    }
+                    else if(objResult[0] == 3)
+                    {
+                        location.href='http://member.webzen.com/MyPage/Secession/SecessionCancel.aspx';
+                    }
+                    else if(objResult[0] == 4)
+                    {
+                        alert(TEXT30);
+                        document.getElementById("txtUserID").focus();
+                    }
+                    else if(objResult[0] == 5)
+                    {
+                        alert(TEXT31);
+                        document.getElementById("txtUserID").focus();
+                    }
+                    else if(objResult[0] == 6)
+                    {
+                        location.href='http://member.webzen.com/Account/Rejoin/';
+                    }
+                    else if(objResult[0] == 7)
+                    {
+                        if (objResult[2] == null || objResult[2] == "")
+                        {
+                            alert(TEXT51);
+                            document.getElementById("txtUserID").focus();
+                        }
+                        else
+                        {
+                            alert(objResult[2]);
+                            document.getElementById("txtUserID").focus();
+                        }
+            
+                    }
+                    else if(objResult[0] == 8)
+                    {
+                            alert('Referrer Error');
+                            document.getElementById("txtUserID").focus();
+                    }
+                    else if (objResult[0] == -1)
+                    {
+                        if (objResult[1] < 2)
+                        {
+                            alert(TEXT32);
+                            document.getElementById("txtUserID").focus();
+                        }
+                        else
+                        {
+                            alert("You have " + (Number(objResult[1]) + 1) + " failed attempts to login, we're recommending that you recover your user ID and password from forgot ID/Password");
+                            document.getElementById("txtUserID").focus();
+                        }
+                    }
+                    else if (objResult[0] == -2)
+                    {
+                        alert(TEXT33);
+                        document.getElementById("txtUserID").focus();
+                    }
+                    else if (objResult[0] == -3)
+                    {
+                        alert(TEXT34);
+                        document.getElementById("txtUserID").focus();
+                    }
+                    else if (objResult[0] == -4)
+                    {
+                        alert(TEXT35);
+                        document.getElementById("txtUserID").focus();
+                    }
+                    else
+                    {
+                        alert(TEXT37);
+                        document.getElementById("txtUserID").focus();
+                    }
+                }
+            },
+            error: function(xhr, status, error) 
+            {
+                alert(TEXT49);
+                document.getElementById("txtUserID").focus();
+                
+            }
+        })
+        
+             
+       return false;
+}
+</script>
+<!-- Login Form -->
+<fieldset>
+	<legend>Login</legend>
+	<div class="inputtxt">
+		<label for="userID" class="login_id"><span>ID</span><input type="text" id="txtUserID" name="txtUserID" maxlength="20"  title="User ID" tabindex="1" class="on" onfocus="input.login(this);" /></label>
+		<label for="userPW" class="login_pw"><span>PW</span><input type="password" id="txtPassWD" name="txtPassWD" maxlength="20" title="Password" tabindex="2" class="on" onfocus="input.login(this);"/></label>
+	</div>
+	<div class="inputbtn">
+		<input type="image" name="LoginPanel1$btnMuLogin" id="LoginPanel1_btnMuLogin" tabindex="3" title="LOG IN" src="Mu/Common/btn/bt_login.gif" onclick="return fnValidateForm();" border="0" />
+	</div>
+</fieldset>
+<ul class="membermnu">
+	<li><a href="http://member.webzen.com/Account/Forget/">Forgot your User <u>ID or Password ?</u></a></li>
+	<li><a href="http://member.webzen.com/Account/Join/registAccount.aspx">It's Free, <u>Sign Up Now</u></a></li>
+	<li class="cash"><a href="http://member.webzen.com/Login/Default.aspx?sGC=102&amp;sRU=http://payment.webzen.com/Main/Main_GB_C.asp"><u>Buy W Coin</u></a></li>
+	<li class="gift"><a href="http://itemshop.muonline.webzen.com/Main/Main_Mu.asp"><u>Gift W Coin</u></a></li>
+</ul>
+<!-- //Login Form -->
+
+</td></tr></table>
+
+
+
+			<!-- EXP RANKING -->
+			<div class="sw_list exprank">
+				<div class="title">
+					<h3>EXP Ranking</h3>
+					<a href="Ranking/Default.html"><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+				<div class="serverbox">
+					<p class="titserver">World</p>
+					<div id="ExpRanking" class="selectlayer" onclick="select.action(this,1);">
+						<p><a href="#" class="default" onclick="return false;">Valhalla</a></p>
+						<ul>
+							<li><a href="javascript:fnEXP(1);">Valhalla</a></li>
+							<li><a href="javascript:fnEXP(2);">Helheim</a></li>
+							<li><a href="javascript:fnEXP(3);">Midgard</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="RList">
+					<table>
+					<colgroup>
+						<col class="rankcell" />
+						<col class="flagcell" />
+						<col />
+					</colgroup>
+					<thead>
+					<tr>
+						<th>Rank</th>
+						<th>Flag</th>
+						<th>Character</th>
+					</tr>
+					</thead>
+					<tbody id="rptEXP"></tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //EXP RANKING -->
+
+			<!-- GUILD RANKING -->
+			<div class="sw_list guildrank">
+				<div class="title">
+					<h3>Guild Ranking</h3>
+					<a href="Ranking/Guild.html"><img src="Mu/main/is_more.gif" width="33px" height="6px" alt="MORE" /></a>
+				</div>
+				<div class="serverbox">
+					<p class="titserver">World</p>
+					<div id="GuildRanking" class="selectlayer" onclick="select.action(this,1);">
+						<p><a href="#" class="default" onclick="return false;">Valhalla</a></p>
+						<ul>
+							<li><a href="javascript:fnGuild(1);">Valhalla</a></li>
+							<li><a href="javascript:fnGuild(2);">Helheim</a></li>
+							<li><a href="javascript:fnGuild(3);">Midgard</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="RList">
+					<table>
+					<colgroup>
+						<col class="rankcell" />
+						<!--col class="gmcell" /-->
+						<col class="flagcell2" />
+						<col />
+					</colgroup>
+					<thead>
+					<tr>
+						<th>Rank</th>
+						<!--th>Guild Mark</th-->
+						<th>Flag</th>
+						<th>Guild Name</th>
+					</tr>
+					</thead>
+					<tbody id="rptGuild"></tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //GUILD RANKING -->
+
+			<!-- Castle Siege List -->
+			<div id="castlesiegelist" class="sw_list guildrank">
+				<ul class="cc_tab">
+					<li class="fl"><a href="#" class="cc_tab_01_on" onclick="return false;"><span>Castle Siege</span></a></li>
+					<li class="fr"><a href="#" class="cc_tab_02" onclick="layer_open('crywolflist'); layer_close('castlesiegelist'); return false;"><span>Cry Wolf</span></a></li>
+				</ul>
+				<div class="updateinf">04:00 AUG 15, 2010 (GST)</div>
+				<div class="RList">
+					<table>
+					<colgroup>
+						<col class="servercell" />
+						<!--col class="gmcell" /-->
+						<col class="flagcell2" />
+						<col />
+					</colgroup>
+					<thead>
+					<tr>
+						<th>World</th>
+						<!--th>Guild Mark</th-->
+						<th>Flag</th>
+						<th>Guild Name</th>
+					</tr>
+					</thead>
+					<tbody>
+					
+					    <tr>
+						    <td class="servertd">V</td>
+						    <!--td class="gmtd"></td-->
+							<td class="flagtd">
+								<div class="posre">
+									<img src="Games/common/flags/ranking_SG.jpg" width="16px" height="11px" alt="" onmouseover="layer_open('flag_info_31');" onmouseout="layer_close('flag_info_31');" />
+									<div id="flag_info_31" class="flag_lay"><span><nobr>Singapore</nobr></span></div>
+								</div>
+							</td>
+						    <td class="chartd">Dragon</td>
+					    </tr>
+					
+					    <tr>
+						    <td class="servertd">H</td>
+						    <!--td class="gmtd"></td-->
+							<td class="flagtd">
+								<div class="posre">
+									<img src="Games/common/flags/ranking_AR.jpg" width="16px" height="11px" alt="" onmouseover="layer_open('flag_info_32');" onmouseout="layer_close('flag_info_32');" />
+									<div id="flag_info_32" class="flag_lay"><span><nobr>Argentina</nobr></span></div>
+								</div>
+							</td>
+						    <td class="chartd">D0MINION</td>
+					    </tr>
+					
+					    <tr>
+						    <td class="servertd">M</td>
+						    <!--td class="gmtd"></td-->
+							<td class="flagtd">
+								<div class="posre">
+									<img src="Games/common/flags/ranking_SG.jpg" width="16px" height="11px" alt="" onmouseover="layer_open('flag_info_33');" onmouseout="layer_close('flag_info_33');" />
+									<div id="flag_info_33" class="flag_lay"><span><nobr>Singapore</nobr></span></div>
+								</div>
+							</td>
+						    <td class="chartd">Universe</td>
+					    </tr>
+					
+					</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //Castle Siege List -->
+
+			<!-- Cry Wolf List -->
+			<div id="crywolflist" class="sw_list guildrank">
+				<ul class="cc_tab">
+					<li class="fl"><a href="#" class="cc_tab_01" onclick="layer_open('castlesiegelist'); layer_close('crywolflist'); return false;"><span>Castle Siege</span></a></li>
+					<li class="fr"><a href="#" class="cc_tab_02_on" onclick="return false;"><span>Cry Wolf</span></a></li>
+				</ul>
+				<div class="updateinf">10:00 SEP 09, 2010 (GST)</div>
+				<div class="RList">
+					<table>
+					<colgroup>
+						<col class="servercell" />
+						<col />
+					</colgroup>
+					<thead>
+					<tr>
+						<th>World</th>
+						<th>Result</th>
+					</tr>
+					</thead>
+					<tbody>
+					
+					    <tr>
+						    <td class="servertd">V</td>
+						    <td class="resulttd">Failed to Protect</td>
+					    </tr>
+					
+					    <tr>
+						    <td class="servertd">H</td>
+						    <td class="resulttd">Failed to Protect</td>
+					    </tr>
+					
+					    <tr>
+						    <td class="servertd">M</td>
+						    <td class="resulttd">Successfully Protected</td>
+					    </tr>
+					
+					</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //Cry Wolf List -->
+			<ul class="rightbnr">
+				<!-- right Banner -->
+<ul class="rightbnr">
+            <li><!--  20100625 카오스카드 골드 -->
+	<a href="Event/100701_ChaosCard/Default.html"><img src="Mu/data/banner/left_main_100625.jpg" border="0"></a></li>
+           <li><!--  20091126 W Coin Help -->
+<a href="http://www.webzen.com/_HTML/WCoinHelp.aspx"><img src="Mu/data/banner/left_main_100218.gif" border="0"></a></li>
+</ul>
+<!-- //right Banner -->
+			</ul>
+		</div>
+		<!-- //Content Right -->
+	</div>
+	<!-- //Contents -->
+</div>
+
+<!-- Footer -->
+
+<div id="footer">
+	<address>
+		WEBZEN Inc. Global Digital Entertainment Leader.
+		Copyright  WEBZEN, INC. All Right Reserved.
+	</address>
+	<ul>
+		<li><a href="http://company.webzen.com/eng/" target="_blank" class="aboutcompany">ABOUT COMPANY</a></li>
+		<li><a href="http://www.webzen.com/_HTML/PrivacyPolicy.aspx" class="privacypolicy">PRIVACY POLICY</a></li>
+		<li><a href="http://www.webzen.com/_HTML/TermsOfService.aspx" class="termsofservice">TERMS OF SERVICE</a></li>
+		<!--li><a href="http://www.webzen.com/_HTML/ContactUs.aspx" class="contactus">CONTACT US</a></li-->
+	</ul>
+</div>
+<!-- AceCounter Log Gathering Script V.70.20080707 -->
+<script type="text/javascript">
+if(typeof _GUL == 'undefined'){
+var _GUL = 'webzenlog.loginside.co.kr';var _GPT='80'; var _AIMG = new Image(); var _bn=navigator.appName; var _PR = location.protocol=="https:"?"https://"+_GUL+":443":"http://"+_GUL+":"+_GPT;if( _bn.indexOf("Netscape") > -1 || _bn=="Mozilla"){ setTimeout("_AIMG.src = _PR+'index2dcc.html?cookie';",1); } else{ _AIMG.src = _PR+'/?cookie'; };
+document.writeln("<scr"+"ipt language='javascript' src='/acecounter/acecounter_V70.js'></scr"+"ipt>");
+}
+</script>
+<noscript><img src='http://webzenlog.loginside.co.kr/?uid=3&amp;je=n&amp;' border=0 width=0 height=0></noscript>
+<!-- AceCounter Log Gathering Script End -->
+
+<!-- //Footer -->
+</form>
+</body></html>
+<script language="javascript" >
+
+
+</script>

@@ -1,0 +1,6 @@
+body,a {
+cursor: url(../images/cursor/1.cur), auto;
+}
+a:hover {
+cursor: url(../images/cursor/2.cur), auto;
+}

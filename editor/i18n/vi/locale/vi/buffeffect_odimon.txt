@@ -1,0 +1,67 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">View Port</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Nhóm Item</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 254</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số Item</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 254</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Tên</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 51 ký tự</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">X1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">X2</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Thông tin</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 100 ký tự</td>
+	</tr>
+
+</table>

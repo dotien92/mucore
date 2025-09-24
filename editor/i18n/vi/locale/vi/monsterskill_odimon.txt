@@ -1,0 +1,91 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">C1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C2</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C3</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C4</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C5</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C6</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C7</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C8</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C9</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C10</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C11</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+</table>

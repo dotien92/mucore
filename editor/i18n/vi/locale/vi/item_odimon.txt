@@ -1,0 +1,422 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol" colspan="2">Tên</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 32 ký tự</td>
+	</tr>
+    
+	<tr>
+		<td class="titcol" colspan="2">Hai tay (Loại vũ khí cầm bằng 2 tay)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>(0 cầm một tay hoặc 1 sẽ cầm hai tay)</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Cấp độ (Cấp độ của món đồ)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Vị trí (Vị trí đặt món đồ khi sử dụng)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: -1 ~ 10</p>
+	    <p>Bằng -1 : không có vị trí cụ thể (sử dụng bằng cách nhấp chuột phải hay nhiều cách khác ...)</p>
+	    <p>Từ 0 ~ 10 là các vị trí như bình bên dưới.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Kỹ năng</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: tính đến phiên bản 1.07+ là 0 ~ 1.024</p>
+	    <p>(Xem thêm trong tệp tin Skill.bmd)</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">X (Chiều ngang món đồ)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 1 ~ 8</p>
+	    <p>Ghi chú: Đây là giá trị thể hiện chiều ngang của món đồ</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Y (Chiều cao món đồ)</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 1 ~ 4</p>
+	    <p>Ghi chú: Đây là giá trị thể hiện chiều cao của món đồ</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Sát thương thấp nhất</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Ghi chú:</p>
+	    <p> - Chỉ số lực đánh thấp nhất của món đồ bình thường đẳng cấp độ 0.</p>
+	    <p>- Khi đẳng cấp của món đồ tăng lên hoặc là các loại đồ đặt biệt (như đồ hoàn hảo, đồ thần, đồ socket ...)</p>
+	    <p> thì trong Game chỉ số này có thể lớn hơn 255.</p>
+	    <p>- Có từ 0 đến 13 đẳng cấp của món đồ . Kể từphiên bản mới 1.07G có thêm đẳng cấp 14 và 15 .</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Sát thương cao nhất</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Ghi chú:</p>
+	    <p> - Chỉ số lực đánh cao nhất của món đồ bình thường đẳng cấp độ 0.</p>
+	    <p>- Khi đẳng cấp của món đồ tăng lên hoặc là các loại đồ đặt biệt (như đồ hoàn hảo, đồ thần, đồ socket ...)</p>
+	    <p> thì trong Game chỉ số này có thể lớn hơn 255.</p>
+	    <p>- Có từ 0 đến 13 đẳng cấp của món đồ . Kể từphiên bản mới 1.07G có thêm đẳng cấp 14 và 15 .</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Phòng thủ hoàn hảo</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Phòng thủ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C12</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Tốc độ đánh</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Tốc độ chạy</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Độ bền</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Kháng Phép Thuật</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Kháng Sát thương Vật Lý</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Sức mạnh yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Nhanh nhẹn yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Năng lượng yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Thể lực yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Mệnh lệnh yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C23</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Cấp độ yêu cầu</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Giá trị</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C26</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C27</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C28</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Zen</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 2.147.483.647</td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Type</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Phù Thủy</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+	    <p>Ghi chú:</p>
+	    <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+	    <p>- 1 : Nhân vật cấp 1</p>
+	    <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Chiến Binh</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+		  <p>Ghi chú:</p>
+		  <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+		  <p>- 1 : Nhân vật cấp 1</p>
+		  <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Tiên Nữ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+		  <p>Ghi chú:</p>
+		  <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+		  <p>- 1 : Nhân vật cấp 1</p>
+		  <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Đấu Sĩ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+		  <p>Ghi chú:</p>
+		  <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+		  <p>- 1 : Nhân vật cấp 1</p>
+		  <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+        <tr>
+		<td class="titcol" colspan="2">Chúa Tể</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+		  <p>Ghi chú:</p>
+		  <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+		  <p>- 1 : Nhân vật cấp 1</p>
+		  <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+     <tr>
+		<td class="titcol" colspan="2">Hoa Nữ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: hiện tại 0 ~ 3 (Mặc định theo Mu Korea)</p>
+		  <p>Ghi chú:</p>
+		  <p>- 0 : Dòng nhân vật này không được sử dụng.</p>
+		  <p>- 1 : Nhân vật cấp 1</p>
+		  <p>- 2 : Nhân vật cấp 1 và 2</p>
+	    <p>- 3 : Nhân vật cấp 1 , 2 và 3</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Băng</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Độc</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Sét</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Lửa</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Đất</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Gió</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">Nước</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>0 hoặc 1: có hoặc không có thuộc tính.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C44</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 1</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+    <tr>
+		<td class="titcol" colspan="2">C45</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol"><p>Phạm vi: 0 ~ 255</p>
+	    <p>Chưa có thông tin về chỉ số này.</p></td>
+	</tr>
+    
+</table>

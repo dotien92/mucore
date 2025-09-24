@@ -1,0 +1,38 @@
+<?php
+////////////////////////////////////////////////////////////////////////////////
+///////////////////CONFIGURACION DEL MENU TEMPLATE ARG//////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+define ( 'foro' , '/forum' ); //URL DEL FORO
+define ( 'register' , '/forum/index.php?action=register' );  //URL DE REGISTER EN EL FORO
+define ( 'cliente' , '#' );  //URL DE CLIENTE
+define ( 'parche' , '#' );  //URL DE PARCHE
+define ( 'utilidades' , '#' ); //URL DE UTILIDADES
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////REDES SOCIALES////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+define ( 'YT' , 'http://www.youtube.com/user/' ); //URL EN YOUTUBE
+define ( 'FB' , 'https://www.facebook.com/MuOnlineDeveloper' ); //URL DE FACEBOOK
+define ( 'TW' , 'http://twitter.com/DaoVanTrong' ); //URL DE TWITTER
+
+////////////////////////////////////////////////////////////////////////////////
+///////////////////CONFIGURACION DE ESTADOS DEL SERVER//////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+$RafaMaster['db_host'] = "127.0.0.1"; //CONFIGURAR IP
+$RafaMaster['separator'] = ":"; //Used for hosting features, used values [ ":" - ";" - "," ]
+$RafaMaster['db_port'] = "1433"; // Default 1433
+$RafaMaster['db_name'] = "MuOnline";
+$RafaMaster['db2_name'] = "MuOnline";
+$RafaMaster['db_user'] = "sa";
+$RafaMaster['db_password'] = "YourSqlPassword";
+
+$RafaMaster['Puerto']['GsPvP'] = '54758'; //Server FREE1
+$RafaMaster['Puerto']['GsNoPvP'] = '55912'; //Server FREE2
+$RafaMaster['Puerto']['GsSub'] = '55912'; //Server FREE3
+$RafaMaster['Puerto']['GsVIP'] = '55913'; //Server VIP1
+$RafaMaster['Puerto']['GsVIP2'] = '55914'; //Server VIP2
+$RafaMaster['Puerto']['GsSig'] = '55921'; //Server CS
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////PROGRAMADO POR RAFAMASTER/////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+?>

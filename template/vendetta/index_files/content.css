@@ -1,0 +1,137 @@
+/*    All Right Reserved FCV2005@hotmail.com    */
+#content {
+    float: left;
+	background:url(content_bg.jpg);
+    width: 726px;
+	min-height:500px;
+	padding-top:10px;
+}
+#slide_bg {
+	background:url(slide_bg.jpg);
+    width: 726px;
+	height:259px;
+    float: left;
+}
+#slide_padding {
+    width: 683px;
+	height:259px;
+    float: left;
+	padding-left:21px;
+}
+#page_title {
+	background:url(page_title.jpg);
+    width: 726px;
+	height:57px;
+    float: left;
+}
+#social {
+	background:url(social_network.jpg);
+    width: 726px;
+	height:167px;
+    float: left;
+}
+#t_c {
+	width:672px;
+	margin: 0 auto;
+	padding-top: 19px;
+}
+#g_tile_c {
+	font-family: 'Archivo Narrow', sans-serif;
+	color:#fff;
+	text-shadow:#000 0px 1px;
+	font-size:15px;
+	float:right;
+	padding-right:5px;
+}
+#g_tile {
+	font-family: 'Archivo Narrow', sans-serif;
+	color:#646060;
+	text-shadow:#000 0px 1px;
+	font-size:15px;
+	float:right;
+}
+#center_modules {
+	width:672px;
+	margin:0 auto;
+}
+#title_news {
+	width:672px;
+	height:48px;
+	background:url(news_bar.jpg);
+	margin-bottom:5px;
+}
+#title_news_text {
+	width:672px;
+	margin-bottom:5px;
+}
+#news_icon {
+	width:79px;
+	height:31px;
+	background:url(update.jpg);
+	float:left;
+	margin-left:6px;
+	margin-top:9px;
+}
+#event_icon {
+	width:79px;
+	height:31px;
+	background:url(event.jpg);
+	float:left;
+	margin-left:6px;
+	margin-top:9px;
+}
+#news_title_link {
+	color: rgba(255, 255, 255, 0.57);
+	float:left;
+	margin-top:13px;
+	margin-left:6px;
+	text-shadow:#000 0px 1px;
+	font-family: 'Archivo Narrow', sans-serif;
+	font-size:17px;
+}
+#footer_c{ 
+    margin: 0 auto;
+    width: 993px;
+}
+#footer_links{
+	height:55px;
+	width:569px;
+	padding-top: 1px;
+	float:right;
+	background:url(footer_links.jpg) no-repeat right;
+}
+#f_left{
+	float:left;padding-left: 100px;
+		padding-top: 18px;
+}
+#f_right{
+	float:right;padding-right: 30px;
+	width:184.5px;	padding-top: 18px;
+}
+#f, #f a  {
+	font-family: "Trebuchet MS";
+	color: rgba(255, 255, 255, 0.25);
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 1.5;
+	text-shadow: #000 0px 1px 0px;
+}
+#f:hover  {
+	font-family:"Trebuchet MS";
+	color:#fff;
+	text-decoration:none;
+	font-size:13px;
+	line-height: 1.5;
+	text-shadow:#000 0px 1px 0px; 
+	-webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+}
+#copy{	
+	font-family:"Trebuchet MS";
+	color:#5a5151;
+	text-decoration:none;
+	font-size:11px;
+	padding-top: 20px;
+}

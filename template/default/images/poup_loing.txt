@@ -1,0 +1,172 @@
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-31163129-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function () {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<script async="" type="text/javascript" src="http://partner.googleadservices.com/gpt/pubads_impl_35.js"></script>
+<body onclick="gp.GNB.CloseLogInLayer();" style="background: url('https://ssl.webzen.com/platform/clear.png') repeat;">
+    <div id="Blank" ></div>
+
+</iframe>
+
+<div style="position: absolute; z-index: 9999; display: none; background-color: transparent; color: rgb(255, 255, 255); width: 500px; height: 500px; left: 507px; top: 181.5px;">
+<iframe id="iframe_pop" frameborder="0" src="http://login.webzen.com/Home/LogInPopup?secure=false&amp;host=muonline" style="width: 100%; height: 100%; background-color: transparent; margin: 0px;">
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-20888004-1']);
+            _gaq.push(['_setDomainName', '.webzen.com']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+        </script>        
+
+<script async="" type="text/javascript" src="http://partner.googleadservices.com/gpt/pubads_impl_35.js"></script></head>
+<body>
+    <section id="popupWrap">
+        <script type="text/javascript">
+    if (jQuery.browser.msie && jQuery.browser.version == "6.0") {
+        location.href = gp.Http.Member + "/Error/IE6Popup";
+    }
+
+    $("*").keypress(function (e) {
+        if (e.keyCode == 13) return false;
+    });
+
+</script>
+<h1 class="pageName">
+    <strong>Log In</strong>
+    <span><a href="javascript:gp.GNB.CloseLayer();"><img src="https://ssl.webzen.com/Member/content/popup_btn_close.gif" alt="Close"></a></span>
+</h1>
+<section class="loginSectionPop">    
+    <h1>Log in to Webzen.com</h1>
+    <div class="space10"></div>
+    <!-- s:login -->
+    <article class="loginWrap">
+<form action="/Home/LogInPopup" autocomplete="off" method="post"><input id="ReturnUrl" name="ReturnUrl" type="hidden" value=""><input data-val="true" data-val-required="The Secure field is required." id="Secure" name="Secure" type="hidden" value="false">            <input type="hidden" id="RSA" name="RSA">
+            <fieldset class="loginInputWrap">
+                <legend>Log In</legend>
+                <dl>
+                    <dt><label for="UserID">Username</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The Username must consist of a minimum of 4 and a maximum of 20 characters. " data-val-length-max="20" data-val-length-min="4" data-val-regex="The Username must be a combination of letters and numbers." data-val-regex-pattern="^[a-zA-Z0-9]+$" data-val-required="Please enter your Username." id="UserID" maxlength="20" name="UserID" tabindex="1" type="text" value=""></dd>
+                    <dt><label for="Password">Password</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The password must consist of a minimum of 6 and a maximum of 20 characters." data-val-length-max="20" data-val-length-min="6" data-val-passwordcharacter="Passwords cannot contain certain special characters (e.g.: \ )." data-val-required="Please enter your password." id="Password" maxlength="20" name="Password" tabindex="2" type="password"></dd>
+                </dl>
+                <div class="btnArae">
+                    <a id="submitButton" tabindex="3" class="btnStyle02">Log In</a>
+                    <div class="messageInfo">/ <a href="http://member.webzen.com/Find/UserID" onClick="showImg(540, 600, this);self.close();">Forgot your Username or Password?</a></div>
+                    <div id="alertMessage" class="messageAlret">
+                        
+                    </div>
+                </div>
+                <div class="space10"></div>
+                <a href="javascript:void(0)" onClick="go('SignUp', 'parent')" class="btnStyle05">Sign Up for Free!</a>
+            </fieldset>
+            <!-- e:login -->
+</form>    </article>
+</section>
+    </section>
+</body></html>
+</iframe></div>
+<iframe class="dvclass" frameborder="0" src="http://platform.webzen.com/html/back.html" style="top: 0px; left: 0px; width: 1514px; height: 2037px; position: absolute; z-index: 9990; display: block; margin: 0px;">...</iframe>
+<div style="position: absolute; z-index: 9999; display: block; background-color: transparent; color: rgb(255, 255, 255); width: 500px; height: 500px; left: 507px; top: 181.5px;">
+<iframe id="iframe_pop" frameborder="0" src="http://login.webzen.com/Home/LogInPopup?secure=false&amp;host=muonline" style="width: 100%; height: 100%; background-color: transparent; margin: 0px;">
+
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-20888004-1']);
+            _gaq.push(['_setDomainName', '.webzen.com']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+        </script>        
+
+<script async="" type="text/javascript" src="http://partner.googleadservices.com/gpt/pubads_impl_35.js"></script></head>
+<body>
+    <section id="popupWrap">
+        <script type="text/javascript">
+    if (jQuery.browser.msie && jQuery.browser.version == "6.0") {
+        location.href = gp.Http.Member + "/Error/IE6Popup";
+    }
+
+    $("*").keypress(function (e) {
+        if (e.keyCode == 13) return false;
+    });
+
+</script>
+<h1 class="pageName">
+    <strong>Log In</strong>
+    <span><a href="javascript:gp.GNB.CloseLayer();"><img src="https://ssl.webzen.com/Member/content/popup_btn_close.gif" alt="Close"></a></span>
+</h1>
+<section class="loginSectionPop">    
+    <h1>Log in to Webzen.com</h1>
+    <div class="space10"></div>
+    <a href="javascript:go('FacebookConnect', 'parent');" class="btnStyle04">Connect</a>
+    <div class="space20"></div>
+    <!-- s:login -->
+    <article class="loginWrap">
+<form action="/Home/LogInPopup" autocomplete="off" method="post"><input id="ReturnUrl" name="ReturnUrl" type="hidden" value=""><input data-val="true" data-val-required="The Secure field is required." id="Secure" name="Secure" type="hidden" value="false">            <input type="hidden" id="RSA" name="RSA">
+            <fieldset class="loginInputWrap">
+                <legend>Log In</legend>
+                <dl>
+                    <dt><label for="UserID">Username</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The Username must consist of a minimum of 4 and a maximum of 20 characters. " data-val-length-max="20" data-val-length-min="4" data-val-regex="The Username must be a combination of letters and numbers." data-val-regex-pattern="^[a-zA-Z0-9]+$" data-val-required="Please enter your Username." id="UserID" maxlength="20" name="UserID" tabindex="1" type="text" value=""></dd>
+                    <dt><label for="Password">Password</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The password must consist of a minimum of 6 and a maximum of 20 characters." data-val-length-max="20" data-val-length-min="6" data-val-passwordcharacter="Passwords cannot contain certain special characters (e.g.: \ )." data-val-required="Please enter your password." id="Password" maxlength="20" name="Password" tabindex="2" type="password"></dd>
+                </dl>
+                <div class="btnArae">
+                    <a id="submitButton" tabindex="3" class="btnStyle02">Log In</a>
+                    <div class="messageInfo">/ <a href="http://member.webzen.com/Find/UserID" onClick="showImg(540, 600, this);self.close();">Forgot your Username or Password?</a></div>
+                    <div id="alertMessage" class="messageAlret">
+                        
+                    </div>
+                </div>
+                <div class="space10"></div>
+                <a href="javascript:void(0)" onClick="go('SignUp', 'parent')" class="btnStyle05">Sign Up for Free!</a>
+            </fieldset>
+            <!-- e:login -->
+</form>    </article>
+</section>
+    </section>
+    
+</iframe></div>
+<article class="loginWrap">
+<form action="/Home/LogInPopup" autocomplete="off" method="post"><input id="ReturnUrl" name="ReturnUrl" type="hidden" value=""><input data-val="true" data-val-required="The Secure field is required." id="Secure" name="Secure" type="hidden" value="false">            <input type="hidden" id="RSA" name="RSA">
+            <fieldset class="loginInputWrap">
+                <legend>Log In</legend>
+                <dl>
+                    <dt><label for="UserID">Username</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The Username must consist of a minimum of 4 and a maximum of 20 characters. " data-val-length-max="20" data-val-length-min="4" data-val-regex="The Username must be a combination of letters and numbers." data-val-regex-pattern="^[a-zA-Z0-9]+$" data-val-required="Please enter your Username." id="UserID" maxlength="20" name="UserID" tabindex="1" type="text" value=""></dd>
+                    <dt><label for="Password">Password</label></dt>
+                    <dd><input authocomplete="off" class="inputText" data-val="true" data-val-length="The password must consist of a minimum of 6 and a maximum of 20 characters." data-val-length-max="20" data-val-length-min="6" data-val-passwordcharacter="Passwords cannot contain certain special characters (e.g.: \ )." data-val-required="Please enter your password." id="Password" maxlength="20" name="Password" tabindex="2" type="password"></dd>
+                </dl>
+                <div class="btnArae">
+                    <a id="submitButton" tabindex="3" class="btnStyle02">Log In</a>
+                    <div class="messageInfo">/ <a href="http://member.webzen.com/Find/UserID" onClick="showImg(540, 600, this);self.close();">Forgot your Username or Password?</a></div>
+                    <div id="alertMessage" class="messageAlret">
+                        
+                    </div>
+                </div>
+                <div class="space10"></div>
+                <a href="javascript:void(0)" onClick="go('SignUp', 'parent')" class="btnStyle05">Sign Up for Free!</a>
+            </fieldset>
+            <!-- e:login -->
+</form>    </article>

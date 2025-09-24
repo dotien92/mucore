@@ -1,0 +1,5 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Decodifica los archivos .att para usarlos en el Server al hacer doble click en las imagenes de los mapas</b></td>
+	</tr>
+</table>

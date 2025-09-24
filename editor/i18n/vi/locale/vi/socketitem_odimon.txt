@@ -1,0 +1,139 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">C1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C2</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Tên</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 64 ký tự ký tự</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C4</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C5</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C6</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C7</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C8</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C9</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: -1 ~ 2.147.483.647</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C10</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C11</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C12</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C13</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C14</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C15</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C16</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">C17</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+</table>

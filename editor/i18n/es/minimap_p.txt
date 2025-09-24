@@ -1,0 +1,37 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol" colspan="2">Type:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores</td>
+		<td class="datoscol"><b>0</b> no se usa <br /><b>1</b> NPC<br /><b>2</b> Gate</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">X:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores</td>
+		<td class="datoscol">Entre 0 y 255 (Coordenada X donde aparece el simbolo sobre el mapa)</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Y:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores</td>
+		<td class="datoscol">Entre 0 y 255 (Coordenada Y donde aparece el simbolo sobre el mapa)</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Angulo de Rotación:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores</td>
+		<td class="datoscol">En caso de querer mostrarse un Gate, aqui se coloca el angulo de la flecha que muesra por donde se usa el dicho Gate</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Texto:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores</td>
+		<td class="datoscol">Es el texto que se muestra al poner el puntero del Raton sobre las coordenadas seleccionadas.</td>
+	</tr>
+</table>

@@ -1,0 +1,5 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Codifica los archivos .att para usarlos en el Cliente al hacer doble click en las imagenes de los mapas y luego asignandole el numero de mapa respectivo (El numero de la capreta World donde lo vas a poner)</b></td>
+	</tr>
+</table>

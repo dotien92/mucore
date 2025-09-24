@@ -1,0 +1,27 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Chỉ số Máy chủ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 65.535</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Tên máy chủ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 32 ký tự</td>
+	</tr>
+	
+	<tr>
+		<td class="titcol" colspan="2">Thông tin máy chủ</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 4.194.304 ký tự<br />(Do không bao giờ dùng hết 4 triệu ký tự , nên có thể xem là không giới hạn ký tự)</td>
+	</tr>
+
+</table>

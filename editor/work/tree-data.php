@@ -1,0 +1,310 @@
+<?php
+require_once('session.php');
+
+include("../i18n/".$lang."/locale/text.php");
+?>
+[{
+    text:'MagicHand Mu Editor',
+    expanded: true,
+    children:[{
+        text:'<?php echo $tcomo?>',
+        id:'uso',
+        leaf:true
+    },{
+        text:'<?php echo $ttodo?>',
+        id:'todo',
+        leaf:true
+    },{
+        text:'<?php echo $taportes?>',
+        id:'aportes',
+        leaf:true
+    },{
+        text:'<?php echo $tcreditos?>',
+        id:'creditos',
+        leaf:true
+    }]
+},{
+    text:'<?php echo $tarchivos?>',
+    children:[{
+        text:'ArcaBattleBootyMix',
+        id:'abbm',
+        leaf:true
+    },{
+        text:'AttributeVariation',
+        id:'avt',
+        leaf:true
+    },{
+        text:'BuffEffect',
+        id:'buffeffect',
+        leaf:true
+    },{
+        text:'Credit',
+        id:'credit',
+        leaf:true
+    },{
+        text:'Dialog',
+        id:'dialog',
+        leaf:true
+    },{
+        text:'Filter',
+        id:'filter',
+        leaf:true
+    },{
+        text:'FilterName',
+        id:'filtername',
+        leaf:true
+    },{
+        text:'Gate',
+        id:'gate',
+        leaf:true
+    },{
+        text:'Item',
+        id:'item',
+        leaf:true
+    },{
+        text:'Item Season 6',
+        id:'items6',
+        leaf:true
+    },{
+        text:'ItemAddOption',
+        id:'itemaddoption',
+        leaf:true
+    },{
+        text:'ItemLevelTooltip',
+        id:'itemleveltooltip',
+        leaf:true
+    },{
+        text:'ItemSetOption',
+        id:'itemsetoption',
+        leaf:true
+    },{
+        text:'ItemSetType',
+        id:'itemsettype',
+        leaf:true
+    },{
+        text:'ItemTooltip',
+        id:'itemtooltip',
+        leaf:true
+    },{
+        text:'ItemTooltipText',
+        id:'itemtooltiptext',
+        leaf:true
+    },{
+        text:'JewelOfHarmonyOption',
+        id:'joho',
+        leaf:true
+    },{
+        text:'JewelOfHarmonySmelt',
+        id:'johs',
+        leaf:true
+    },{
+        text:'MapCharacters',
+        id:'mapc',
+        leaf:true
+    },{
+        text:'MasterSkillTooltip',
+        id:'mstt',
+        leaf:true
+    },{
+        text:'MasterSkillTree',
+        id:'mst',
+        leaf:true
+    },{
+        text:'MasterSkillTreeData',
+        id:'mstd',
+        leaf:true
+    },{
+        text:'Minimap',
+        id:'minimap',
+        leaf:true
+    },{
+        text:'Mix',
+        id:'mix',
+        leaf:true
+    },{
+        text:'MonsterSkill',
+        id:'monsterskill',
+        leaf:true
+    },{
+        text:'MoveReq',
+        id:'movereq',
+        leaf:true
+    },{
+        text:'NPCDialogue',
+        id:'npcdialogue',
+        leaf:true
+    },{
+        text:'PentagramMixNeedSource',
+        id:'penmnst',
+        leaf:true
+    },{
+        text:'PentagramJewelOptionValue',
+        id:'penjovt',
+        leaf:true
+    },{
+        text:'Pet',
+        id:'pet',
+        leaf:true
+    },{
+        text:'PetData',
+        id:'petdata',
+        leaf:true
+    },{
+        text:'Quest',
+        id:'quest',
+        leaf:true
+    },{
+        text:'QuestProgress',
+        id:'questprogress',
+        leaf:true
+    },{
+        text:'QuestWords',
+        id:'questwords',
+        leaf:true
+    },{
+        text:'ServerList',
+        id:'serverlist',
+        leaf:true
+    },{
+        text:'ShopCategoryItems',
+        id:'shopcategoryitems',
+        leaf:true
+    },{
+        text:'ShopUI',
+        id:'shopui',
+        leaf:true
+    },{
+        text:'Skill',
+        id:'skill',
+        leaf:true
+    },{
+        text:'Skill Season 6',
+        id:'skills6',
+        leaf:true
+    },{
+        text:'Slide',
+        id:'slide',
+        leaf:true
+    },{
+        text:'SocketItem',
+        id:'socketitem',
+        leaf:true
+    },{
+        text:'Text',
+        id:'text',
+        leaf:true
+    }]
+},{
+    text:'<?php echo $tawtf?>',
+    children:[{
+        text:'Message',
+        id:'message',
+        leaf:true
+    }]
+},{
+    text:'<?php echo $texportar?>',
+    children:[{
+        text:'Gate',
+        id:'gatetxt',
+        leaf:true
+    },{
+        text:'Item',
+        id:'itemtxt',
+        leaf:true
+    },{
+        text:'Item Season 6',
+        id:'item6txt',
+        leaf:true
+    },{
+        text:'ItemAddOption',
+        id:'itemaddoptiontxt',
+        leaf:true
+    },{
+        text:'ItemSetOption',
+        id:'itemsetoptiontxt',
+        leaf:true
+    },{
+        text:'ItemSetType',
+        id:'itemsettypetxt',
+        leaf:true
+    },{
+        text:'JewelOfHarmonyOption',
+        id:'jewelofharmonyoptiontxt',
+        leaf:true
+    },{
+        text:'MoveReq',
+        id:'movereqtxt',
+        leaf:true
+    },{
+        text:'MasterSkillTreeData',
+        id:'mstdtxt',
+        leaf:true
+    },{
+        text:'Quest',
+        id:'questtxt',
+        leaf:true
+    },{
+        text:'Skill TitanTech',
+        id:'skills6txt',
+        leaf:true
+    },{
+        text:'Skill ENC-TEAM',
+        id:'skilltxt',
+        leaf:true
+    }]
+},{
+    text:'<?php echo $timportar?>',
+    children:[{
+        text:'Item',
+        id:'itemtxtcli',
+        leaf:true
+    },{
+        text:'Item Season 6',
+        id:'itemtxtcli2',
+        leaf:true
+    }]
+},{
+    text:'.att .map',
+    children:[{
+        text:'Decode .att',
+        id:'decatt',
+        leaf:true
+    },{
+        text:'Encode .att',
+        id:'encatt',
+        leaf:true
+    }]
+},{
+    text:'.ini.dat',
+    children:[{
+        text:'DataServer.ini.dat',
+        id:'decdsdat',
+        leaf:true
+    },{
+        text:'ExDB.ini.dat',
+        id:'deceddat',
+        leaf:true
+    }]
+},{
+    text:'<?php echo $tvarios?>',
+    children:[{
+        text:'NpcName(xxx).txt',
+        id:'npcnames',
+        leaf:true
+    }]
+},{
+    text:'CashShop',
+    children:[{
+        text:'IBSCategory to SCF_CashShop_Category',
+        id:'ibsc',
+        leaf:true
+    },{
+        text:'IBSPackage to SCF_CashShop_Package',
+        id:'ibspa',
+        leaf:true
+    },{
+        text:'IBSProduct to SCF_CashShop_Product',
+        id:'ibspr',
+        leaf:true
+    }]
+}]

@@ -1,0 +1,171 @@
+MUCore 1.0.8 Premium Full - Dao Van Trong - Trong.CF
+
+- 100% working/deobfuscated/deCode PHP5
+- Include Webzen template by default!
+- Include MagicHand MU Editor 2.1 /editor
+- Add z-team Characters 
+- [Fixed] [Fixed] [Lost Password] Image Verification show if reCAPTCHA™ was set.
+- [Website] "Go back" cache, now you can press go back button without to lose any filled up form data
+- [Admin CP] Number of hours have been increased on Cron Jobs side.
+- [Webserver] CPU and RAM usage reduced by 40%
+- [Login System] Lag free improved. No more SQL queries need.
+- [Castle Siege Module]
+- [Install Process] when you first visit the website using your exlorer by typing http://localhost or http://127.0.0.1 the first time run will redirect you to the installation process.
+- [Class Compatibility] added compatibility with Rage Fighter and Fist Master, you can edit without any restriction in your admin panel and its displayed in rankings.
+- [Event Log] We created 2 new small modules called admin logger and user logger which allows you to keep a registry of the actions performed on our website (user side) and in admin panel it keeps a record of who access that area and what actions they perform and from which IP it comes, this is a security measure implemented in order to check if admins abuse their powers. All logs get stored under a protected folder.
+- [Integration] Webshop added to the installation part. Once it's done, you will be able to see the store immediately without an issue. Also, the Webshop database has been fixed so new items will not present a problem.
+- [Organization] rearranged the navigation bar for a better use of the modules.
+
+
+INSTALL GUIDE:
+
+1. Edit PHP config in php.ini:
+
++ Require extension enabled:
+ - MSSQL Drivers (php_mssql.dll PHP 5.2, php_dblib.dll, php_sqlsrv.dll, php_pdo_sqlsrv.dll) if use Connection Type MSSQL
+ - GD Image Library (php_gd2.dll)
+ - OpenSSL (php_openssl.dll) if use SMTP Secure Connection (SSL or TSL).
+
+ - magic_quotes_gpc must be disabled - Off
+ - short_open_tag must be enabled – On
+
+2. Enable MOD REWRITE if custom page URL
+- Go to apache\conf\httpd.conf , open it, find #LoadModule rewrite_module modules/mod_rewrite.so, delete # from the front save and restart webserver
+
+3. Install MSSQL Server! Recommended SQL Server 2008 R2 Standard/Pro/Ultimate, Express version does not have SQL Agent to run job.
+   -> Restore DB or Attach DB skipp if have DB.
+
+4. IF USE MD5: Add MD5 to Database!
+ - Download and Put the 'WZ_MD5_MOD.dll' in C:\Program Files\Microsoft SQL Server\MSSQL\Binn\
+ - Go to MuOnline > Tables > Design Table MEMB_INFO, set: memb__pwd varbinary 16 NO NULL 
+   -> If unable to modify table: drop the memb__pwd and add it again
+ - Execute SQL QUERY using Master database: 
+--------------------------------------------------------------------------------------------------------------------------------------------------
+USE [master]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[XP_MD5_EncodeKeyVal]') and OBJECTPROPERTY(id, N'IsExtendedProc') = 1)
+exec sp_dropextendedproc N'[dbo].[XP_MD5_EncodeKeyVal]'
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+exec sp_addextendedproc N'XP_MD5_EncodeKeyVal', N'WZ_MD5_MOD.dll'
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[XP_MD5_CheckValue]') and OBJECTPROPERTY(id, N'IsExtendedProc') = 1)
+exec sp_dropextendedproc N'[dbo].[XP_MD5_CheckValue]'
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+exec sp_addextendedproc N'XP_MD5_CheckValue', N'WZ_MD5_MOD.dll'
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+USE [MuOnline]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[SP_MD5_ENCODE_VALUE]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[SP_MD5_ENCODE_VALUE]
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+CREATE PROCEDURE SP_MD5_ENCODE_VALUE 
+	@btInStr		VARCHAR(10),
+	@btInStrIndex		VARCHAR(10)
+AS  
+BEGIN 
+	DECLARE	@btOutVal	BINARY(16)
+
+	EXEC master..XP_MD5_EncodeKeyVal @btInStr, @btInStrIndex, @btOutVal OUT
+	UPDATE MEMB_INFO SET memb__pwd = @btOutVal WHERE memb___id = @btInStrIndex
+	RETURN 	@btOutVal
+END
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ - Enable/replace MD5 on joinserver 
+ - Restore MD5 database 
+
+5. Edit Web Config in config.php:
++ Select Connection Type: 
+ - MSSQL: $core['connection_type'] = "MSSQL"; 
+   Need enabled MSSQL Drivers & Enable Protocol: TCP/IP, Named Pipes
+
+ - ODBC : $core['connection_type'] = "ODBC"; 
+   Need Merge file ODBC.reg
+
++ If use only 'MuOnline' database change $core['server_use_2_db'] to '0'. 
+
++ If use 2 databases like 'MuOnline' and 'Me_MuOnline change' $core['server_use_2_db'] to '1'.
+
++ Change Connection Settings:
+
+ - $core['db_host*'] = "127.0.0.1"; 			Database host IP address   or  PcName\SqlInstanceName
+       
+ - $core['db_name*'] = "MuOnline"; 			Database name  
+     
+ - $core['db_user*']= "sa"; 				SQL Authentication user    
+
+ - $core['db_password*'] = "YourSQLPassword"; 		SQL Authentication password
+
++ Change Admin Login Info:                     
+
+ - $core['admin_username'] = 'Admin'; Administrator user 
+
+ - $core['admin_password'] = '12345'; Administrator password
+
+6. First visit http://localhost will automatically redirect to http://localhost/install/install.php
+   If not automatically redirect please visit http://localhost/install/install.php
+
+
+
+7. Fix Error:
++ Image Verification not show: 
+   - Enabled extension GD Image Library (php_gd2.dll)
+   - Check site url
+ 
++ Connection error:
+  - Connection with MuOnline Database Failed
+  - Unable to connect to server
+  - Connection error to server
+-> Check info on config.php: Make sure the information entered is correct.
+  - db_host : Database host IP address   or   PcName\SqlInstanceName
+
+  - MSSQL extension is not available anymore on Windows with PHP 5.3 or later: use ODBC OR reInstall/reConfig WebServer
+   -> If use SQL2000 and WidowsXP -> Install XAMPP 1.7.1 and enable extension php_mssql.dll
+   -> If NOT use SQL2000 and WidowsXP -> Install XAMPP 5.6.15 and ADD MSSQL Drivers (php_dblib.dll, php_sqlsrv.dll, php_pdo_sqlsrv.dll) 
+
+
++ Registration Error / Login Error / Password Incorrect / Your Account is Invalid: 
+  - Unable to register, reason: system error, please contact administrator.
+  - Implicit conversion from data type varchar to varbinary is not allowed. Use the CONVERT function to run this query
+
+   -> This Problem is change DB or use MD5 but not config:
+    - If NOT use MD5 then disabled MD5 on website (Admin Control Panel). Recheck again! If not resolved, then ReInstall MuCore!
+    - If user MD5 check MD5 setting then enable MD5 on website (Admin Control Panel). Recheck again! If not resolved, then ReInstall MuCore!
+       Recheck again! If not resolved, then check STEPS 4 and Google Search '[Guide] How to Add MD5 to Database!'
+
++ Sorry, this feature is temporarily unavailable at the moment: Active/Enable/Turn ON module/Pages in Admin Control Panel
+
+
+
+
+Credits:
+
+=Master= -> MuCore Founder and Creator
+Isumeru -> Share and fixes database.
+MaryJo, Trong  -> Decrypt, edit modules and fixes.
+
+

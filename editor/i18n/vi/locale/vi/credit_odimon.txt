@@ -1,0 +1,19 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">C1</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu số nguyên:</td>
+		<td class="datoscol">Phạm vi: 0 ~ 255</td>
+	</tr>
+
+	<tr>
+		<td class="titcol" colspan="2">Thông tin</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 32 ký tự<br />Tên thành viên, Công ty , tổ chức,... có liên quan đến dự án.</td>
+	</tr>
+
+</table>

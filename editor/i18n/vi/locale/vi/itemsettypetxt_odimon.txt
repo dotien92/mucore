@@ -1,0 +1,9 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Que se necesita para que funcione:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Archivo:</td>
+		<td class="datoscol"><b>itemsettype</b>xxx<b>.bmd</b> en la carpteta <b>"archivos"</b></td>
+	</tr>
+</table>

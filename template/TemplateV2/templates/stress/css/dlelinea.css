@@ -1,0 +1,569 @@
+@charset "windows-1251";
+
+/*------------------------------------------------------------------*/
+/* Оформление инвентаря                                             */
+/*------------------------------------------------------------------*/
+
+#l2inventory { 
+	width: 424px; 
+	height: 408px; 
+	margin: 5px;
+	background: url('inventor.html'); 
+	vertical-align: top;
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+#l2inventory_container {
+	position: absolute;
+	background-color: #242620;
+	/* margin: 66px 0px 0px 142px; */
+	margin: 66px 0px 0px 142px;
+	padding: 0px;
+}
+
+#l2inventory_container2 {
+	/* Typical fixed height and fixed width example */
+	width: 268px;
+	height: 288px;
+	overflow: auto;
+	/* IE overflow fix, position must be relative or absolute*/
+	position: absolute;
+	margin: 0px;
+	padding: 1px 0px 0px 2px;
+	background: url(line0000.html);
+	background-repeat: repeat-y;
+	background-attachment: scroll;
+}
+
+img.floated {
+	float: left;
+	position: relative; /* fixes many nasty IE bugs */
+	padding: 0px 4px 4px 0px;
+	width: 32px;
+	height: 32px;
+}
+
+.clearfloat {
+	clear:both; height:0px;
+	line-height:0px; visibility: hidden;
+}
+
+.scrollgeneric {line-height: 1px;font-size: 1px;position: absolute;top: 0; left: 0;}
+.vscrollerbase {width: 15px;background-color: white;}
+.vscrollerbar {width: 15px;background-color: black;}
+.vscrollerbar {background: #99CBCB url(basebarc.html) -15px 0px repeat-y;}
+.vscrollerbar {padding: 15px;z-index: 2;}
+.vscrollerbarbeg {background: url(basebarc.html) -45px 0px no-repeat;width: 15px;height: 15px !important;}
+.vscrollerbarend {background: url(basebarc.html) -45px -30px no-repeat;width: 15px;height: 15px;}
+.scrollerjogbox {width: 15px;height: 15px;top: auto; left: auto;bottom: 0px; right: 0px;background: #4E727C url(horizont.html) 0px 0px;}
+.vscrollerbase {background: #D7EBDF url(basebarc.html) 0px 0px repeat-y;}
+.vscrollerbasebeg {background: url(basebarc.html) -30px 0px no-repeat;width: 15px;height: 15px !important;}
+.vscrollerbaseend {background: url(basebarc.html) -30px -30px no-repeat;height: 15px;width: 15px;}
+.scrollerjogbox:hover {background: #5E828C url(basebarc.html) -45px -15px;}
+
+#l2inventory #item {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	padding: 0px;
+}
+
+#l2inventory .hidden{ 
+	display:none;
+}
+
+#l2inventory .cloak{ 
+	margin-left: 18px;
+	margin-top: 84px;
+}
+
+#l2inventory .leftearring{ 
+	margin-left: 18px;
+	margin-top: 220px;
+}
+
+#l2inventory .rightearring{ 
+	margin-left: 96px;
+	margin-top: 220px;
+}
+
+#l2inventory .necklace{ 
+	margin-left: 57px;
+	margin-top: 220px;
+}
+
+#l2inventory .leftring{ 
+	margin-left: 18px;
+	margin-top: 258px;
+}
+
+#l2inventory .rightring{ 
+	margin-left: 96px;
+	margin-top: 258px;
+}
+
+#l2inventory .helmet{ 
+	margin-left: 57px;
+	margin-top: 46px;
+}
+
+#l2inventory .weapon{ 
+	margin-left: 18px;
+	margin-top: 171px;
+}
+
+#l2inventory .shield{ 
+	margin-left: 96px;
+	margin-top: 171px;
+}
+
+#l2inventory .gloves{ 
+	margin-left: 18px;
+	margin-top: 122px;
+}
+
+#l2inventory .top{ 
+	margin-left: 57px;
+	margin-top: 84px;
+}
+
+#l2inventory .lower{ 
+	margin-left: 57px;
+	margin-top: 122px;
+}
+
+#l2inventory .bots{ 
+	margin-left: 96px;
+	margin-top: 122px;
+}
+
+#l2inventory .righthair{ 
+	margin-left: 96px;
+	margin-top: 46px;
+}
+
+#l2inventory .lefthair{ 
+	margin-left: 18px;
+	margin-top: 46px;
+}
+
+/* Braslet */
+#l2inventory .braslet{
+	margin-left: 18px;
+	margin-top: 310px;
+}
+
+/*------------------------------------------------------------------*/
+/* Блок онлайна                                                     */
+/*------------------------------------------------------------------*/
+
+#l2online {
+	width: 180px;
+}
+
+#l2online th{
+	font-size: 10px;
+	font-weight: normal;
+	padding-left: 0;
+	text-align: center;
+	padding: 0px 0px 1px 0px;
+}
+
+#l2online td {
+/*	color:#927762;  */
+	font-size: 10px;
+	font-weight: normal;
+	border-bottom: 0px solid #667667; 
+	text-align:center; 
+	padding: 4px 3px 5px;
+}
+
+#l2online .servName{
+	width: 55px;
+	text-align: left; 
+}
+
+/*------------------------------------------------------------------*/
+/* Бар                                                              */
+/*------------------------------------------------------------------*/
+
+#l2rate {
+	width: 50px;
+	height: 10px;
+}
+
+#l2rate .rate {
+	background-color: yellow;
+}
+/*------------------------------------------------------------------*/
+/* Меню                                                             */
+/*------------------------------------------------------------------*/
+
+#l2menu {
+	width: 100%;
+	font-family: verdana, tahoma, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	margin: 0px 5px 1px -10px;
+}
+
+#l2menu a {
+	text-decoration: underline;
+	margin: 5px 5px 5px 5px;
+}
+
+/*------------------------------------------------------------------*/
+/* Статистика                                                       */
+/*------------------------------------------------------------------*/
+
+.l2title {
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	padding: 15px 3px 15px 3px;
+}
+
+.l2stat {
+	font-weight: normal;
+	font-size: 11px;
+	text-align: center;
+}
+
+
+.l2online {
+	color: darkblue;
+	font-weight: bold;
+}
+
+.l2offline {
+	color: #b2503a;
+	font-weight: bold;
+}
+
+#l2tbl {
+	width: 300px;
+	font-size: 11px;
+}
+
+#l2tbl td {
+
+}
+
+#l2tbl .left {
+	width: 150px;
+	font-weight: bold;
+	text-align: right;
+	padding: 1px 5px 1px 1px;
+}
+
+#l2tbl .right {
+	width: 150px;
+	text-align: left;
+	padding: 1px 1px 1px 3px;
+}
+/* Таблица с замками */
+#l2castle {
+	width: 400px;
+	text-align: left;
+	font-size: 12px;
+	padding: 1px 10px 1px 10px;
+}
+
+#l2castle .left {
+	width: 164px;
+	height: 123px;
+	text-align: left;
+	padding: 5px 5px 5px 1px;
+}
+
+#l2castle .right {
+	height: 123px;
+	text-align: left;
+	padding: 5px 1px 5px 5px;
+	vertical-align: middle;
+}
+/* Статистика */
+#l2top {
+	width: 100%;
+	font-size: 12px;
+	vertical-align: top;
+	text-align: center;
+}
+
+#l2top th {
+	height: 32px;
+	border-bottom: 0px solid #666666;
+}
+
+#l2top td {
+	border-bottom: 0px solid #666666;
+	padding: 8px 0px 8px 0px;
+	/*height: 42px;*/
+}
+
+#l2top .name {
+	text-align: left;
+}
+
+#l2top .male {
+	color: #5050FF;
+}
+
+#l2top .female {
+	color: #FF4040;
+}
+
+#l2top .pvp {
+	font-weight: bold;
+}
+
+#l2top .pk {
+	color: red;
+	font-weight: bold;
+}
+
+#l2top a {
+	text-decoration: underline;
+}
+
+/*------------------------------------------------------------------*/
+/* Оформление личного кабинета                                      */
+/*------------------------------------------------------------------*/
+
+#l2account {
+	font-size: 11px;
+}
+
+#l2tbl2 {
+	width: 690px;
+	font-size: 11px;
+	border: 1px solid rgb(120, 120, 120);
+	border-collapse: collapse;
+}
+
+#l2tbl2 tr { 
+	height: 0px;
+        border: 1px solid rgb(120, 120, 120); 
+}
+
+#l2tbl2 td { 
+	/* color: rgb(153, 153, 153); */ 
+	/* background: rgb(50, 50, 50); */
+	background: #ffffff;
+	padding: 0px 5px 0px 5px; 
+	border-bottom: 0px solid rgb(120, 120, 120);
+	
+}
+
+#l2tbl2 .header {
+	/* background: rgb(30, 30, 30); */
+	background: #ffffff;
+	border-top: 1px solid rgb(120, 120, 120);
+	border-bottom: 0px solid rgb(120, 120, 120);
+}
+
+#l2tbl2 .serv {
+	/* color: rgb(153, 153, 153); */
+	/* background: rgb(40, 40, 40); */
+	background: #999999;
+	font-weight: bold; 
+	 
+}
+
+#l2tbl2 .img { 
+	padding: 0px 
+}
+
+#l2tbl2 a {
+	color: rgb(63, 63, 63);
+	text-decoration: underline;
+}
+
+#l2tbl2 .center { 
+	text-align: center; 
+}
+
+#l2tbl2 .button {
+	width: 50px;
+	border: 1px solid rgb(120,120,120);
+	background: rgb(153,153,153);
+	text-align: center;
+	float: left;
+	padding: 1px 3px 1px 3px;
+	margin: 2px 2px 2px 2px;
+}
+
+#l2tbl2 .button a:hover {
+	text-decoration: none;
+	color: rgb(240,240,230);
+}
+
+#l2tbl2 .button a {
+	text-decoration: none;
+}
+
+#l2tbl2 .select {
+	width: 65px;
+	border: 1px solid rgb(0,0,0);
+	background: rgb(60,50,60);
+	text-align: center;
+	float: left;
+	padding: 1px 3px 1px 3px;
+	margin: 0px 3px 0px 0px;
+	color: rgb(163, 163, 163);	
+}
+
+#l2tbl2 .currency {
+	width: 38px;
+	border: 1px solid rgb(0,0,0);
+	background: rgb(60,50,60);
+	text-align: center;
+	float: left;
+	padding: 1px 3px 1px 3px;
+	margin: 0px 3px 0px 0px;
+}
+
+#l2tbl2 .currency a:hover {
+	text-decoration: none;
+	color: white;
+}
+
+#l2tbl2 .currency a {
+	text-decoration: none;
+}
+
+#l2tbl2 .payment {
+	width: 90px;
+	border: 1px solid rgb(0,0,0);
+	background: rgb(60,50,60);
+	text-align: center;
+	float: left;
+	padding: 1px 3px 1px 3px;
+	margin: 0px 3px 0px 0px;
+}
+
+#l2tbl2 .payment a:hover {
+	text-decoration: none;
+	color: white;
+}
+
+#l2tbl2 .payment a {
+	text-decoration: none;
+}
+
+#l2char {
+	font-size: 11px;
+	margin: 0px 1px 5px 1px;
+	border: 1px solid rgb(120, 120, 120);
+	border-collapse: collapse;
+	/* background: rgb(40, 40, 40); */
+}
+		
+#l2char td {
+	height: 10px;
+	padding: 0px;
+	margin: 0px;
+	/* background: rgb(40, 40, 40); */
+	background: #ffffff;
+	border-collapse: collapse;
+	border: 1px solid rgb(120, 120, 120);
+	text-align: center;
+}
+								
+#l2char td .image{
+	width: 70px;
+}
+
+#l2char .bold {
+	font-weight: bold;
+}
+
+#l2char .padding {
+	padding: 0px 5px 0px 5px;
+}
+
+/* */
+
+#l2mob {
+	font-size: 11px;
+	margin: 0px 1px 5px 1px;
+	border: 1px solid rgb(120, 120, 120);
+	border-collapse: collapse;
+	/* background: rgb(40, 40, 40); */
+}
+		
+#l2mob td {
+	height: 24px;
+	padding: 0px 10px;
+	margin: 0px;
+	/* background: rgb(40, 40, 40); */
+	background: #fff;
+	border-collapse: collapse;
+	border: 1px solid rgb(120, 120, 120);
+	text-align: center;
+}
+
+#l2mob .header {
+	/* background: rgb(30, 30, 30); */
+	background: #888888;
+	border-top: 1px solid rgb(120, 120, 120);
+	border-bottom: 0px solid rgb(120, 120, 120);
+	text-align: left;
+}
+
+#l2mob .header2 {
+	/* color: rgb(153, 153, 153); */
+	/* background: rgb(40, 40, 40); */
+	background: #999999;
+	font-weight: bold;
+	text-align: left;
+	 
+}
+
+#l2mob .image{
+	width: 250px;
+	padding: 0px;
+	vertical-align: top;
+	border-bottom: 0px solid rgb(120, 120, 120);
+}
+
+#l2mob .bold {
+	font-weight: bold;
+}
+
+#l2mob .padding {
+	padding: 0px 5px 0px 5px;
+}
+
+#l2mob .left {
+	text-align: left;
+}
+
+/*------------------------------------------------------------------*/
+/* Оформление модуля Lineage                                        */
+/*------------------------------------------------------------------*/
+
+.warning {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	padding: 15px 3px 15px 3px;
+}
+
+.warning a {
+	color: red;
+	text-decoration: underline;
+}
+
+.footer {
+	width: 180px;
+	padding: 3px;
+	margin: 3px;
+	border: 1px solid rgb(220, 220, 200);
+	font-size: 9px;
+	font-weight: normal;
+	text-align: center;
+}

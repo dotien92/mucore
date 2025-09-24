@@ -1,0 +1,11 @@
+﻿<table class="tablecol">
+
+	<tr>
+		<td class="titcol" colspan="2">Tên cần lọc</td>
+	</tr>
+	<tr>
+		<td class="valcol">Kiểu chuỗi:</td>
+		<td class="datoscol">Phạm vi: tối đa 20 ký tự</td>
+	</tr>
+
+</table>

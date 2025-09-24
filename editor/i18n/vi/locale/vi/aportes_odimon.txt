@@ -1,0 +1,9 @@
+﻿<table class="tablecol">
+	<tr>
+		<td class="titcol2" colspan="2">Liên hệ tác giả</td>
+	</tr>
+	<tr>
+		<td class="datoscol2" colspan="2">Nếu bạn nghĩ ra một ý tưởng mới, hoặc một chức năng mới cải thiện chương trình. 
+		Bạn có thể gửi ý tưởng của bạn vào email của tôi <a href="mailto:mu.editor.magichand@gmail.com">mu.editor.magichand@gmail.com</a></td>
+	</tr>
+</table>

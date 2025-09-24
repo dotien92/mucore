@@ -1,0 +1,143 @@
+/* TEMPLATE BY www.Linksfire.net */
+
+/* menu::base */
+div#menu {
+	padding-left:100px;
+}
+
+div#menu ul {
+	 margin:0 auto 0 auto; 
+    list-style: none;
+    float: left;
+}
+div#menu ul.menu {
+    padding-right: 10px;
+}
+
+div#menu li {
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 0;
+    display: block;
+    float: left;
+    z-index: 9;
+    width: auto;
+}
+div#menu ul ul li {
+
+}
+div#menu li div {
+    list-style: none;
+    float: left;
+    position: absolute;
+    z-index: 11;
+    top: 25px;
+    left: 0;
+    visibility: hidden;
+    width: 206px;
+    padding: 3px 0 3px 0px;
+    background: url(../images/nav_top_bg.gif) no-repeat top, url(../images/nav_bottom_bg.gif) no-repeat bottom;
+    _background: url(../images/nav_top_bg.gif) no-repeat top, url(../images/nav_bottom_bg.gif) no-repeat bottom;
+
+}
+div#menu li:hover>div {
+    visibility: visible;
+}
+
+div#menu a {
+    position: relative;
+    z-index: 10;
+    height: 41px;
+    display: block;
+    float: left;
+    line-height: 41px;
+    text-decoration: none;
+    margin-top: 1px;
+    white-space: nowrap;
+    width: auto;
+    padding-right: 5px;
+    text-align: center;
+}
+div#menu span {
+    display: block;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: 95% 0;
+    text-align: center;
+}
+
+/* menu::level1 */
+div#menu a {
+    padding: 0 30px 0 0;
+    line-height: 40px;
+    height: 40px;
+    margin-right: 5px;
+    _margin-right: 1px;
+    background: none;
+}
+div#menu span {
+    margin-top: -1px;
+    padding-left: 30px;
+    color: #fff;
+    background: none;
+    line-height: 28px;
+    font: Arial,Verdana;
+	font-weight:bold;
+	font-size:14px;
+}
+div#menu ul.menu>li:hover>a span {
+	color:#BA2C00;
+	font: Arial,Verdana;
+	font-weight:bold;
+	font-size:14px;
+}
+div#menu a.over span {
+	color:#BA2C00;
+}
+
+/* menu::level2 */
+div#menu ul ul li {
+    background: none;
+    padding: 0;
+}
+div#menu ul ul {
+}
+div#menu ul ul a {
+    padding: 0;
+    height: auto;
+    float: none;
+    display: block;
+    line-height: 26px;
+    font-size: 11px;
+    color: #ffffff;
+    z-index: -1;
+    white-space: normal;
+    width: 206px;
+    text-transform: none;
+}
+    
+div#menu ul ul a span {
+    padding: 0 15px;
+    line-height: 26px;
+    font-size: 11px;
+}
+div#menu li.current ul a,
+div#menu li.current ul a span {
+    background:none;
+}
+div#menu ul ul a:hover {
+    background: url(../images/nav_go_bg_on.gif) center no-repeat;
+}
+div#menu ul ul a:hover span {
+    background: url(../images/nav_go_bg_on.gif) center no-repeat;
+}
+
+
+div#menu ul ul span {
+    text-align: left;
+	    background: url(../images/nav_go_bg_off.gif) center no-repeat;
+}
+div#menu ul ul li.last { background: none; }
+div#menu ul ul li {
+    width: 100%;
+}

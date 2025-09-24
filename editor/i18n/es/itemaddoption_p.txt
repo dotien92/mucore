@@ -1,0 +1,68 @@
+<table class="tablecol">
+	<tr>
+		<td class="titcol" colspan="2">Id:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol">Entre 0 y 512 Correspondiente al Index del Item dentro de el respectivo Tipo de Item</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Option 1:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol">
+			<b>Opciones para items lvl 380(Solo en PvP):</b><br />
+				0) None<br />
+				1) Attack Success Rate increase<br />
+				2) Additional Damage<br />
+				3) Defense Success Rate increase<br />
+				4) Defensive Skill<br />
+				5) Max HP increase<br />
+				6) Max SD increase<br />
+				7) SD Auto Recovery<br />
+				8) SD Recovery Rate increase<br />
+			<b>Halloween and Cherry Blossoms event option:</b><br />
+				0) None<br />
+				1) +%d speed attack<br />
+				2) +%d damage<br />
+				3) +%d defense<br />
+				4) +%d% maximum HP<br />
+				5) +%d% maximum Mana<br />
+			<b>Partial charge option:</b><br />
+				6) +%d% acquire additional ???<br />
+				7) +%d% increased chance of acquiring additional items<br />
+				8) ??? be acquired<br />
+			</dl>
+		</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Val. Option 1:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol">Valores aceptados segun la opcion seleccionada</td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Option 2:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol"></td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Val. Option 2:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol"></td>
+	</tr>
+	<tr>
+		<td class="titcol" colspan="2">Time:</td>
+	</tr>
+	<tr>
+		<td class="valcol">Valores:</td>
+		<td class="datoscol">Tiempo que dura la opcion seleccionada expresado en segundos</td>
+	</tr>
+
+</table>
