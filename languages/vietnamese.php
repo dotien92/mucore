@@ -120,7 +120,7 @@ define('text_register_error6','Mã quốc gia không hợp lệ.');
 define('text_register_error7','Giới tính không hợp lệ.');
 define('text_register_error8','Câu hỏi bí mật không hợp lệ.');
 define('text_register_error9','Bạn đã nhập câu trả lời bí mật không hợp lệ.(4-20 ký tự, chỉ số và chữ)');
-define('text_register_error10','Bạn cso phải robot không? Vui lòng nhập mã kiểm chứng!');
+define('text_register_error10','Bạn có phải robot không? Vui lòng nhập mã kiểm chứng!');
 define('text_register_error11','Tên tài khoản đã có người sử dụng.');
 define('text_register_error12','Email đã có người sử dụng.');
 define('text_register_success1','Chào bạn, {userid}. Chúc mừng bạn đã đăng ký thành công!');

@@ -17,6 +17,11 @@ include ( "engine/connect_core.php" ) ;
         <!-- Load scripts -->
         <script src="template/<?=$core['config']['template'] ?>/js/html5shiv.js"></script>
         <script type="text/javascript" src="template/<?=$core['config']['template'] ?>/js/jquery.min.js"></script>
+        <script type="text/javascript">
+        window.Config = window.Config || {};
+        Config.URL = Config.URL || '<?= addslashes($core['config']['website_url']); ?>/';
+        Config.Slider = Config.Slider || {id: 'slider'};
+        </script>
         <script type="text/javascript" src="template/<?=$core['config']['template'] ?>/js/router.js"></script>
         <script type="text/javascript" src="template/<?=$core['config']['template'] ?>/js/require.js"></script>
         <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>

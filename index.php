@@ -1,14 +1,14 @@
 <?php
 /**
 * @+===========================================================================+
-* @¦ MuCore 1.0.8 English.       					       ¦
-* @¦ Credits: Isumeru & MaryJo & Dao Van Trong - Trong.CF  					       ¦
-* @¦ +=======================================================================+ ¦
-* @¦ ¦  "He who Copy/Pastes Shall Inherit My Mistakes But Not My Knowledge"  ¦ ¦
-* @¦ +=======================================================================+ ¦
-* @¦ Official Site:   http://forum.ragezone.com                             ¦
+* @ï¿½ MuCore 1.0.8 English.       					       ï¿½
+* @ï¿½ Credits: Isumeru & MaryJo & Dao Van Trong - Trong.CF  					       ï¿½
+* @ï¿½ +=======================================================================+ ï¿½
+* @ï¿½ ï¿½  "He who Copy/Pastes Shall Inherit My Mistakes But Not My Knowledge"  ï¿½ ï¿½
+* @ï¿½ +=======================================================================+ ï¿½
+* @ï¿½ Official Site:   http://forum.ragezone.com                             ï¿½
 * @+===========================================================================+
-* @¦ Our Allied Site: http://www.clbgamesvn.com                                   ¦
+* @ï¿½ Our Allied Site: http://www.clbgamesvn.com                                   ï¿½
 * @+===========================================================================+
 */
 header('Content-Type: text/html; charset=UTF-8');
@@ -65,7 +65,7 @@ function build_header_title( )
 function build_footer( )
 {
     global $core;
-    echo "<div align=\"center\" class=\"footer_font\">\n<!-- Do not remove MMORPG Core copyright notice -->\n<a href=\"https://www.facebook.com/MuOnlineDeveloper\" target=\"_blank\">MUCore&#8482;</a> Engine Version ".$core['version']."<br>\nCopyright ©";
+    echo "<div align=\"center\" class=\"footer_font\">\n<!-- Do not remove MMORPG Core copyright notice -->\n<a href=\"https://www.facebook.com/MuOnlineDeveloper\" target=\"_blank\">MUCore&#8482;</a> Engine Version ".$core['version']."<br>\nCopyright ï¿½";
     if ( date( "Y" ) == "2009" )
     {
         echo "2009";
@@ -234,14 +234,14 @@ include( "template/".$core['config']['template']."/index.php" );
 ob_end_flush( );
 /**
 * @+===========================================================================+
-* @¦ MuCore 1.0.8 English.       					       ¦
-* @¦ Credits: Isumeru & MaryJo & Dao Van Trong - Trong.CF  					       ¦
-* @¦ +=======================================================================+ ¦
-* @¦ ¦  "He who Copy/Pastes Shall Inherit My Mistakes But Not My Knowledge"  ¦ ¦
-* @¦ +=======================================================================+ ¦
-* @¦ Official Site:   http://forum.ragezone.com                             ¦
+* @ï¿½ MuCore 1.0.8 English.       					       ï¿½
+* @ï¿½ Credits: Isumeru & MaryJo & Dao Van Trong - Trong.CF  					       ï¿½
+* @ï¿½ +=======================================================================+ ï¿½
+* @ï¿½ ï¿½  "He who Copy/Pastes Shall Inherit My Mistakes But Not My Knowledge"  ï¿½ ï¿½
+* @ï¿½ +=======================================================================+ ï¿½
+* @ï¿½ Official Site:   http://forum.ragezone.com                             ï¿½
 * @+===========================================================================+
-* @¦ Our Allied Site: http://www.clbgamesvn.com                                   ¦
+* @ï¿½ Our Allied Site: http://www.clbgamesvn.com                                   ï¿½
 * @+===========================================================================+
 */
 ?>
