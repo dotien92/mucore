@@ -504,8 +504,17 @@ MUCore CSS End
                                     <li><a href="index.php?page_id=register" direct="0"><?=link_new_account;?></a></li>
                                     <li><a href="index.php?page_id=rankings" direct="1">Rankings</a></li>
                                     <li><a href="#" direct="1" target="_blank">Forum</a></li>
-                                    <li><a href="index.php?page_id=webshop" direct="1">Webshop</a></li>
-                                    <li><a href="index.php?page_id=login" direct="0">Login</a></li>
+                                    <li><a href="index.php?page_id=market" direct="1">Market</a></li>
+                                    <? if($user_login == '1'){
+                                        echo '<li><a>Hi!,  ';
+                                        echo $user_auth_id;
+                                        echo '</a></li>';
+                                    } else {
+                                        echo '<li><a href="index.php?page_id=login" direct="0">Login</a></li>';
+                                    }
+                                    ?>
+                                    
+                                    
                             </ul>
             <div id="main">
                 <aside id="left">
