@@ -20,6 +20,7 @@
     var $loader = $('#quick-chat-loader');
     var $display = $('#quick-chat-display');
     var $suggestions = $('#quick-chat-suggestions');
+    var $myItems = $('#quick-chat-myitems');
     var commands = $.isArray(cfg.commands) ? cfg.commands : [];
 
     var suggestionState = {
@@ -27,6 +28,13 @@
         items: [],
         index: -1,
         context: null
+    };
+
+    var myItemsState = {
+        visible: false,
+        loading: false,
+        items: [],
+        index: -1
     };
 
     var hasOn = typeof $.fn.on === 'function';
@@ -49,8 +57,26 @@
             }
             return;
         }
-        if (selector && hasDelegate) {
-            $el.delegate(selector, events, handler);
+        if (selector) {
+            if (hasDelegate) {
+                $el.delegate(selector, events, handler);
+            } else {
+                $el.bind(events, function (evt) {
+                    var target = evt.target;
+                    var matched = false;
+                    while (target && target !== this) {
+                        if ($(target).is(selector)) {
+                            handler.call(target, evt);
+                            matched = true;
+                            break;
+                        }
+                        target = target.parentNode;
+                    }
+                    if (!matched && $(this).is(selector)) {
+                        handler.call(this, evt);
+                    }
+                });
+            }
         } else {
             $el.bind(events, handler);
         }
@@ -116,6 +142,32 @@
         }
     }
 
+    function hideMyItems() {
+        if (myItemsState.visible && typeof UnTip === 'function') {
+            try { UnTip(); } catch (e) {}
+        }
+        myItemsState.visible = false;
+        myItemsState.items = [];
+        myItemsState.index = -1;
+        myItemsState.loading = false;
+        if ($myItems && $myItems.length) {
+            $myItems.removeClass('quick-chat__myitems-panel--visible').empty();
+        }
+        setStatus('');
+    }
+
+    function showMyItemsMessage(text) {
+        if (!$myItems.length) {
+            return;
+        }
+        $myItems.empty().append(
+            $('<div class="quick-chat__myitems-empty"/>').text(text || '')
+        );
+        $myItems.addClass('quick-chat__myitems-panel--visible');
+        myItemsState.visible = true;
+        myItemsState.index = -1;
+    }
+
     function setActiveSuggestion(index) {
         if (!$suggestions || !$suggestions.length) {
             return;
@@ -127,6 +179,20 @@
                 $target.addClass('quick-chat__suggestion--active');
             }
         }
+    }
+
+    function setActiveMyItem(index) {
+        if (!$myItems.length) {
+            return;
+        }
+        $myItems.find('.quick-chat__myitems-item').removeClass('quick-chat__myitems-item--active');
+        if (index >= 0) {
+            var $target = $myItems.find('.quick-chat__myitems-item[data-index="' + index + '"]');
+            if ($target.length) {
+                $target.eq(0).addClass('quick-chat__myitems-item--active');
+            }
+        }
+        myItemsState.index = index;
     }
 
     function detectSlashCommand(value, caret) {
@@ -159,6 +225,132 @@
             end: caret,
             raw: raw
         };
+    }
+
+    function attachMyItemTooltip($el, item) {
+        if (!$el || !$el.length) {
+            return;
+        }
+        var mouseEnter = function () {
+            if (typeof Tip === 'function') {
+                Tip(item.tooltip || '', 'TITLEFONTCOLOR', item.title_color || '#B9955B', 'TITLE', item.label || '', 'TITLEBGCOLOR', item.title_background || '#000000');
+            }
+        };
+        var mouseLeave = function () {
+            if (typeof UnTip === 'function') {
+                try { UnTip(); } catch (e) {}
+            }
+        };
+        if (hasOn) {
+            $el.on('mouseenter', mouseEnter);
+            $el.on('mouseleave', mouseLeave);
+        } else if (typeof $el.bind === 'function') {
+            $el.bind('mouseenter', mouseEnter);
+            $el.bind('mouseleave', mouseLeave);
+        }
+    }
+
+    function renderMyItems(items) {
+        if (!$myItems.length) {
+            return;
+        }
+        $myItems.empty();
+        myItemsState.items = items || [];
+        myItemsState.visible = true;
+        myItemsState.loading = false;
+        myItemsState.index = -1;
+
+        if (!myItemsState.items.length) {
+            showMyItemsMessage('Bạn chưa đăng vật phẩm nào.');
+            return;
+        }
+
+        for (var i = 0; i < myItemsState.items.length; i++) {
+            var item = myItemsState.items[i];
+            var $row = $('<div class="quick-chat__myitems-item"/>')
+                .attr('data-index', i)
+                .attr('data-id', item.id || 0);
+            if (item.id) {
+                $('<span class="quick-chat__myitems-item-id"/>').text('#' + item.id).appendTo($row);
+            }
+            $('<span/>').text(item.label || '').appendTo($row);
+            attachMyItemTooltip($row, item);
+            $myItems.append($row);
+        }
+
+        $myItems.addClass('quick-chat__myitems-panel--visible');
+        setActiveMyItem(0);
+        setStatus('Chọn item để chèn vào chat.');
+    }
+
+    function applyMyItem(item) {
+        if (!item || !$input.length) {
+            return;
+        }
+        var value = $input.val() || '';
+        var el = $input.get(0);
+        var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
+        var context = detectSlashCommand(value, caret);
+        if (!context || context.raw.toLowerCase() !== 'myitem') {
+            hideMyItems();
+            return;
+        }
+
+        var insertValue = '/market_' + (item.id || '');
+        var before = value.substring(0, context.start);
+        var after = value.substring(context.end);
+        var newValue = before + insertValue + ' ' + after;
+        $input.val(newValue);
+
+        if (el && typeof el.setSelectionRange === 'function') {
+            var newCaret = (before + insertValue + ' ').length;
+            el.setSelectionRange(newCaret, newCaret);
+        }
+
+        hideMyItems();
+        hideSuggestions();
+        $input.focus();
+    }
+
+    function applyMyItemByIndex(index) {
+        if (index < 0 || index >= myItemsState.items.length) {
+            return;
+        }
+        applyMyItem(myItemsState.items[index]);
+    }
+
+    function requestMyItems() {
+        if (!canPost) {
+            setStatus('Bạn cần đăng nhập để sử dụng lệnh này.');
+            return;
+        }
+        if (myItemsState.loading) {
+            return;
+        }
+        hideSuggestions();
+        myItemsState.loading = true;
+        showMyItemsMessage('Đang tải danh sách item...');
+        $.ajax({
+            url: buildUrl('myitems'),
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response && response.success) {
+                    renderMyItems(response.items || []);
+                } else if (response && response.error === 'not_authenticated') {
+                    hideMyItems();
+                    setStatus('Bạn cần đăng nhập để xem danh sách item.');
+                } else {
+                    showMyItemsMessage('Không thể tải danh sách item.');
+                }
+            },
+            error: function () {
+                showMyItemsMessage('Không thể tải danh sách item.');
+            },
+            complete: function () {
+                myItemsState.loading = false;
+            }
+        });
     }
 
     function renderSuggestions(items) {
@@ -212,6 +404,17 @@
         var value = $input.val();
         var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
         var context = detectSlashCommand(value, caret);
+        var lowerRaw = context && context.raw ? String(context.raw).toLowerCase() : '';
+        if (lowerRaw === 'myitem') {
+            hideSuggestions();
+            if (!myItemsState.visible && !myItemsState.loading) {
+                requestMyItems();
+            }
+            return;
+        }
+        if (myItemsState.visible) {
+            hideMyItems();
+        }
         if (!context) {
             hideSuggestions();
             return;
@@ -260,14 +463,60 @@
             el.setSelectionRange(newCaret, newCaret);
         }
         hideSuggestions();
+        updateSuggestions();
         $input.focus();
     }
 
     function handleSuggestionKeydown(evt) {
+        var key = evt.which || evt.keyCode;
+
+        if (myItemsState.visible) {
+            if (key === 27) { // esc
+                evt.preventDefault();
+                hideMyItems();
+                return;
+            }
+            if (!myItemsState.items.length) {
+                return;
+            }
+            if (key === 38) { // up
+                evt.preventDefault();
+                if (myItemsState.index > 0) {
+                    setActiveMyItem(myItemsState.index - 1);
+                } else {
+                    setActiveMyItem(myItemsState.items.length - 1);
+                }
+                return;
+            }
+            if (key === 40) { // down
+                evt.preventDefault();
+                if (myItemsState.index < myItemsState.items.length - 1) {
+                    setActiveMyItem(myItemsState.index + 1);
+                } else {
+                    setActiveMyItem(0);
+                }
+                return;
+            }
+            if (key === 9) { // tab cycles items
+                evt.preventDefault();
+                if (evt.shiftKey) {
+                    setActiveMyItem(myItemsState.index > 0 ? myItemsState.index - 1 : myItemsState.items.length - 1);
+                } else {
+                    setActiveMyItem(myItemsState.index < myItemsState.items.length - 1 ? myItemsState.index + 1 : 0);
+                }
+                return;
+            }
+            if (key === 13) { // enter selects item
+                evt.preventDefault();
+                applyMyItemByIndex(myItemsState.index >= 0 ? myItemsState.index : 0);
+                return;
+            }
+        }
+
         if (!suggestionState.visible) {
             return;
         }
-        var key = evt.which || evt.keyCode;
+
         if (key === 38) { // up
             evt.preventDefault();
             if (suggestionState.index > 0) {
@@ -284,7 +533,18 @@
                 suggestionState.index = 0;
             }
             setActiveSuggestion(suggestionState.index);
-        } else if (key === 9 || key === 13) { // tab or enter
+        } else if (key === 9) { // tab cycles suggestions
+            evt.preventDefault();
+            if (!suggestionState.items.length) {
+                return;
+            }
+            if (evt.shiftKey) {
+                suggestionState.index = suggestionState.index > 0 ? suggestionState.index - 1 : suggestionState.items.length - 1;
+            } else {
+                suggestionState.index = suggestionState.index < suggestionState.items.length - 1 ? suggestionState.index + 1 : 0;
+            }
+            setActiveSuggestion(suggestionState.index);
+        } else if (key === 13) { // enter applies selection
             evt.preventDefault();
             applySuggestionByIndex(suggestionState.index >= 0 ? suggestionState.index : 0);
         } else if (key === 27) { // esc
@@ -627,6 +887,10 @@
             if (!message) {
                 return false;
             }
+            if (/^\/myitem$/i.test(message)) {
+                requestMyItems();
+                return false;
+            }
             setStatus('Sending...');
             $send.attr('disabled', 'disabled');
             var displayName = getDisplayValue();
@@ -646,6 +910,7 @@
                         setStatus('');
                         $input.val('');
                         hideSuggestions();
+                        hideMyItems();
                         if ($display.length && win.localStorage) {
                             var currentDisplay = getDisplayValue();
                             if (currentDisplay) {
@@ -684,12 +949,20 @@
         bindEvent($input, 'keydown', function (evt) {
             handleSuggestionKeydown(evt);
         });
-        bindEvent($input, 'click keyup', function () {
+        bindEvent($input, 'click', function () {
+            updateSuggestions();
+        });
+        bindEvent($input, 'keyup', function (evt) {
+            var key = evt && (evt.which || evt.keyCode);
+            if (key && (key === 9 || key === 13 || key === 27 || key === 38 || key === 40)) {
+                return;
+            }
             updateSuggestions();
         });
         bindEvent($input, 'blur', function () {
             window.setTimeout(function () {
                 hideSuggestions();
+                hideMyItems();
             }, 100);
         });
     }
@@ -709,6 +982,23 @@
             if (!isNaN(idx)) {
                 suggestionState.index = idx;
                 setActiveSuggestion(idx);
+            }
+        });
+    }
+
+    if ($myItems.length) {
+        bindEvent($myItems, 'mousedown', '.quick-chat__myitems-item', function (evt) {
+            evt.preventDefault();
+            var idx = parseInt($(this).attr('data-index'), 10);
+            if (isNaN(idx)) {
+                idx = 0;
+            }
+            applyMyItemByIndex(idx);
+        });
+        bindEvent($myItems, 'mousemove', '.quick-chat__myitems-item', function () {
+            var idx = parseInt($(this).attr('data-index'), 10);
+            if (!isNaN(idx)) {
+                setActiveMyItem(idx);
             }
         });
     }

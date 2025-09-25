@@ -30,33 +30,9 @@ function quick_chat_render_json($payload)
     exit;
 }
 
-function quick_chat_market_item_details($itemId)
+function quick_chat_format_item_detail($itemId, $info)
 {
-    static $cache = array();
-
-    $itemId = (int) $itemId;
-    if ($itemId < 1) {
-        return null;
-    }
-
-    if (array_key_exists($itemId, $cache)) {
-        return $cache[$itemId];
-    }
-
-    $cache[$itemId] = null;
-
-    $resource = mssql_query("SELECT TOP 1 [id], [item] FROM [MuCore_Market] WHERE [id] = '" . $itemId . "' AND [is_sold] = '0'");
-    if (!$resource || mssql_num_rows($resource) < 1) {
-        return null;
-    }
-
-    $row = mssql_fetch_array($resource);
-    if (!$row || empty($row['item'])) {
-        return null;
-    }
-
-    $info = ItemInfo($row['item']);
-    if (!$info || empty($info['name'])) {
+    if (!is_array($info) || empty($info['name'])) {
         return null;
     }
 
@@ -86,15 +62,80 @@ function quick_chat_market_item_details($itemId)
         . '<br><font color=#4d668d>' . $socket . '</font>'
         . '</center>';
 
-    $cache[$itemId] = array(
-        'id' => $itemId,
+    return array(
+        'id' => (int) $itemId,
         'label' => $info['name'] . $levelSuffix,
         'tooltip' => $tooltip,
         'title_color' => isset($info['color']) ? $info['color'] : '#B9955B',
         'title_background' => isset($info['anco']) ? $info['anco'] : '#000000',
     );
+}
+
+function quick_chat_market_item_details($itemId)
+{
+    static $cache = array();
+
+    $itemId = (int) $itemId;
+    if ($itemId < 1) {
+        return null;
+    }
+
+    if (array_key_exists($itemId, $cache)) {
+        return $cache[$itemId];
+    }
+
+    $cache[$itemId] = null;
+
+    $resource = mssql_query("SELECT TOP 1 [id], [item] FROM [MuCore_Market] WHERE [id] = '" . $itemId . "' AND [is_sold] = '0'");
+    if (!$resource || mssql_num_rows($resource) < 1) {
+        return null;
+    }
+
+    $row = mssql_fetch_array($resource);
+    if (!$row || empty($row['item'])) {
+        return null;
+    }
+
+    $info = ItemInfo($row['item']);
+    if (!$info) {
+        return null;
+    }
+
+    $cache[$itemId] = quick_chat_format_item_detail($itemId, $info);
 
     return $cache[$itemId];
+}
+
+function quick_chat_get_account_market_items($account)
+{
+    $account = trim((string) $account);
+    if ($account === '') {
+        return array();
+    }
+
+    $items = array();
+    $query = mssql_query(
+        "SELECT [id], [item], [start_date] FROM [MuCore_Market] WHERE [seller] = '" . $account . "' AND [is_sold] = '0' ORDER BY [start_date] DESC"
+    );
+    if (!$query) {
+        return array();
+    }
+
+    while ($row = mssql_fetch_array($query)) {
+        if (empty($row['item'])) {
+            continue;
+        }
+        $info = ItemInfo($row['item']);
+        if (!$info) {
+            continue;
+        }
+        $detail = quick_chat_format_item_detail($row['id'], $info);
+        if ($detail) {
+            $items[] = $detail;
+        }
+    }
+
+    return $items;
 }
 
 function quick_chat_render_market_reference($details)
@@ -174,6 +215,7 @@ function quick_chat_prepare_messages($messages)
 
     foreach ($messages as &$row) {
         $text = isset($row['message']) ? (string) $row['message'] : '';
+
         $renderedInfo = quick_chat_render_market_tokens($text);
         $row['rendered'] = $renderedInfo['html'];
         if (!empty($renderedInfo['ids'])) {
@@ -209,6 +251,33 @@ if ($action === 'list') {
         'success'  => true,
         'messages' => $messages,
         'now'      => time(),
+    ));
+}
+
+if ($action === 'myitems') {
+    if ($user_login !== '1' || empty($user_auth_id)) {
+        quick_chat_render_json(array('success' => false, 'error' => 'not_authenticated'));
+    }
+
+    $itemsRaw = quick_chat_get_account_market_items($user_auth_id);
+    $items = array();
+    foreach ($itemsRaw as $detail) {
+        if (!is_array($detail)) {
+            continue;
+        }
+        $items[] = array(
+            'id' => isset($detail['id']) ? (int) $detail['id'] : 0,
+            'label' => isset($detail['label']) ? $detail['label'] : '',
+            'tooltip' => isset($detail['tooltip']) ? $detail['tooltip'] : '',
+            'title_color' => isset($detail['title_color']) ? $detail['title_color'] : '#B9955B',
+            'title_background' => isset($detail['title_background']) ? $detail['title_background'] : '#000000',
+        );
+    }
+
+    quick_chat_render_json(array(
+        'success' => true,
+        'items'   => $items,
+        'now'     => time(),
     ));
 }
 
@@ -273,6 +342,11 @@ $quick_chat_commands = array(
         'insert' => '/market_',
         'description' => 'Chèn tham chiếu vật phẩm đang bán ở Market.',
     ),
+    array(
+        'name' => 'myitem',
+        'insert' => '/myitem',
+        'description' => 'Liệt kê item bạn đang đăng bán.',
+    ),
 );
 ?>
 <div class="quick-chat">
@@ -320,11 +394,14 @@ $quick_chat_commands = array(
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-            <div class="quick-chat__form-row">
-                <input type="text" name="message" id="quick-chat-input" maxlength="<?= QUICK_CHAT_MESSAGE_LIMIT; ?>" placeholder="Type a message" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
-                <button type="submit" id="quick-chat-send">Send</button>
+            <div class="quick-chat__input-wrapper">
+                <div class="quick-chat__form-row">
+                    <input type="text" name="message" id="quick-chat-input" maxlength="<?= QUICK_CHAT_MESSAGE_LIMIT; ?>" placeholder="Nhập tin nhắn hoặc gõ / để xem lệnh" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+                    <button type="submit" id="quick-chat-send">Send</button>
+                </div>
+                <div class="quick-chat__suggestions quick-chat__floating-panel" id="quick-chat-suggestions"></div>
+                <div class="quick-chat__myitems-panel quick-chat__floating-panel" id="quick-chat-myitems"></div>
             </div>
-            <div class="quick-chat__suggestions" id="quick-chat-suggestions"></div>
         </form>
     </div>
     <?php if (!$can_post) : ?>
@@ -361,6 +438,7 @@ window.quickChatConfig = {
 .quick-chat__identity-select{flex:1;padding:3px 6px;font-size:12px;background:#1a1a1a;border:1px solid #2f2f2f;color:#e1e1e1;}
 .quick-chat__identity-static{font-size:12px;color:#9bd1ff;}
 .quick-chat__form-row{display:flex;gap:6px;}
+.quick-chat__input-wrapper{position:relative;}
 .quick-chat__empty{color:#777;font-style:italic;}
 .quick-chat__form-row input{flex:1;padding:4px;}
 .quick-chat__form-row button{padding:4px 8px;}
@@ -370,7 +448,15 @@ window.quickChatConfig = {
 .quick-chat__market-item{color:#9bd1ff;text-decoration:underline;cursor:pointer;white-space:nowrap;}
 .quick-chat__market-item:hover{color:#ffd27f;}
 .quick-chat__market-missing{color:#ff6666;font-style:italic;}
-.quick-chat__suggestions{display:none;background:#141414;border:1px solid #2f2f2f;margin-top:4px;max-height:150px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
+.quick-chat__floating-panel{display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;z-index:40;}
+.quick-chat__myitems-panel{background:#141414;border:1px solid #2f2f2f;max-height:180px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
+.quick-chat__myitems-panel--visible{display:block;}
+.quick-chat__myitems-empty{padding:8px;color:#9bd1ff;font-style:italic;}
+.quick-chat__myitems-item{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;color:#d7d7d7;display:flex;align-items:center;gap:6px;}
+.quick-chat__myitems-item:last-child{border-bottom:none;}
+.quick-chat__myitems-item--active{background:#1f1f1f;color:#ffd27f;}
+.quick-chat__myitems-item-id{font-size:11px;color:#9bd1ff;}
+.quick-chat__suggestions{display:none;background:#141414;border:1px solid #2f2f2f;max-height:150px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
 .quick-chat__suggestions--visible{display:block;}
 .quick-chat__suggestion{padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid rgba(255,255,255,0.05);}
 .quick-chat__suggestion:last-child{border-bottom:none;}

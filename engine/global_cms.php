@@ -2,7 +2,7 @@
 define('ROOT_INDEX','index.php');
 define('LOAD_GET_PAGE','page_id');
 define('USER_GET_PAGE','panel');
-define('HOME_CMS_PAGE','news');
+define('HOME_CMS_PAGE','quick_chat');
 define('HOME_CMS_USER','add_points');
 define('ACCOUNTSETTINGS_CMS_USER','account_settings');
 define('LOGIN_CMS_PAGE','login');
