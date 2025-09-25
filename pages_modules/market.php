@@ -476,7 +476,7 @@ location = 'index.php?page_id=market&op2=Buy&op3=".$MarketItem['id']."'}
 };
 </script>
 <tr class='$m_table_class' style='cursor: pointer;' >
-<td align='center'>$count</td>
+<td align='center'>".$MarketItem['id']."</td>
 <td align='left' onclick='buyitem_".$MarketItem['id']."(); return false;' onmouseover='Tip(\"<center><img src=".$MarketItemInfo['thumb']."><br><font color=white><br>Durability: ".$MarketItemInfo['dur']."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>\", TITLEFONTCOLOR,\"".$MarketItemInfo['color']."\",TITLE, \"".$MarketItemInfo['name'].$MarketItemInfo['level']."\",TITLEBGCOLOR, \"".$MarketItemInfo['anco']."\")' onmouseout='UnTip()' <img src='".$MarketItemInfo['thumb']."' class='m'>
 <center><font style='font-size: 11px;' color='#B9955B'>".$MarketItemInfo['name']."</font></center></td>
 <td align='center'><font color='#B9955B'>".number_format($credits_price)."</font></td>
