@@ -19,6 +19,53 @@
     var $send = $('#quick-chat-send');
     var $loader = $('#quick-chat-loader');
     var $display = $('#quick-chat-display');
+    var $suggestions = $('#quick-chat-suggestions');
+    var commands = $.isArray(cfg.commands) ? cfg.commands : [];
+
+    var suggestionState = {
+        visible: false,
+        items: [],
+        index: -1,
+        context: null
+    };
+
+    var hasOn = typeof $.fn.on === 'function';
+    var hasOff = typeof $.fn.off === 'function';
+    var hasDelegate = typeof $.fn.delegate === 'function';
+
+    function bindEvent($el, events, selector, handler) {
+        if (!$el || !$el.length) {
+            return;
+        }
+        if (typeof selector === 'function') {
+            handler = selector;
+            selector = null;
+        }
+        if (hasOn) {
+            if (selector) {
+                $el.on(events, selector, handler);
+            } else {
+                $el.on(events, handler);
+            }
+            return;
+        }
+        if (selector && hasDelegate) {
+            $el.delegate(selector, events, handler);
+        } else {
+            $el.bind(events, handler);
+        }
+    }
+
+    function unbindEvent($el, events, handler) {
+        if (!$el || !$el.length) {
+            return;
+        }
+        if (hasOff) {
+            $el.off(events, handler);
+        } else {
+            $el.unbind(events, handler);
+        }
+    }
 
     var loadingOlder = false;
     var historyExhausted = false;
@@ -57,6 +104,193 @@
         var target = $messages[0].scrollHeight;
         var smooth = force === true ? false : true;
         setScrollTop(target, smooth);
+    }
+
+    function hideSuggestions() {
+        suggestionState.visible = false;
+        suggestionState.items = [];
+        suggestionState.index = -1;
+        suggestionState.context = null;
+        if ($suggestions && $suggestions.length) {
+            $suggestions.empty().removeClass('quick-chat__suggestions--visible');
+        }
+    }
+
+    function setActiveSuggestion(index) {
+        if (!$suggestions || !$suggestions.length) {
+            return;
+        }
+        $suggestions.find('.quick-chat__suggestion').removeClass('quick-chat__suggestion--active');
+        if (index >= 0) {
+            var $target = $suggestions.find('.quick-chat__suggestion[data-index="' + index + '"]');
+            if ($target.length) {
+                $target.addClass('quick-chat__suggestion--active');
+            }
+        }
+    }
+
+    function detectSlashCommand(value, caret) {
+        if (typeof value !== 'string' || value.length === 0) {
+            return null;
+        }
+        if (typeof caret !== 'number') {
+            caret = value.length;
+        }
+        if (caret < 0) {
+            caret = 0;
+        }
+        var slice = value.substring(0, caret);
+        var index = slice.lastIndexOf('/');
+        if (index === -1) {
+            return null;
+        }
+        if (index > 0) {
+            var prevChar = slice.charAt(index - 1);
+            if (prevChar && !/\s/.test(prevChar)) {
+                return null;
+            }
+        }
+        var raw = slice.substring(index + 1);
+        if (/\s/.test(raw)) {
+            return null;
+        }
+        return {
+            start: index,
+            end: caret,
+            raw: raw
+        };
+    }
+
+    function renderSuggestions(items) {
+        if (!$suggestions.length) {
+            return;
+        }
+        $suggestions.empty();
+        if (!items.length) {
+            hideSuggestions();
+            return;
+        }
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var $row = $('<div class="quick-chat__suggestion"/>').attr('data-index', i);
+            var label = item.insert || '';
+            $('<span class="quick-chat__suggestion-command"/>').text(label).appendTo($row);
+            if (item.description) {
+                $('<span class="quick-chat__suggestion-desc"/>').text(item.description).appendTo($row);
+            }
+            $suggestions.append($row);
+        }
+
+        $suggestions.addClass('quick-chat__suggestions--visible');
+        setActiveSuggestion(suggestionState.index);
+    }
+
+    function showSuggestions(items, context) {
+        if (!items.length) {
+            hideSuggestions();
+            return;
+        }
+        suggestionState.visible = true;
+        suggestionState.items = items;
+        suggestionState.context = context;
+        suggestionState.index = 0;
+        renderSuggestions(items);
+        setActiveSuggestion(0);
+    }
+
+    function updateSuggestions() {
+        if (!commands.length || !$input.length) {
+            hideSuggestions();
+            return;
+        }
+        var el = $input.get(0);
+        if (!el) {
+            hideSuggestions();
+            return;
+        }
+        var value = $input.val();
+        var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
+        var context = detectSlashCommand(value, caret);
+        if (!context) {
+            hideSuggestions();
+            return;
+        }
+        if (/\d/.test(context.raw)) {
+            hideSuggestions();
+            return;
+        }
+        var query = context.raw.toLowerCase();
+        var matches = [];
+        for (var i = 0; i < commands.length; i++) {
+            var cmd = commands[i];
+            if (!cmd || typeof cmd.insert !== 'string') {
+                continue;
+            }
+            var token = cmd.insert.replace(/^\//, '').toLowerCase();
+            if (token.indexOf(query) === 0) {
+                matches.push(cmd);
+            }
+        }
+        if (!matches.length) {
+            hideSuggestions();
+            return;
+        }
+        showSuggestions(matches, context);
+    }
+
+    function applySuggestionByIndex(index) {
+        if (!suggestionState.visible || index < 0 || index >= suggestionState.items.length) {
+            return;
+        }
+        var item = suggestionState.items[index];
+        var context = suggestionState.context;
+        if (!item || !context || typeof item.insert !== 'string') {
+            return;
+        }
+        var value = $input.val();
+        var before = value.substring(0, context.start);
+        var after = value.substring(context.end);
+        var insert = item.insert;
+        var newValue = before + insert + after;
+        $input.val(newValue);
+        var el = $input.get(0);
+        if (el && typeof el.setSelectionRange === 'function') {
+            var newCaret = before.length + insert.length;
+            el.setSelectionRange(newCaret, newCaret);
+        }
+        hideSuggestions();
+        $input.focus();
+    }
+
+    function handleSuggestionKeydown(evt) {
+        if (!suggestionState.visible) {
+            return;
+        }
+        var key = evt.which || evt.keyCode;
+        if (key === 38) { // up
+            evt.preventDefault();
+            if (suggestionState.index > 0) {
+                suggestionState.index--;
+            } else {
+                suggestionState.index = suggestionState.items.length - 1;
+            }
+            setActiveSuggestion(suggestionState.index);
+        } else if (key === 40) { // down
+            evt.preventDefault();
+            if (suggestionState.index < suggestionState.items.length - 1) {
+                suggestionState.index++;
+            } else {
+                suggestionState.index = 0;
+            }
+            setActiveSuggestion(suggestionState.index);
+        } else if (key === 9 || key === 13) { // tab or enter
+            evt.preventDefault();
+            applySuggestionByIndex(suggestionState.index >= 0 ? suggestionState.index : 0);
+        } else if (key === 27) { // esc
+            evt.preventDefault();
+            hideSuggestions();
+        }
     }
 
     function setDisplayValue(value)
@@ -144,7 +378,13 @@
             $('<span class="quick-chat__time"/>').text('[' + formatTime(tsValue) + ']').appendTo($row);
             $('<span class="quick-chat__author"/>').text(item.author || '').appendTo($row);
             $('<span class="quick-chat__separator"/>').text(':').appendTo($row);
-            $('<span class="quick-chat__body"/>').text(item.message || '').appendTo($row);
+            var $body = $('<span class="quick-chat__body"/>');
+            if (item && typeof item.rendered === 'string' && item.rendered.length) {
+                $body.html(item.rendered);
+            } else {
+                $body.text(item.message || '');
+            }
+            $body.appendTo($row);
             $messages.append($row);
             added++;
         }
@@ -182,7 +422,13 @@
             $('<span class="quick-chat__time"/>').text('[' + formatTime(tsValue) + ']').appendTo($row);
             $('<span class="quick-chat__author"/>').text(item.author || '').appendTo($row);
             $('<span class="quick-chat__separator"/>').text(':').appendTo($row);
-            $('<span class="quick-chat__body"/>').text(item.message || '').appendTo($row);
+            var $body = $('<span class="quick-chat__body"/>');
+            if (item && typeof item.rendered === 'string' && item.rendered.length) {
+                $body.html(item.rendered);
+            } else {
+                $body.text(item.message || '');
+            }
+            $body.appendTo($row);
             if ($anchor && $anchor.length) {
                 $row.insertAfter($anchor);
                 $anchor = $row;
@@ -399,6 +645,7 @@
                     if (response && response.success) {
                         setStatus('');
                         $input.val('');
+                        hideSuggestions();
                         if ($display.length && win.localStorage) {
                             var currentDisplay = getDisplayValue();
                             if (currentDisplay) {
@@ -429,6 +676,42 @@
 
     // Poll tin nhắn
     fetchMessages({});
+
+    if ($input.length) {
+        bindEvent($input, 'input', function () {
+            updateSuggestions();
+        });
+        bindEvent($input, 'keydown', function (evt) {
+            handleSuggestionKeydown(evt);
+        });
+        bindEvent($input, 'click keyup', function () {
+            updateSuggestions();
+        });
+        bindEvent($input, 'blur', function () {
+            window.setTimeout(function () {
+                hideSuggestions();
+            }, 100);
+        });
+    }
+
+    if ($suggestions.length) {
+        bindEvent($suggestions, 'mousedown', '.quick-chat__suggestion', function (evt) {
+            evt.preventDefault();
+            var $item = $(this);
+            var idx = parseInt($item.attr('data-index'), 10);
+            if (isNaN(idx)) {
+                idx = 0;
+            }
+            applySuggestionByIndex(idx);
+        });
+        bindEvent($suggestions, 'mousemove', '.quick-chat__suggestion', function () {
+            var idx = parseInt($(this).attr('data-index'), 10);
+            if (!isNaN(idx)) {
+                suggestionState.index = idx;
+                setActiveSuggestion(idx);
+            }
+        });
+    }
 
     if ($display.length) {
         var defaultDisplay = cfg.displayDefault || '';
