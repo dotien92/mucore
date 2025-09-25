@@ -39,13 +39,13 @@ case 11:
 return 'Boots';
 break;
 case 12:
-return 'Items';
+return 'Wings & Orbs';
 break;
 case 13:
-return 'Jewels';
+return 'Misc';
 break;
 case 14:
-return 'Wings+Orbs';
+return 'Jewel, Consumables';
 break;
 case 15:
 return 'Scrolls';

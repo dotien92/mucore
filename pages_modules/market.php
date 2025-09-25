@@ -31,6 +31,87 @@ color : #B9955B;
 font-size : 12px;
 font-weight: bold;
 }
+.market-table{
+width:100%;
+border-collapse:separate;
+border-spacing:0;
+margin-top:10px;
+background:#111111;
+border:1px solid #2c2c2c;
+border-radius:6px;
+overflow:hidden;
+}
+.market-table thead td{
+background:#1f1b16;
+padding:10px 8px;
+text-transform:uppercase;
+font-size:10px;
+letter-spacing:0.5px;
+color:#d4b98a;
+}
+.market-table td{
+padding:12px 10px;
+border-bottom:1px solid #1f1f1f;
+}
+.market-row:nth-child(even){
+background:#151515;
+}
+.market-row:hover{
+background:#1d1d1d;
+}
+.market-item{display:flex;gap:12px;align-items:center;}
+.market-item-thumb {
+    width:56px;
+    height:56px;
+    border:1px solid #3a3a3a;
+    background:#0d0d0d;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:4px;
+    position: relative; /* Quan trọng để badge định vị trong khung này */
+}
+.market-item-level-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #2a2014;
+    color: #fce0b0;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 8px;
+    line-height: 1;
+}
+.market-item-badge {
+    position: absolute;
+    top: -6px;
+    left: -6px;      /* góc trái thay vì góc phải */
+    background: #cf6b2f;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 8px;
+    line-height: 1;
+}
+.market-item-thumb img {
+    width: 56px;        /* cố định chiều ngang */
+    height: 56px;       /* cố định chiều cao */
+    object-fit: contain; /* giữ đúng tỉ lệ, không bị méo */
+    display: block;
+}
+.market-item-body{display:flex;flex-direction:column;gap:4px;}
+.market-item-name{display:flex;align-items:center;gap:8px;font-weight:bold;color:#f5c37c;font-size:12px;}
+.market-item-level{padding:2px 8px;border-radius:999px;background:#2a2014;color:#fce0b0;font-size:10px;letter-spacing:0.4px;text-transform:uppercase;}
+.market-item-meta{font-size:11px;color:#9aa0b4;}
+.market-badge{font-size:10px;padding:2px 8px;border-radius:999px;background:#3e3122;color:#fff;text-transform:uppercase;letter-spacing:0.6px;}
+.market-badge-new{background:#cf6b2f;}
+.market-price{display:inline-flex;flex-direction:column;align-items:center;gap:2px;color:#f4d8ac;font-size:11px;}
+.market-price strong{font-size:13px;color:#ffe6ba;}
+.market-price-label{font-size:10px;color:#ac9772;text-transform:uppercase;letter-spacing:0.4px;}
+.market-price.dash{color:#4d4d4d;font-style:italic;}
 </style>
 </head>
 </html>
@@ -206,7 +287,7 @@ $cat_15_c= mssql_result($sql, 0, 0);
 <div align="center" id="sub_page_content">
 <script type="text/javascript" SRC="MarketSystem/plugins/tooltip.js"></script>
 <div align='center' class='normal_text'>
-<table width="530" align="center" border="0" cellspacing="0" cellpadding="0">
+<table width=100% align="center" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td>
 <table width="540" align="center" border="0" cellspacing="0" cellpadding="0">
@@ -239,83 +320,88 @@ print "<td align=\"left\" class=\"full_title\"><em>In offer are: $items_in_marke
 </table>
 <?php
 $sql = mssql_query("SELECT * FROM [MuCore_Shop_Items]");
-for($i=0;$i < mssql_num_rows($sql);++$i)
-{
-$array = mssql_fetch_array($sql);
-$item_name =$array['name'];
-$item_id= $array['id'];
-$item_type= $array['type'];
-$stick_level= $array['stickLevel'];
-$item_type_ =$item_type+1;
+for ($i = 0; $i < mssql_num_rows($sql); ++$i) {
+    $array = mssql_fetch_array($sql);
+    $item_name = $array["name"];
+    $item_id = $array["id"];
+    $item_type = $array["type"];
+    $stick_level = $array["stickLevel"];
+    $item_type_ = $item_type + 1;
 
+    $get_count = mssql_query(
+        "SELECT count(*) FROM [MuCore_Market] where is_sold = '0' and cat_id = '$item_type' and item_id = '$item_id' and sticklevel = '$stick_level'"
+    );
+    $item_count = mssql_result($get_count, 0, 0);
 
-$get_count = mssql_query("SELECT count(*) FROM [MuCore_Market] where is_sold = '0' and cat_id = '$item_type' and item_id = '$item_id' and sticklevel = '$stick_level'");	 
-$item_count= mssql_result($get_count, 0, 0);
-
-if($item_count > 0){
-$ii[$item_type]++;
-if($stick_level > 0){
-$TypeContent[$item_type] .= "document.getElementById('select_id').options[".$ii[$item_type]."] = new Option( '$item_name($item_count)', '$item_type-$item_id-$stick_level');
+    if ($item_count > 0) {
+        $ii[$item_type]++;
+        if ($stick_level > 0) {
+            $TypeContent[$item_type] .=
+                "document.getElementById('select_id').options[" .
+                $ii[$item_type] .
+                "] = new Option( '$item_name($item_count)', '$item_type-$item_id-$stick_level');
 ";
-}
-else{
-$TypeContent[$item_type] .= "document.getElementById('select_id').options[".$ii[$item_type]."] = new Option( '$item_name($item_count)', '$item_type&op4=$item_id');
+        } else {
+            $TypeContent[$item_type] .=
+                "document.getElementById('select_id').options[" .
+                $ii[$item_type] .
+                "] = new Option( '$item_name($item_count)', '$item_type&op4=$item_id');
 ";
-//$TypeContent[$item_type] .= "<option value=\"$item_type-$item_id\">$item_name($item_count)</option>";
-}
-}
+            //$TypeContent[$item_type] .= "<option value=\"$item_type-$item_id\">$item_name($item_count)</option>";
+        }
+    }
 }
 unset($i);
 ?>
 <script>
 function getItemList(item_type){
 if(item_type == 0){
-<?php print $TypeContent[0];?>
+<?php print $TypeContent[0]; ?>
 }
 else if(item_type == 1){
-<?php print $TypeContent[1];?>
+<?php print $TypeContent[1]; ?>
 }
 else if(item_type == 2){
-<?php print $TypeContent[2];?>
+<?php print $TypeContent[2]; ?>
 }
 else if(item_type == 3){
-<?php print $TypeContent[3];?>
+<?php print $TypeContent[3]; ?>
 }
 else if(item_type == 4){
-<?php print $TypeContent[4];?>
+<?php print $TypeContent[4]; ?>
 }
 else if(item_type == 5){
-<?php print $TypeContent[5];?>
+<?php print $TypeContent[5]; ?>
 }
 else if(item_type == 6){
-<?php print $TypeContent[6];?>
+<?php print $TypeContent[6]; ?>
 }
 else if(item_type == 7){
-<?php print $TypeContent[7];?>
+<?php print $TypeContent[7]; ?>
 }
 else if(item_type == 8){
-<?php print $TypeContent[8];?>
+<?php print $TypeContent[8]; ?>
 }
 else if(item_type == 9){
-<?php print $TypeContent[9];?>
+<?php print $TypeContent[9]; ?>
 }
 else if(item_type == 10){
-<?php print $TypeContent[10];?>
+<?php print $TypeContent[10]; ?>
 }
 else if(item_type == 11){
-<?php print $TypeContent[11];?>
+<?php print $TypeContent[11]; ?>
 }
 else if(item_type == 12){
-<?php print $TypeContent[12];?>
+<?php print $TypeContent[12]; ?>
 }
 else if(item_type == 13){
-<?php print $TypeContent[13];?>
+<?php print $TypeContent[13]; ?>
 }
 else if(item_type == 14){
-<?php print $TypeContent[14];?>
+<?php print $TypeContent[14]; ?>
 }
 else if(item_type == 15){
-<?php print $TypeContent[15];?>
+<?php print $TypeContent[15]; ?>
 }
 else{
 //item_list_html_content='<option value="-">---</option>';
@@ -339,34 +425,66 @@ location = "index.php?page_id=market&op2=List&op3="+value;
 <td><font color="#AF7D55">Filter </font></td>
 <td><select id="select_type" class="iRg_input" name="select_type" onchange="getItemList2(this.form.select_type.value)" >
 <option value="all">All</option>
-<option value="0" <?php echo ('0' == $list_item_type) ? 'selected="selected"' : '';?> >Swords (<? print $cat_0_c;?>)</option>
-<option value="1" <?php echo ('1' == $list_item_type) ? 'selected="selected"' : '';?> >Axes (<? print $cat_1_c;?>)</option>
-<option value="2" <?php echo ('2' == $list_item_type) ? 'selected="selected"' : '';?> >Maces (<? print $cat_2_c;?>)</option>
-<option value="3" <?php echo ('3' == $list_item_type) ? 'selected="selected"' : '';?> >Spears (<? print $cat_3_c;?>)</option>
-<option value="4" <?php echo ('4' == $list_item_type) ? 'selected="selected"' : '';?> >Bows (<? print $cat_4_c;?>)</option>
-<option value="5" <?php echo ('5' == $list_item_type) ? 'selected="selected"' : '';?> >Staffs (<? print $cat_5_c;?>)</option>
-<option value="6" <?php echo ('6' == $list_item_type) ? 'selected="selected"' : '';?> >Shields (<? print $cat_6_c;?>)</option>
-<option value="7" <?php echo ('7' == $list_item_type) ? 'selected="selected"' : '';?> >Helms (<? print $cat_7_c;?>)</option>
-<option value="8" <?php echo ('8' == $list_item_type) ? 'selected="selected"' : '';?> >Armors (<? print $cat_8_c;?>)</option>
-<option value="9" <?php echo ('9' == $list_item_type) ? 'selected="selected"' : '';?> >Pants (<? print $cat_9_c;?>)</option>
-<option value="10" <?php echo ('10' == $list_item_type) ? 'selected="selected"' : '';?> >Gloves (<? print $cat_10_c;?>)</option>
-<option value="11" <?php echo ('11' == $list_item_type) ? 'selected="selected"' : '';?> >Boots (<? print $cat_11_c;?>)</option>
-<option value="12" <?php echo ('12' == $list_item_type) ? 'selected="selected"' : '';?> >Mix 1 (<? print $cat_12_c;?>)</option>
-<option value="13" <?php echo ('13' == $list_item_type) ? 'selected="selected"' : '';?> >Mix 2 (<? print $cat_13_c;?>)</option>
-<option value="14" <?php echo ('14' == $list_item_type) ? 'selected="selected"' : '';?> >Mix 3 (<? print $cat_14_c;?>)</option>
-<option value="15" <?php echo ('15' == $list_item_type) ? 'selected="selected"' : '';?> >Scrolls (<? print $cat_15_c;?>)</option>
+<option value="0" <?php echo "0" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Swords (<? print $cat_0_c;?>)</option>
+<option value="1" <?php echo "1" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Axes (<? print $cat_1_c;?>)</option>
+<option value="2" <?php echo "2" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Maces (<? print $cat_2_c;?>)</option>
+<option value="3" <?php echo "3" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Spears (<? print $cat_3_c;?>)</option>
+<option value="4" <?php echo "4" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Bows (<? print $cat_4_c;?>)</option>
+<option value="5" <?php echo "5" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Staffs (<? print $cat_5_c;?>)</option>
+<option value="6" <?php echo "6" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Shields (<? print $cat_6_c;?>)</option>
+<option value="7" <?php echo "7" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Helms (<? print $cat_7_c;?>)</option>
+<option value="8" <?php echo "8" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Armors (<? print $cat_8_c;?>)</option>
+<option value="9" <?php echo "9" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Pants (<? print $cat_9_c;?>)</option>
+<option value="10" <?php echo "10" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Gloves (<? print $cat_10_c;?>)</option>
+<option value="11" <?php echo "11" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Boots (<? print $cat_11_c;?>)</option>
+<option value="12" <?php echo "12" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Mix 1 (<? print $cat_12_c;?>)</option>
+<option value="13" <?php echo "13" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Mix 2 (<? print $cat_13_c;?>)</option>
+<option value="14" <?php echo "14" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Mix 3 (<? print $cat_14_c;?>)</option>
+<option value="15" <?php echo "15" == $list_item_type
+    ? 'selected="selected"'
+    : ""; ?> >Scrolls (<? print $cat_15_c;?>)</option>
 </select></td><td></td>
 </tr>
 </table></form>
-<br><table width="530" align="center" border="1" cellspacing="0" cellpadding="0" class="iR_func_status">
+<br><table width="530" align="center" border="1" cellspacing="0" cellpadding="0" class="iR_func_status market-table">
 <thead><tr>
 <td align="center"><b><font color="#AF7D55">#</font></b></td>
 <td align="center"><b><font color="#AF7D55">Item</font></b></td>
-<td align="center"><b><font color="#AF7D55">Kredity</font></b></td>
+<td align="center"><b><font color="#AF7D55">Credit</font></b></td>
 <td align="center"><b><font color="#AF7D55">WCoinP</font></b></td>
 <td align="center"><b><font color="#AF7D55">Zen</font></b></td>
-<td align="center"><b><font color="#AF7D55">Predajca</font></b></td>
-<td align="center"><b><font color="#AF7D55">�as</font></b></td>
+<td align="center"><b><font color="#AF7D55">Nhân vật</font></b></td>
+<td align="center"><b><font color="#AF7D55">Ngày</font></b></td>
 </tr>
 </thead>
 <?
@@ -387,16 +505,17 @@ $list_query = "SELECT * FROM [MuCore_Market] where [is_sold] = '0'  AND cat_id =
 }
 }
 $m_table_class='';
-$sql = mssql_query($list_query);
-for($i=0;$i < mssql_num_rows($sql);++$i)
-{
-$MarketItem = mssql_fetch_array($sql);
+
+$listResult = mssql_query($list_query);
+if ($listResult && mssql_num_rows($listResult) > 0) {
+    while ($MarketItem = mssql_fetch_array($listResult, MSSQL_ASSOC)) {
 
 $MarketItemInfo=ItemInfo($MarketItem['item']);
 
 $MarketItemSellerName=$MarketItem['seller'];
-$get_seller_char_name = mssql_query("SELECT Name,mu_id FROM [Character] where AccountID = '".$MarketItemSellerName."' order by Resets desc");
-$get_seller_char_name = mssql_fetch_row($get_seller_char_name);
+
+$get_seller_char_name = $core_db->GetRow("SELECT TOP 1 Name,mu_id FROM [Character] where AccountID = ? order by Resets desc", array($MarketItemSellerName));
+$get_seller_char_name = $get_seller_char_name ? array_values($get_seller_char_name) : array('', '');
 
 switch($MarketItem['price_type']){
 case 'zen':
@@ -467,24 +586,67 @@ elseif($zen_price_ !=0){
  elseif($pcpoints_price_ != 0){
  $precio = $pcpoints_price_." WCoinP";
  }
-$count=$i+1;
-print "<script type='text/javascript'>
-function buyitem_".$MarketItem['id']."(){
-answer = confirm('Are you really want to buy ".$MarketItemInfo['name']." from ".$get_seller_char_name[0]." for $precio?');
-if (answer !=0){
-location = 'index.php?page_id=market&op2=Buy&op3=".$MarketItem['id']."'}
-};
-</script>
-<tr class='$m_table_class' style='cursor: pointer;' >
-<td align='center'>".$MarketItem['id']."</td>
-<td align='left' onclick='buyitem_".$MarketItem['id']."(); return false;' onmouseover='Tip(\"<center><img src=".$MarketItemInfo['thumb']."><br><font color=white><br>Durability: ".$MarketItemInfo['dur']."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>\", TITLEFONTCOLOR,\"".$MarketItemInfo['color']."\",TITLE, \"".$MarketItemInfo['name'].$MarketItemInfo['level']."\",TITLEBGCOLOR, \"".$MarketItemInfo['anco']."\")' onmouseout='UnTip()' <img src='".$MarketItemInfo['thumb']."' class='m'>
-<center><font style='font-size: 11px;' color='#B9955B'>".$MarketItemInfo['name']."</font></center></td>
-<td align='center'><font color='#B9955B'>".number_format($credits_price)."</font></td>
-<td align='center'><font color='#B9955B'>".number_format($pcpoints_price)."</font></td>
-<td align='center'><font color='#B9955B'>".number_format($zen_price)."</font></td>
-<td align='center'><font color='#B9955B'>".$get_seller_char_name[0]."</font></td>
-<td align='center'><font color='#B9955B'>".date("j.n.Y",$MarketItem['start_date'])."</font></td>
-</tr>";
+$itemName = htmlspecialchars($MarketItemInfo['name']);
+$sellerName = $get_seller_char_name[0] ? htmlspecialchars($get_seller_char_name[0]) : 'Unknown';
+$priceSummary = ($credits_price!='-') ? number_format($credits_price).' Credits' : (($zen_price!='-') ? number_format($zen_price).' Zen' : (($pcpoints_price!='-') ? number_format($pcpoints_price).' WCoinP' : '0'));
+$confirmMessage = sprintf('Bạn có chắc muốn mua %s từ %s với giá %s?', $itemName, $sellerName, $priceSummary);
+$confirmJson = json_encode($confirmMessage);
+$buyUrl = json_encode('index.php?page_id=market&op2=Buy&op3='.$MarketItem['id']);
+$categoryText = isset($MarketItemInfo['category']) ? ItemCatName($MarketItemInfo['category']) : ItemCatName($MarketItem['cat_id']);
+$categoryText = htmlspecialchars($categoryText);
+
+
+$itemLevelBadge = isset($MarketItemInfo['level']) && $MarketItemInfo['level'] !== '' ? trim($MarketItemInfo['level']) : '+0';
+
+if ($MarketItemInfo['category'] == 14) {
+    $itemMetaLine = 'Số lượng: ';
+} else {
+    $itemMetaLine = 'Độ bền: ';
+}
+$itemMetaLine .= intval($MarketItemInfo['dur']);
+$isNewBadge = ($time_after_start_date < 86400) 
+    ? '<span class="market-item-badge">Mới</span>' 
+    : '';
+$levelBadgeHtml = '<span class="market-item-level-badge">'.$itemLevelBadge.'</span>';
+
+if ($MarketItemInfo['category'] == 14) {
+    $levelBadgeHtml = '<span class="market-item-level-badge">+'.intval($MarketItemInfo['dur']).'</span>';
+} else {
+    $levelBadgeHtml = '<span class="market-item-level-badge">'.$itemLevelBadge.'</span>';
+}
+
+
+$creditsDisplay = ($credits_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($credits_price).'</strong><span class="market-price-label">Credits</span></span>';
+$pcpointsDisplay = ($pcpoints_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($pcpoints_price).'</strong><span class="market-price-label">WCoinP</span></span>';
+$zenDisplay = ($zen_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($zen_price).'</strong><span class="market-price-label">Zen</span></span>';
+$tooltipContent = "<center><img src=".$MarketItemInfo['thumb']."><br><font color=white><br>Durability: ".$MarketItemInfo['dur']."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>";
+$tooltipEscaped = addslashes($tooltipContent);
+$itemCell = '
+<div class="market-item">
+  <div class="market-item-thumb">
+    '.$isNewBadge.'
+    <img src="'.$MarketItemInfo['thumb'].'" alt="'.$itemName.'">
+    '.$levelBadgeHtml.'
+  </div>
+  <div class="market-item-body">
+    <div class="market-item-name">
+      <span style="color:'.$MarketItemInfo['color'].'">'.$itemName.'</span>
+    </div>
+    <div class="market-item-meta">'.$itemMetaLine.'</div>
+  </div>
+</div>';
+$dateDisplay = date("j.n.Y",$MarketItem['start_date']);
+$sellerDisplay = $sellerName;
+print "<script type='text/javascript'>function buyitem_".$MarketItem['id']."(){var answer = confirm(".$confirmJson.");if(answer){location = " . $buyUrl . ";}}</script>";
+print "<tr class='market-row' style='cursor: pointer;'>";
+print "<td align='center'>".$MarketItem['id']."</td>";
+print "<td align='left' onclick='buyitem_".$MarketItem['id']."(); return false;' onmouseover='Tip(\"".$tooltipEscaped."\", TITLEFONTCOLOR,\"".$MarketItemInfo['color']."\",TITLE, \"".$MarketItemInfo['name'].$MarketItemInfo['level']."\",TITLEBGCOLOR, \"".$MarketItemInfo['anco']."\")' onmouseout='UnTip()'>".$itemCell."</td>";
+print "<td align='center'>".$creditsDisplay."</td>";
+print "<td align='center'>".$pcpointsDisplay."</td>";
+print "<td align='center'>".$zenDisplay."</td>";
+print "<td align='center'><span class='market-item-meta'>".$sellerDisplay."</span></td>";
+print "<td align='center'><span class='market-item-meta'>".$dateDisplay."</span></td>";
+print "</tr>";
 
 if($m_table_class !='even'){
 $m_table_class='even';
@@ -498,6 +660,7 @@ unset($MarketItem);
 unset($MarketItemInfo);
 unset($option);
 unset($exl);
+}
 }
 unset($i);
 ?>

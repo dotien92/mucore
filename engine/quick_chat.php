@@ -9,7 +9,7 @@ if (!defined('QUICK_CHAT_LOADED')) {
     define('QUICK_CHAT_SEPARATOR', '|');
     define('QUICK_CHAT_MAX_MESSAGES', 100);
     define('QUICK_CHAT_MESSAGE_LIMIT', 300);
-    define('QUICK_CHAT_POST_INTERVAL', 5);
+    define('QUICK_CHAT_POST_INTERVAL', 1);
 
     function quick_chat_get_account_characters($account)
     {
