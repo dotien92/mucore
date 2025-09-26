@@ -78,7 +78,7 @@
 </head>
 </html>
 <?
-include "./MarketSystem/sys/func_market.inc.php";
+require_once "./MarketSystem/sys/func_market.inc.php";
 $sql_online_check = mssql_query("SELECT * FROM MEMB_STAT WHERE ConnectStat=0 AND memb___id='$user_auth_id'");
 $online_check = mssql_num_rows($sql_online_check);
 

@@ -112,11 +112,27 @@ background:#1d1d1d;
 .market-price strong{font-size:13px;color:#ffe6ba;}
 .market-price-label{font-size:10px;color:#ac9772;text-transform:uppercase;letter-spacing:0.4px;}
 .market-price.dash{color:#4d4d4d;font-style:italic;}
+.market-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:2000;}
+.market-modal.active{display:flex;}
+.market-modal__dialog{background:#171717;border:1px solid #2c2c2c;border-radius:8px;padding:20px;max-width:360px;width:90%;color:#fce0b0;box-shadow:0 12px 30px rgba(0,0,0,0.45);font-family:Verdana, Arial, Helvetica, sans-serif;}
+.market-modal__header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;color:#f5c37c;text-transform:uppercase;letter-spacing:0.6px;}
+.market-modal__close{background:transparent;border:0;color:#d4b98a;font-size:18px;line-height:1;cursor:pointer;padding:0;}
+.market-modal__body{display:flex;flex-direction:column;gap:12px;align-items:center;}
+.market-modal__name{font-size:14px;color:#f5c37c;font-weight:bold;text-transform:uppercase;letter-spacing:0.5px;text-align:center;width:100%;}
+.market-modal__tooltip{font-size:12px;color:#fce0b0;text-align:center;width:100%;}
+.market-modal__meta{font-size:11px;color:#9aa0b4;display:flex;flex-direction:column;gap:4px;align-self:stretch;}
+.market-modal__meta span{line-height:1.4;}
+.market-modal__price{font-size:14px;color:#fce0b0;font-weight:bold;}
+.market-modal__price-amount{color:#ffe27a;}
+.market-modal__actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;width:100%;}
+.market-modal__actions button{background:#cf6b2f;border:0;border-radius:4px;padding:6px 14px;font-size:12px;color:#fff;cursor:pointer;}
+.market-modal__actions button.market-modal__cancel{background:#3a3a3a;color:#d4b98a;}
+.market-modal-open{overflow:hidden;}
 </style>
 </head>
 </html>
 <?
-include "/MarketSystem/sys/func_market.inc.php";
+include_once "/MarketSystem/sys/func_market.inc.php";
 
 $sql_online_check = mssql_query("SELECT ConnectStat FROM MEMB_STAT WHERE memb___id='$user_auth_id'");
 $online_check = mssql_fetch_array($sql_online_check);
@@ -587,11 +603,11 @@ elseif($zen_price_ !=0){
  $precio = $pcpoints_price_." WCoinP";
  }
 $itemName = htmlspecialchars($MarketItemInfo['name']);
+$itemLevelSuffix = ($MarketItemInfo['level'] !== NULL && $MarketItemInfo['level'] !== '') ? htmlspecialchars(trim($MarketItemInfo['level'])) : '+0';
+$itemNameWithLevel = $itemName.' '.$itemLevelSuffix;
 $sellerName = $get_seller_char_name[0] ? htmlspecialchars($get_seller_char_name[0]) : 'Unknown';
 $priceSummary = ($credits_price!='-') ? number_format($credits_price).' Credits' : (($zen_price!='-') ? number_format($zen_price).' Zen' : (($pcpoints_price!='-') ? number_format($pcpoints_price).' WCoinP' : '0'));
-$confirmMessage = sprintf('Bạn có chắc muốn mua %s từ %s với giá %s?', $itemName, $sellerName, $priceSummary);
-$confirmJson = json_encode($confirmMessage);
-$buyUrl = json_encode('index.php?page_id=market&op2=Buy&op3='.$MarketItem['id']);
+$buyUrl = 'index.php?page_id=market&op2=Buy&op3='.$MarketItem['id'];
 $categoryText = isset($MarketItemInfo['category']) ? ItemCatName($MarketItemInfo['category']) : ItemCatName($MarketItem['cat_id']);
 $categoryText = htmlspecialchars($categoryText);
 
@@ -599,11 +615,12 @@ $categoryText = htmlspecialchars($categoryText);
 $itemLevelBadge = isset($MarketItemInfo['level']) && $MarketItemInfo['level'] !== '' ? trim($MarketItemInfo['level']) : '+0';
 
 if ($MarketItemInfo['category'] == 14) {
-    $itemMetaLine = 'Số lượng: ';
+    $itemMetaLabel = 'Số lượng';
 } else {
-    $itemMetaLine = 'Độ bền: ';
+    $itemMetaLabel = 'Độ bền';
 }
-$itemMetaLine .= intval($MarketItemInfo['dur']);
+$itemMetaValue = intval($MarketItemInfo['dur']);
+$itemMetaLine = $itemMetaLabel.': '.$itemMetaValue;
 $isNewBadge = ($time_after_start_date < 86400) 
     ? '<span class="market-item-badge">Mới</span>' 
     : '';
@@ -619,7 +636,7 @@ if ($MarketItemInfo['category'] == 14) {
 $creditsDisplay = ($credits_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($credits_price).'</strong><span class="market-price-label">Credits</span></span>';
 $pcpointsDisplay = ($pcpoints_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($pcpoints_price).'</strong><span class="market-price-label">WCoinP</span></span>';
 $zenDisplay = ($zen_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($zen_price).'</strong><span class="market-price-label">Zen</span></span>';
-$tooltipContent = "<center><img src=".$MarketItemInfo['thumb']."><br><font color=white><br>Durability: ".$MarketItemInfo['dur']."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>";
+$tooltipContent = "<center><img src=".$MarketItemInfo['thumb']."><br><font color=white>".$itemMetaLabel.": ".$itemMetaValue."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>";
 $tooltipEscaped = addslashes($tooltipContent);
 $itemCell = '
 <div class="market-item">
@@ -637,10 +654,19 @@ $itemCell = '
 </div>';
 $dateDisplay = date("j.n.Y",$MarketItem['start_date']);
 $sellerDisplay = $sellerName;
-print "<script type='text/javascript'>function buyitem_".$MarketItem['id']."(){var answer = confirm(".$confirmJson.");if(answer){location = " . $buyUrl . ";}}</script>";
-print "<tr class='market-row' style='cursor: pointer;'>";
+$modalData = array(
+    'buyUrl' => $buyUrl,
+    'tooltipHtml' => $tooltipContent,
+    'itemName' => $itemNameWithLevel,
+    'itemColor' => $MarketItemInfo['color'],
+    'metaLine' => $itemMetaLine,
+    'seller' => $sellerDisplay,
+    'priceSummary' => $priceSummary
+);
+$modalJson = json_encode($modalData, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+print "<tr class='market-row' style='cursor: pointer;' data-modal='".$modalJson."' onclick='marketOpenModal(this);'>";
 print "<td align='center'>".$MarketItem['id']."</td>";
-print "<td align='left' onclick='buyitem_".$MarketItem['id']."(); return false;' onmouseover='Tip(\"".$tooltipEscaped."\", TITLEFONTCOLOR,\"".$MarketItemInfo['color']."\",TITLE, \"".$MarketItemInfo['name'].$MarketItemInfo['level']."\",TITLEBGCOLOR, \"".$MarketItemInfo['anco']."\")' onmouseout='UnTip()'>".$itemCell."</td>";
+print "<td align='left' onmouseover='Tip(\"".$tooltipEscaped."\", TITLEFONTCOLOR,\"".$MarketItemInfo['color']."\",TITLE, \"".$MarketItemInfo['name'].$MarketItemInfo['level']."\",TITLEBGCOLOR, \"".$MarketItemInfo['anco']."\")' onmouseout='UnTip()'>".$itemCell."</td>";
 print "<td align='center'>".$creditsDisplay."</td>";
 print "<td align='center'>".$pcpointsDisplay."</td>";
 print "<td align='center'>".$zenDisplay."</td>";
@@ -665,6 +691,122 @@ unset($exl);
 unset($i);
 ?>
 </table></td></table></div></div>
+<div id="market-buy-modal" class="market-modal">
+    <div class="market-modal__dialog">
+        <div class="market-modal__header">
+            <span>Xác nhận mua</span>
+            <button type="button" class="market-modal__close" onclick="marketCloseModal()">&times;</button>
+        </div>
+        <div class="market-modal__body">
+            <div id="market-modal-name" class="market-modal__name"></div>
+            <div id="market-modal-item" class="market-modal__tooltip"></div>
+            <div id="market-modal-meta" class="market-modal__meta">
+                <span id="market-modal-seller"></span>
+                <span id="market-modal-meta-line"></span>
+                <span id="market-modal-price" class="market-modal__price"></span>
+            </div>
+        </div>
+        <div class="market-modal__actions">
+            <button type="button" onclick="marketConfirmBuy()">Mua</button>
+            <button type="button" class="market-modal__cancel" onclick="marketCloseModal()">Hủy</button>
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    var modal = document.getElementById('market-buy-modal');
+    if (!modal) {
+        return;
+    }
+    var body = document.body;
+    var itemEl = document.getElementById('market-modal-item');
+    var nameEl = document.getElementById('market-modal-name');
+    var priceEl = document.getElementById('market-modal-price');
+    var sellerEl = document.getElementById('market-modal-seller');
+    var metaLineEl = document.getElementById('market-modal-meta-line');
+    var currentBuyUrl = '';
+
+    window.marketOpenModal = function(rowEl) {
+        if (!rowEl) {
+            return;
+        }
+        var payloadRaw = rowEl.getAttribute('data-modal');
+        if (!payloadRaw) {
+            return;
+        }
+        var payload;
+        try {
+            payload = JSON.parse(payloadRaw);
+        } catch (err) {
+            return;
+        }
+        currentBuyUrl = payload.buyUrl || '';
+        if (itemEl) {
+            itemEl.innerHTML = payload.tooltipHtml || '';
+        }
+        if (nameEl) {
+            nameEl.textContent = payload.itemName || '';
+            nameEl.style.color = payload.itemColor || '#f5c37c';
+        }
+        if (priceEl) {
+            if (payload.priceSummary) {
+                priceEl.innerHTML = 'Giá bán: <span class=\"market-modal__price-amount\">' + payload.priceSummary + '</span>';
+            } else {
+                priceEl.innerHTML = '';
+            }
+        }
+        if (sellerEl) {
+            sellerEl.textContent = payload.seller ? ('Người bán: ' + payload.seller) : '';
+        }
+        if (metaLineEl) {
+            metaLineEl.textContent = payload.metaLine || '';
+        }
+        modal.classList.add('active');
+        if (body) {
+            var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            body.style.paddingRight = scrollbarWidth > 0 ? (scrollbarWidth + 'px') : '';
+            body.classList.add('market-modal-open');
+        }
+    };
+
+    window.marketCloseModal = function() {
+        modal.classList.remove('active');
+        if (body) {
+            body.classList.remove('market-modal-open');
+            body.style.paddingRight = '';
+        }
+        if (itemEl) {
+            itemEl.innerHTML = '';
+        }
+        if (nameEl) {
+            nameEl.textContent = '';
+            nameEl.style.color = '';
+        }
+        if (priceEl) {
+            priceEl.innerHTML = '';
+        }
+        if (sellerEl) {
+            sellerEl.textContent = '';
+        }
+        if (metaLineEl) {
+            metaLineEl.textContent = '';
+        }
+        currentBuyUrl = '';
+    };
+
+    window.marketConfirmBuy = function() {
+        if (currentBuyUrl) {
+            window.location = currentBuyUrl;
+        }
+    };
+
+    modal.addEventListener('click', function(evt) {
+        if (evt.target === modal) {
+            marketCloseModal();
+        }
+    });
+})();
+</script>
 <br><br>
 <font color="yellow"><b>Information: <br>You can buy items only if you have enogh space in vault. You can't expanded vault.</font>
 
