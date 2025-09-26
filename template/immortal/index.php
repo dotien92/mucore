@@ -708,24 +708,7 @@ $AsistenteGuildInfo = $core_db->Execute("SELECT Name FROM GuildMember WHERE G_Na
 
                 <aside id="right">
                     <section id="slider_bg" >
-                            <script type="text/javascript" src="template/<?=$core['config']['template'] ?>/js/jquery.nivo.slider.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="template/<?=$core['config']['template'] ?>/css/slider.css" />
-
-<script type="text/javascript">
-    $(window).load(function() {
-        $('#slider').nivoSlider();
-    });
-    </script>    
-<div align="center" id='slider_block'>
-                                            <div id="slider-wrapper">
-                                                <div id="slider" class="nivoSlider">
-                                                            <a href="index.html"><img src="template/<?=$core['config']['template'] ?>/images/slides/1.jpg" title=""/></a>
-                                                            <a href="index.html"><img src="template/<?=$core['config']['template'] ?>/images/slides/2.jpg" title=""/></a>
-                                                            <a href="index.html"><img src="template/<?=$core['config']['template'] ?>/images/slides/3.jpg" title=""/></a>
-                                                            <a href="index.html"><img src="template/<?=$core['config']['template'] ?>/images/slides/4.jpg" title=""/></a>
-                                                            <a href="index.html"><img src="template/<?=$core['config']['template'] ?>/images/slides/5.jpg" title=""/></a>
-                                                        </div>
-                        </div>
+                            <? include('pages_modules/quick_chat.php'); ?>
                     </section>
 
                     <div id="content_ajax">

@@ -893,25 +893,24 @@ $quick_chat_commands = array(
     </div>
     <div class="quick-chat__form" <?php if (!$can_post) : ?>style="display:none;"<?php endif; ?>>
         <form id="quick-chat-form" action="<?= htmlspecialchars($core_run_script . '&action=send', ENT_QUOTES, 'UTF-8'); ?>" method="post" autocomplete="off">
-            <?php if ($can_post) : ?>
-                <div class="quick-chat__identity">
-                    <label for="quick-chat-display">Tên hiển thị:</label>
-                    <?php if (!empty($chat_character_names)) : ?>
-                        <select id="quick-chat-display" name="display" class="quick-chat__identity-select">
-                            <?php foreach ($chat_character_names as $name) : ?>
-                                <option value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>"<?php if ($quick_chat_display_default === $name) : ?> selected<?php endif; ?>><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php else : ?>
-                        <input type="hidden" id="quick-chat-display" name="display" value="<?= htmlspecialchars($user_auth_id, ENT_QUOTES, 'UTF-8'); ?>" />
-                        <span class="quick-chat__identity-static"><?= htmlspecialchars($user_auth_id, ENT_QUOTES, 'UTF-8'); ?></span>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
             <div class="quick-chat__input-wrapper">
                 <div class="quick-chat__form-row">
+                    <?php if ($can_post) : ?>
+                        <?php if (!empty($chat_character_names)) : ?>
+                            <select id="quick-chat-display" name="display" class="quick-chat__identity-select" aria-label="Tên hiển thị">
+                                <?php foreach ($chat_character_names as $name) : ?>
+                                    <option value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>"<?php if ($quick_chat_display_default === $name) : ?> selected<?php endif; ?>><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php else : ?>
+                            <input type="hidden" id="quick-chat-display" name="display" value="<?= htmlspecialchars($user_auth_id, ENT_QUOTES, 'UTF-8'); ?>" />
+                            <span class="quick-chat__identity-static quick-chat__identity-static--inline" title="Tên hiển thị">
+                                <?= htmlspecialchars($user_auth_id, ENT_QUOTES, 'UTF-8'); ?>
+                            </span>
+                        <?php endif; ?>
+                    <?php endif; ?>
                     <input type="text" name="message" id="quick-chat-input" maxlength="<?= QUICK_CHAT_MESSAGE_LIMIT; ?>" placeholder="Nhập tin nhắn hoặc gõ / để xem lệnh" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
-                    <button type="submit" id="quick-chat-send">Send</button>
+                    <button type="submit" id="quick-chat-send">Gửi</button>
                 </div>
                 <div class="quick-chat__suggestions quick-chat__floating-panel" id="quick-chat-suggestions"></div>
                 <div class="quick-chat__mymarkets-panel quick-chat__floating-panel" id="quick-chat-mymarkets"></div>
@@ -948,15 +947,18 @@ window.quickChatConfig = {
 .quick-chat__author{color:#ffd27f;font-weight:600;}
 .quick-chat__separator{color:#8fa7c2;}
 .quick-chat__body{color:#e1e1e1;word-break:break-word;flex:1;}
-.quick-chat__identity{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
-.quick-chat__identity label{font-size:11px;color:#9bd1ff;}
-.quick-chat__identity-select{flex:1;padding:3px 6px;font-size:12px;background:#1a1a1a;border:1px solid #2f2f2f;color:#e1e1e1;}
+.quick-chat__identity-select{flex:0 0 120px;min-width:120px;max-width:140px;padding:4px 6px;font-size:12px;background:#141414;border:1px solid #252525;color:#dcdcdc;border-radius:2px;}
+.quick-chat__identity-select:focus{outline:none;border-color:#3b5a7a;}
 .quick-chat__identity-static{font-size:12px;color:#9bd1ff;}
+.quick-chat__identity-static--inline{display:inline-flex;align-items:center;padding:0 10px;height:28px;background:#1a1a1a;border:1px solid #2f2f2f;border-radius:2px;}
 .quick-chat__form-row{display:flex;gap:6px;}
 .quick-chat__input-wrapper{position:relative;}
 .quick-chat__empty{color:#777;font-style:italic;}
 .quick-chat__form-row input{flex:1;padding:4px;}
-.quick-chat__form-row button{padding:4px 8px;}
+.quick-chat__form-row button{padding:4px 12px;background:#1f2a38;border:1px solid #2f3c50;color:#dcdcdc;font-weight:600;border-radius:2px;cursor:pointer;transition:background 0.15s ease,border-color 0.15s ease,color 0.15s ease;}
+.quick-chat__form-row button:hover{background:#273242;border-color:#3b4b62;color:#ffffff;}
+.quick-chat__form-row button:active{background:#2e3b4d;}
+.quick-chat__form-row button:focus{outline:none;border-color:#446180;}
 .quick-chat__notice{color:#f6b26b;font-style:italic;}
 .quick-chat__loader{display:block;padding:4px 0;margin-bottom:4px;font-size:11px;color:#9bd1ff;text-align:center;min-height:18px;visibility:hidden;opacity:0;transition:opacity 0.15s ease;}
 .quick-chat__loader--visible{visibility:visible;opacity:1;}
