@@ -20,7 +20,7 @@
     var $loader = $('#quick-chat-loader');
     var $display = $('#quick-chat-display');
     var $suggestions = $('#quick-chat-suggestions');
-    var $myItems = $('#quick-chat-myitems');
+    var $mymarkets = $('#quick-chat-mymarkets');
     var commands = $.isArray(cfg.commands) ? cfg.commands : [];
 
     var suggestionState = {
@@ -30,7 +30,7 @@
         context: null
     };
 
-    var myItemsState = {
+    var mymarketsState = {
         visible: false,
         loading: false,
         items: [],
@@ -142,30 +142,30 @@
         }
     }
 
-    function hideMyItems() {
-        if (myItemsState.visible && typeof UnTip === 'function') {
+    function hidemymarkets() {
+        if (mymarketsState.visible && typeof UnTip === 'function') {
             try { UnTip(); } catch (e) {}
         }
-        myItemsState.visible = false;
-        myItemsState.items = [];
-        myItemsState.index = -1;
-        myItemsState.loading = false;
-        if ($myItems && $myItems.length) {
-            $myItems.removeClass('quick-chat__myitems-panel--visible').empty();
+        mymarketsState.visible = false;
+        mymarketsState.items = [];
+        mymarketsState.index = -1;
+        mymarketsState.loading = false;
+        if ($mymarkets && $mymarkets.length) {
+            $mymarkets.removeClass('quick-chat__mymarkets-panel--visible').empty();
         }
         setStatus('');
     }
 
-    function showMyItemsMessage(text) {
-        if (!$myItems.length) {
+    function showmymarketsMessage(text) {
+        if (!$mymarkets.length) {
             return;
         }
-        $myItems.empty().append(
-            $('<div class="quick-chat__myitems-empty"/>').text(text || '')
+        $mymarkets.empty().append(
+            $('<div class="quick-chat__mymarkets-empty"/>').text(text || '')
         );
-        $myItems.addClass('quick-chat__myitems-panel--visible');
-        myItemsState.visible = true;
-        myItemsState.index = -1;
+        $mymarkets.addClass('quick-chat__mymarkets-panel--visible');
+        mymarketsState.visible = true;
+        mymarketsState.index = -1;
     }
 
     function setActiveSuggestion(index) {
@@ -181,18 +181,18 @@
         }
     }
 
-    function setActiveMyItem(index) {
-        if (!$myItems.length) {
+    function setActivemymarket(index) {
+        if (!$mymarkets.length) {
             return;
         }
-        $myItems.find('.quick-chat__myitems-item').removeClass('quick-chat__myitems-item--active');
+        $mymarkets.find('.quick-chat__mymarkets-item').removeClass('quick-chat__mymarkets-item--active');
         if (index >= 0) {
-            var $target = $myItems.find('.quick-chat__myitems-item[data-index="' + index + '"]');
+            var $target = $mymarkets.find('.quick-chat__mymarkets-item[data-index="' + index + '"]');
             if ($target.length) {
-                $target.eq(0).addClass('quick-chat__myitems-item--active');
+                $target.eq(0).addClass('quick-chat__mymarkets-item--active');
             }
         }
-        myItemsState.index = index;
+        mymarketsState.index = index;
     }
 
     function detectSlashCommand(value, caret) {
@@ -227,7 +227,7 @@
         };
     }
 
-    function attachMyItemTooltip($el, item) {
+    function attachmymarketTooltip($el, item) {
         if (!$el || !$el.length) {
             return;
         }
@@ -250,40 +250,40 @@
         }
     }
 
-    function renderMyItems(items) {
-        if (!$myItems.length) {
+    function rendermymarkets(items) {
+        if (!$mymarkets.length) {
             return;
         }
-        $myItems.empty();
-        myItemsState.items = items || [];
-        myItemsState.visible = true;
-        myItemsState.loading = false;
-        myItemsState.index = -1;
+        $mymarkets.empty();
+        mymarketsState.items = items || [];
+        mymarketsState.visible = true;
+        mymarketsState.loading = false;
+        mymarketsState.index = -1;
 
-        if (!myItemsState.items.length) {
-            showMyItemsMessage('Bạn chưa đăng vật phẩm nào.');
+        if (!mymarketsState.items.length) {
+            showmymarketsMessage('Bạn chưa đăng vật phẩm nào.');
             return;
         }
 
-        for (var i = 0; i < myItemsState.items.length; i++) {
-            var item = myItemsState.items[i];
-            var $row = $('<div class="quick-chat__myitems-item"/>')
+        for (var i = 0; i < mymarketsState.items.length; i++) {
+            var item = mymarketsState.items[i];
+            var $row = $('<div class="quick-chat__mymarkets-item"/>')
                 .attr('data-index', i)
                 .attr('data-id', item.id || 0);
             if (item.id) {
-                $('<span class="quick-chat__myitems-item-id"/>').text('#' + item.id).appendTo($row);
+                $('<span class="quick-chat__mymarkets-item-id"/>').text('#' + item.id).appendTo($row);
             }
             $('<span/>').text(item.label || '').appendTo($row);
-            attachMyItemTooltip($row, item);
-            $myItems.append($row);
+            attachmymarketTooltip($row, item);
+            $mymarkets.append($row);
         }
 
-        $myItems.addClass('quick-chat__myitems-panel--visible');
-        setActiveMyItem(0);
+        $mymarkets.addClass('quick-chat__mymarkets-panel--visible');
+        setActivemymarket(0);
         setStatus('Chọn item để chèn vào chat.');
     }
 
-    function applyMyItem(item) {
+    function applymymarket(item) {
         if (!item || !$input.length) {
             return;
         }
@@ -291,8 +291,8 @@
         var el = $input.get(0);
         var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
         var context = detectSlashCommand(value, caret);
-        if (!context || context.raw.toLowerCase() !== 'myitem') {
-            hideMyItems();
+        if (!context || context.raw.toLowerCase() !== 'mymarket') {
+            hidemymarkets();
             return;
         }
 
@@ -307,48 +307,48 @@
             el.setSelectionRange(newCaret, newCaret);
         }
 
-        hideMyItems();
+        hidemymarkets();
         hideSuggestions();
         $input.focus();
     }
 
-    function applyMyItemByIndex(index) {
-        if (index < 0 || index >= myItemsState.items.length) {
+    function applymymarketByIndex(index) {
+        if (index < 0 || index >= mymarketsState.items.length) {
             return;
         }
-        applyMyItem(myItemsState.items[index]);
+        applymymarket(mymarketsState.items[index]);
     }
 
-    function requestMyItems() {
+    function requestmymarkets() {
         if (!canPost) {
             setStatus('Bạn cần đăng nhập để sử dụng lệnh này.');
             return;
         }
-        if (myItemsState.loading) {
+        if (mymarketsState.loading) {
             return;
         }
         hideSuggestions();
-        myItemsState.loading = true;
-        showMyItemsMessage('Đang tải danh sách item...');
+        mymarketsState.loading = true;
+        showmymarketsMessage('Đang tải danh sách item...');
         $.ajax({
-            url: buildUrl('myitems'),
+            url: buildUrl('mymarkets'),
             type: 'GET',
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
-                    renderMyItems(response.items || []);
+                    rendermymarkets(response.items || []);
                 } else if (response && response.error === 'not_authenticated') {
-                    hideMyItems();
+                    hidemymarkets();
                     setStatus('Bạn cần đăng nhập để xem danh sách item.');
                 } else {
-                    showMyItemsMessage('Không thể tải danh sách item.');
+                    showmymarketsMessage('Không thể tải danh sách item.');
                 }
             },
             error: function () {
-                showMyItemsMessage('Không thể tải danh sách item.');
+                showmymarketsMessage('Không thể tải danh sách item.');
             },
             complete: function () {
-                myItemsState.loading = false;
+                mymarketsState.loading = false;
             }
         });
     }
@@ -405,15 +405,15 @@
         var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
         var context = detectSlashCommand(value, caret);
         var lowerRaw = context && context.raw ? String(context.raw).toLowerCase() : '';
-        if (lowerRaw === 'myitem') {
+        if (lowerRaw === 'mymarket') {
             hideSuggestions();
-            if (!myItemsState.visible && !myItemsState.loading) {
-                requestMyItems();
+            if (!mymarketsState.visible && !mymarketsState.loading) {
+                requestmymarkets();
             }
             return;
         }
-        if (myItemsState.visible) {
-            hideMyItems();
+        if (mymarketsState.visible) {
+            hidemymarkets();
         }
         if (!context) {
             hideSuggestions();
@@ -470,45 +470,45 @@
     function handleSuggestionKeydown(evt) {
         var key = evt.which || evt.keyCode;
 
-        if (myItemsState.visible) {
+        if (mymarketsState.visible) {
             if (key === 27) { // esc
                 evt.preventDefault();
-                hideMyItems();
+                hidemymarkets();
                 return;
             }
-            if (!myItemsState.items.length) {
+            if (!mymarketsState.items.length) {
                 return;
             }
             if (key === 38) { // up
                 evt.preventDefault();
-                if (myItemsState.index > 0) {
-                    setActiveMyItem(myItemsState.index - 1);
+                if (mymarketsState.index > 0) {
+                    setActivemymarket(mymarketsState.index - 1);
                 } else {
-                    setActiveMyItem(myItemsState.items.length - 1);
+                    setActivemymarket(mymarketsState.items.length - 1);
                 }
                 return;
             }
             if (key === 40) { // down
                 evt.preventDefault();
-                if (myItemsState.index < myItemsState.items.length - 1) {
-                    setActiveMyItem(myItemsState.index + 1);
+                if (mymarketsState.index < mymarketsState.items.length - 1) {
+                    setActivemymarket(mymarketsState.index + 1);
                 } else {
-                    setActiveMyItem(0);
+                    setActivemymarket(0);
                 }
                 return;
             }
             if (key === 9) { // tab cycles items
                 evt.preventDefault();
                 if (evt.shiftKey) {
-                    setActiveMyItem(myItemsState.index > 0 ? myItemsState.index - 1 : myItemsState.items.length - 1);
+                    setActivemymarket(mymarketsState.index > 0 ? mymarketsState.index - 1 : mymarketsState.items.length - 1);
                 } else {
-                    setActiveMyItem(myItemsState.index < myItemsState.items.length - 1 ? myItemsState.index + 1 : 0);
+                    setActivemymarket(mymarketsState.index < mymarketsState.items.length - 1 ? mymarketsState.index + 1 : 0);
                 }
                 return;
             }
             if (key === 13) { // enter selects item
                 evt.preventDefault();
-                applyMyItemByIndex(myItemsState.index >= 0 ? myItemsState.index : 0);
+                applymymarketByIndex(mymarketsState.index >= 0 ? mymarketsState.index : 0);
                 return;
             }
         }
@@ -887,8 +887,8 @@
             if (!message) {
                 return false;
             }
-            if (/^\/myitem$/i.test(message)) {
-                requestMyItems();
+            if (/^\/mymarket$/i.test(message)) {
+                requestmymarkets();
                 return false;
             }
             setStatus('Sending...');
@@ -910,7 +910,7 @@
                         setStatus('');
                         $input.val('');
                         hideSuggestions();
-                        hideMyItems();
+                        hidemymarkets();
                         if ($display.length && win.localStorage) {
                             var currentDisplay = getDisplayValue();
                             if (currentDisplay) {
@@ -962,7 +962,7 @@
         bindEvent($input, 'blur', function () {
             window.setTimeout(function () {
                 hideSuggestions();
-                hideMyItems();
+                hidemymarkets();
             }, 100);
         });
     }
@@ -986,19 +986,19 @@
         });
     }
 
-    if ($myItems.length) {
-        bindEvent($myItems, 'mousedown', '.quick-chat__myitems-item', function (evt) {
+    if ($mymarkets.length) {
+        bindEvent($mymarkets, 'mousedown', '.quick-chat__mymarkets-item', function (evt) {
             evt.preventDefault();
             var idx = parseInt($(this).attr('data-index'), 10);
             if (isNaN(idx)) {
                 idx = 0;
             }
-            applyMyItemByIndex(idx);
+            applymymarketByIndex(idx);
         });
-        bindEvent($myItems, 'mousemove', '.quick-chat__myitems-item', function () {
+        bindEvent($mymarkets, 'mousemove', '.quick-chat__mymarkets-item', function () {
             var idx = parseInt($(this).attr('data-index'), 10);
             if (!isNaN(idx)) {
-                setActiveMyItem(idx);
+                setActivemymarket(idx);
             }
         });
     }

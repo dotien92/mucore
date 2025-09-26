@@ -254,7 +254,7 @@ if ($action === 'list') {
     ));
 }
 
-if ($action === 'myitems') {
+if ($action === 'mymarkets') {
     if ($user_login !== '1' || empty($user_auth_id)) {
         quick_chat_render_json(array('success' => false, 'error' => 'not_authenticated'));
     }
@@ -343,8 +343,8 @@ $quick_chat_commands = array(
         'description' => 'Chèn tham chiếu vật phẩm đang bán ở Market.',
     ),
     array(
-        'name' => 'myitem',
-        'insert' => '/myitem',
+        'name' => 'mymarket',
+        'insert' => '/mymarket',
         'description' => 'Liệt kê item bạn đang đăng bán.',
     ),
 );
@@ -400,7 +400,7 @@ $quick_chat_commands = array(
                     <button type="submit" id="quick-chat-send">Send</button>
                 </div>
                 <div class="quick-chat__suggestions quick-chat__floating-panel" id="quick-chat-suggestions"></div>
-                <div class="quick-chat__myitems-panel quick-chat__floating-panel" id="quick-chat-myitems"></div>
+                <div class="quick-chat__mymarkets-panel quick-chat__floating-panel" id="quick-chat-mymarkets"></div>
             </div>
         </form>
     </div>
@@ -449,13 +449,13 @@ window.quickChatConfig = {
 .quick-chat__market-item:hover{color:#ffd27f;}
 .quick-chat__market-missing{color:#ff6666;font-style:italic;}
 .quick-chat__floating-panel{display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;z-index:40;}
-.quick-chat__myitems-panel{background:#141414;border:1px solid #2f2f2f;max-height:180px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
-.quick-chat__myitems-panel--visible{display:block;}
-.quick-chat__myitems-empty{padding:8px;color:#9bd1ff;font-style:italic;}
-.quick-chat__myitems-item{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;color:#d7d7d7;display:flex;align-items:center;gap:6px;}
-.quick-chat__myitems-item:last-child{border-bottom:none;}
-.quick-chat__myitems-item--active{background:#1f1f1f;color:#ffd27f;}
-.quick-chat__myitems-item-id{font-size:11px;color:#9bd1ff;}
+.quick-chat__mymarkets-panel{background:#141414;border:1px solid #2f2f2f;max-height:180px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
+.quick-chat__mymarkets-panel--visible{display:block;}
+.quick-chat__mymarkets-empty{padding:8px;color:#9bd1ff;font-style:italic;}
+.quick-chat__mymarkets-item{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;color:#d7d7d7;display:flex;align-items:center;gap:6px;}
+.quick-chat__mymarkets-item:last-child{border-bottom:none;}
+.quick-chat__mymarkets-item--active{background:#1f1f1f;color:#ffd27f;}
+.quick-chat__mymarkets-item-id{font-size:11px;color:#9bd1ff;}
 .quick-chat__suggestions{display:none;background:#141414;border:1px solid #2f2f2f;max-height:150px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
 .quick-chat__suggestions--visible{display:block;}
 .quick-chat__suggestion{padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid rgba(255,255,255,0.05);}
