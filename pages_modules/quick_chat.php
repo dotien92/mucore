@@ -156,8 +156,11 @@ function quick_chat_render_market_reference($details)
         'onmouseout="UnTip()"'
     );
 
+    $label = htmlspecialchars($details['label'], ENT_QUOTES, 'UTF-8');
+
     return '<span ' . implode(' ', $attributes) . '>'
-        . htmlspecialchars($details['label'], ENT_QUOTES, 'UTF-8')
+        . '<span class="quick-chat__market-icon">🏪</span> '
+        . '<span class="quick-chat__market-label">' . $label . '</span>'
         . '</span>';
 }
 
@@ -310,6 +313,107 @@ function quick_chat_personal_group_meta($key)
     return array('type' => 'unknown', 'label' => 'Inventory');
 }
 
+function quick_chat_item_cipher_key()
+{
+    static $key = null;
+    if ($key !== null) {
+        return $key;
+    }
+
+    $base = 'quick_chat_item_secret';
+    if (isset($GLOBALS['core']['config']['crypt_key']) && $GLOBALS['core']['config']['crypt_key'] !== '') {
+        $base = (string) $GLOBALS['core']['config']['crypt_key'];
+    } elseif (isset($GLOBALS['core']['config']['SN']) && $GLOBALS['core']['config']['SN'] !== '') {
+        $base = (string) $GLOBALS['core']['config']['SN'];
+    }
+
+    $key = hash('sha256', 'quick-chat|item|' . $base, true);
+    return $key;
+}
+
+function quick_chat_encode_item_token($hex)
+{
+    $hex = strtoupper((string) $hex);
+    if ($hex === '' || strlen($hex) !== 20 || !ctype_xdigit($hex)) {
+        return '';
+    }
+
+    $plain = pack('H*', $hex);
+    $key = quick_chat_item_cipher_key();
+    $keyLen = strlen($key);
+    $len = strlen($plain);
+    $cipher = '';
+    for ($i = 0; $i < $len; $i++) {
+        $cipher .= chr(ord($plain[$i]) ^ ord($key[$i % $keyLen]));
+    }
+
+    $encoded = rtrim(strtr(base64_encode($cipher), '+/', '-_'), '=');
+    return 'x' . $encoded;
+}
+
+function quick_chat_decode_item_token($token)
+{
+    $token = trim((string) $token);
+    if ($token === '') {
+        return '';
+    }
+
+    if (strlen($token) === 20 && ctype_xdigit($token)) {
+        return strtoupper($token);
+    }
+
+    if ($token[0] !== 'x') {
+        return '';
+    }
+
+    $payload = substr($token, 1);
+    if ($payload === '') {
+        return '';
+    }
+
+    $cipher = base64_decode(strtr($payload, '-_', '+/'), true);
+    if ($cipher === false) {
+        return '';
+    }
+
+    $key = quick_chat_item_cipher_key();
+    $keyLen = strlen($key);
+    $len = strlen($cipher);
+    $plain = '';
+    for ($i = 0; $i < $len; $i++) {
+        $plain .= chr(ord($cipher[$i]) ^ ord($key[$i % $keyLen]));
+    }
+
+    $hex = strtoupper(bin2hex($plain));
+    if (strlen($hex) !== 20 || !ctype_xdigit($hex)) {
+        return '';
+    }
+
+    return $hex;
+}
+
+function quick_chat_transform_personal_tokens_in_message($message)
+{
+    if (!is_string($message) || strpos($message, '/myitem') === false) {
+        return $message;
+    }
+
+    $callback = function ($matches) {
+        $tokenRaw = isset($matches[1]) ? $matches[1] : '';
+        $hex = quick_chat_decode_item_token($tokenRaw);
+        if ($hex === '') {
+            return $matches[0];
+        }
+        $normalized = quick_chat_encode_item_token($hex);
+        if ($normalized === '') {
+            return $matches[0];
+        }
+        return '/myitem-' . $normalized;
+    };
+
+    return preg_replace_callback('/\/myitem[-_]([A-Za-z0-9\-_]{2,128})/', $callback, $message);
+}
+
 function quick_chat_format_personal_item($slotInfo, $originKey, $originLabel)
 {
     if (!is_array($slotInfo) || empty($slotInfo['hex'])) {
@@ -421,44 +525,43 @@ function quick_chat_get_account_personal_items($account)
     return $groups;
 }
 
-function quick_chat_personal_item_details_for_token($groupKey, $hex)
+function quick_chat_personal_item_details_for_token($token)
 {
     static $cache = array();
 
-    $groupKey = (string) $groupKey;
-    $hex = strtoupper((string) $hex);
-
-    if (strlen($hex) !== 20 || !ctype_xdigit($hex)) {
+    $token = trim((string) $token);
+    if ($token === '') {
         return null;
     }
 
-    $cacheKey = strtolower($groupKey) . ':' . $hex;
-    if (array_key_exists($cacheKey, $cache)) {
-        return $cache[$cacheKey];
+    if (array_key_exists($token, $cache)) {
+        return $cache[$token];
+    }
+
+    $hex = quick_chat_decode_item_token($token);
+    if ($hex === '') {
+        $cache[$token] = null;
+        return null;
     }
 
     $info = ItemInfo($hex);
     if (!$info || empty($info['name'])) {
-        $cache[$cacheKey] = null;
+        $cache[$token] = null;
         return null;
     }
 
     $detail = quick_chat_format_item_detail(0, $info);
     if (!$detail) {
-        $cache[$cacheKey] = null;
+        $cache[$token] = null;
         return null;
     }
 
-    $meta = quick_chat_personal_group_meta($groupKey);
-    $detail['origin_key'] = $groupKey;
-    $detail['origin_label'] = $meta['label'];
-    $detail['origin_type'] = $meta['type'];
     $detail['hex'] = $hex;
     if (isset($info['thumb'])) {
         $detail['thumb'] = $info['thumb'];
     }
 
-    $cache[$cacheKey] = $detail;
+    $cache[$token] = $detail;
     return $detail;
 }
 
@@ -466,12 +569,6 @@ function quick_chat_render_personal_reference($details)
 {
     if (!$details || empty($details['label'])) {
         return '';
-    }
-
-    $label = $details['label'];
-    $origin = isset($details['origin_label']) ? $details['origin_label'] : '';
-    if ($origin !== '') {
-        $label = '[' . $origin . '] ' . $label;
     }
 
     $tooltip = isset($details['tooltip']) ? $details['tooltip'] : '';
@@ -485,20 +582,21 @@ function quick_chat_render_personal_reference($details)
 
     $attributes = array(
         'class="quick-chat__personal-item"',
-        'data-origin-type="' . htmlspecialchars(isset($details['origin_type']) ? $details['origin_type'] : '', ENT_QUOTES, 'UTF-8') . '"',
-        'data-origin-label="' . htmlspecialchars($origin, ENT_QUOTES, 'UTF-8') . '"',
         'onmouseover="' . htmlspecialchars($onMouseOver, ENT_QUOTES, 'UTF-8') . '"',
         'onmouseout="UnTip()"'
     );
 
+    $label = htmlspecialchars($details['label'], ENT_QUOTES, 'UTF-8');
+
     return '<span ' . implode(' ', $attributes) . '>'
-        . htmlspecialchars($label, ENT_QUOTES, 'UTF-8')
+        . '<span class="quick-chat__personal-icon">📦</span> '
+        . '<span class="quick-chat__personal-label">' . $label . '</span>'
         . '</span>';
 }
 
 function quick_chat_render_message_tokens($message)
 {
-    $pattern = '/\/(market_(\d{1,10})|myitem-([A-Za-z0-9\-_]{1,64})-([0-9A-F]{20}))/i';
+    $pattern = '/\/(market_(\d{1,10})|myitem[-_]([A-Za-z0-9\-_]{2,128}))/i';
     $hasMatch = preg_match_all($pattern, $message, $matches, PREG_OFFSET_CAPTURE);
     if (!$hasMatch) {
         return array(
@@ -531,15 +629,11 @@ function quick_chat_render_message_tokens($message)
                 $html .= '<span class="quick-chat__market-missing">Item #' . htmlspecialchars($marketIdRaw, ENT_QUOTES, 'UTF-8') . ' không khả dụng.</span>';
             }
         } else {
-            $groupKey = isset($matches[3][$idx][0]) ? $matches[3][$idx][0] : '';
-            $itemHex = isset($matches[4][$idx][0]) ? $matches[4][$idx][0] : '';
-            $details = quick_chat_personal_item_details_for_token($groupKey, $itemHex);
+            $tokenRaw = isset($matches[3][$idx][0]) ? $matches[3][$idx][0] : '';
+            $details = quick_chat_personal_item_details_for_token($tokenRaw);
             if ($details) {
                 $html .= quick_chat_render_personal_reference($details);
                 $personalItems[] = array(
-                    'group_key' => $details['origin_key'],
-                    'origin_label' => isset($details['origin_label']) ? $details['origin_label'] : '',
-                    'hex' => $details['hex'],
                     'label' => $details['label'],
                 );
             } else {
@@ -657,9 +751,12 @@ if ($action === 'myitems') {
             if (!is_array($item) || empty($item['hex'])) {
                 continue;
             }
-            $token = '/myitem-' . (isset($group['key']) ? $group['key'] : 'w') . '-' . strtoupper($item['hex']);
+            $encodedToken = quick_chat_encode_item_token($item['hex']);
+            if ($encodedToken === '') {
+                continue;
+            }
+            $token = '/myitem_' . $encodedToken;
             $items[] = array(
-                'hex' => strtoupper($item['hex']),
                 'label' => isset($item['label']) ? $item['label'] : '',
                 'tooltip' => isset($item['tooltip']) ? $item['tooltip'] : '',
                 'title_color' => isset($item['title_color']) ? $item['title_color'] : '#B9955B',
@@ -712,6 +809,8 @@ if ($action === 'send') {
             $display_name = $user_auth_id;
         }
     }
+
+    $message = quick_chat_transform_personal_tokens_in_message($message);
 
     $result = quick_chat_add_message($user_auth_id, $message, $_SERVER['REMOTE_ADDR'], $display_name);
 
@@ -861,8 +960,10 @@ window.quickChatConfig = {
 .quick-chat__notice{color:#f6b26b;font-style:italic;}
 .quick-chat__loader{display:block;padding:4px 0;margin-bottom:4px;font-size:11px;color:#9bd1ff;text-align:center;min-height:18px;visibility:hidden;opacity:0;transition:opacity 0.15s ease;}
 .quick-chat__loader--visible{visibility:visible;opacity:1;}
-.quick-chat__market-item{color:#9bd1ff;text-decoration:underline;cursor:pointer;white-space:nowrap;}
+.quick-chat__market-item{color:#9bd1ff;cursor:pointer;white-space:nowrap;}
 .quick-chat__market-item:hover{color:#ffd27f;}
+.quick-chat__market-icon,.quick-chat__personal-icon{display:inline-block;font-size:12px;text-decoration:none;}
+.quick-chat__market-label,.quick-chat__personal-label{text-decoration:underline;}
 .quick-chat__market-missing{color:#ff6666;font-style:italic;}
 .quick-chat__floating-panel{display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;z-index:40;}
 .quick-chat__mymarkets-panel{background:#141414;border:1px solid #2f2f2f;max-height:180px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
@@ -885,7 +986,8 @@ window.quickChatConfig = {
 .quick-chat__myitems-item-label{flex:1;line-height:1.3;}
 .quick-chat__myitems-item-text{display:block;font-weight:600;color:#e1e1e1;}
 .quick-chat__myitems-item-origin{font-size:11px;color:#9bd1ff;display:block;}
-.quick-chat__personal-item{color:#c2e4ff;text-decoration:underline;cursor:pointer;white-space:nowrap;}
+.quick-chat__personal-item{color:#c2e4ff;cursor:pointer;white-space:nowrap;}
+.quick-chat__personal-item .quick-chat__personal-label{text-decoration:underline;}
 .quick-chat__personal-item:hover{color:#ffd27f;}
 .quick-chat__personal-missing{color:#ff6666;font-style:italic;}
 .quick-chat__suggestions{display:none;background:#141414;border:1px solid #2f2f2f;max-height:150px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
