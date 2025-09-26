@@ -54,13 +54,19 @@ function quick_chat_format_item_detail($itemId, $info)
 
     $thumbAttr = htmlspecialchars($thumb, ENT_QUOTES, 'UTF-8');
 
-    $tooltip = '<center>'
-        . '<img src="' . $thumbAttr . '">' 
-        . '<br><font color=white><br>Durability: ' . $durability . '</font>'
-        . '<br><font color=#FF99CC>' . $jewelOfGuardian . '</font><font color=FFCC00>' . $harmony . '</font>'
-        . '<br>' . $option . ' ' . $luck . ' ' . $skill . ' ' . $excellent
-        . '<br><font color=#4d668d>' . $socket . '</font>'
-        . '</center>';
+    $tooltip = '<div style="text-align:center; display:inline-block; min-width:160px;">'
+        . '<img src="' . $thumbAttr . '"><br>'
+        . '<span style="color:white">Durability: ' . $durability . '</span><br>'
+        . '<span style="color:#FF99CC">' . $jewelOfGuardian . '</span>'
+        . '<span style="color:#FFCC00">' . $harmony . '</span><br>';
+
+    if (!empty($option))   $tooltip .= $option . '<br>';
+    if (!empty($luck))     $tooltip .= $luck . '<br>';
+    if (!empty($skill))    $tooltip .= $skill . '<br>';
+    if (!empty($excellent))$tooltip .= $excellent . '<br>';
+    if (!empty($socket))   $tooltip .= '<span style="color:#4d668d">' . $socket . '</span>';
+
+    $tooltip .= '</div>';
 
     return array(
         'id' => (int) $itemId,
@@ -159,7 +165,7 @@ function quick_chat_render_market_reference($details)
     $label = htmlspecialchars($details['label'], ENT_QUOTES, 'UTF-8');
 
     return '<span ' . implode(' ', $attributes) . '>'
-        . '<span class="quick-chat__market-icon">🏪</span> '
+        . '<span class="quick-chat__market-icon">🛍️</span> '
         . '<span class="quick-chat__market-label">' . $label . '</span>'
         . '</span>';
 }
@@ -941,7 +947,30 @@ window.quickChatConfig = {
 <style type="text/css">
 .quick-chat{border:1px solid #2a2a2a;background:#0b0b0b;color:#e1e1e1;padding:10px;font-size:12px;}
 .quick-chat__header{display:flex;justify-content:space-between;margin-bottom:8px;}
-.quick-chat__messages{max-height:220px;overflow-y:auto;background:#111;padding:8px;border:1px solid #1f1f1f;margin-bottom:8px;text-align:left;}
+.quick-chat__messages{max-height:180px;overflow-y:auto;background:#111;padding:8px;border:1px solid #1f1f1f;margin-bottom:8px;text-align:left;}
+/* Scrollbar cho Chrome, Edge, Safari */
+.quick-chat__messages::-webkit-scrollbar {
+    width: 8px;            /* độ rộng thanh */
+}
+
+.quick-chat__messages::-webkit-scrollbar-track {
+    background: transparent; /* bỏ nền track */
+}
+
+.quick-chat__messages::-webkit-scrollbar-thumb {
+    background-color: #292210ff; /* màu nâu đậm */
+    border-radius: 4px;        /* bo tròn */
+}
+
+.quick-chat__messages::-webkit-scrollbar-thumb:hover {
+    background-color: #292210ff; /* nâu đậm hơn khi hover */
+}
+
+/* Scrollbar cho Firefox */
+.quick-chat__messages {
+    scrollbar-width: thin;             /* thanh mảnh */
+    scrollbar-color: #292210ff transparent; /* thumb nâu, track trong suốt */
+}
 .quick-chat__message{margin-bottom:6px;display:flex;gap:6px;align-items:flex-start;justify-content:flex-start;line-height:1.4;}
 .quick-chat__time{color:#8fa7c2;font-family:monospace;}
 .quick-chat__author{color:#ffd27f;font-weight:600;}

@@ -128,6 +128,12 @@ background:#1d1d1d;
 .market-modal__actions button{background:#cf6b2f;border:0;border-radius:4px;padding:6px 14px;font-size:12px;color:#fff;cursor:pointer;}
 .market-modal__actions button.market-modal__cancel{background:#3a3a3a;color:#d4b98a;}
 .market-modal-open{overflow:hidden;}
+.market-pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:16px;font-family:Verdana, Arial, Helvetica, sans-serif;}
+.market-pagination__link{color:#d4b98a;font-size:11px;padding:6px 10px;border:1px solid #3a3a3a;border-radius:4px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;background:#141414;transition:background .2s;}
+.market-pagination__link:hover{background:#2a2014;color:#fce0b0;}
+.market-pagination__link.is-active{background:#cf6b2f;color:#fff;border-color:#cf6b2f;cursor:default;}
+.market-pagination__link.is-disabled{background:#1b1b1b;color:#555;border-color:#1b1b1b;cursor:default;}
+.market-pagination__ellipsis{color:#777;font-size:11px;}
 </style>
 </head>
 </html>
@@ -142,6 +148,36 @@ echo	msg('0','You are logged in game.');
 $denegar = 1;
 }
 
+$list_item_type = safe_input($_GET['op3'],'');
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$perPage = 10;
+$offset = ($page - 1) * $perPage;
+$paginationFilter = "[is_sold] = '0'";
+$paginationBase = 'index.php?page_id=market';
+if (safe_input($_GET['op2'],'') == 'List') {
+    $paginationBase .= '&op2=List';
+    if ($list_item_type !== '' && $list_item_type !== null && ($list_item_type === '0' || is_numeric($list_item_type))) {
+        $paginationFilter .= " AND cat_id = '".$list_item_type."'";
+        $paginationBase .= '&op3=' . urlencode($list_item_type);
+    }
+} else {
+    $list_item_type = '';
+}
+$totalItems = 0;
+$countResult = mssql_query("SELECT COUNT(*) FROM [MuCore_Market] WHERE ".$paginationFilter);
+if ($countResult) {
+    $totalItems = mssql_result($countResult, 0, 0);
+}
+$totalPages = max(1, ceil($totalItems / $perPage));
+if ($page > $totalPages) {
+    $page = $totalPages;
+    $offset = ($page - 1) * $perPage;
+}
+if ($offset > 0) {
+    $list_query = "SELECT TOP $perPage * FROM [MuCore_Market] WHERE ".$paginationFilter." AND id NOT IN (SELECT TOP ".$offset." id FROM [MuCore_Market] WHERE ".$paginationFilter." ORDER BY start_date DESC) ORDER BY start_date DESC";
+} else {
+    $list_query = "SELECT TOP $perPage * FROM [MuCore_Market] WHERE ".$paginationFilter." ORDER BY start_date DESC";
+}
 switch(safe_input($_GET['op2'],'')){
 case 'Buy':
 $buy_item_id=safe_input($_GET['op3'],'');
@@ -505,21 +541,6 @@ location = "index.php?page_id=market&op2=List&op3="+value;
 </thead>
 <?
 
-$list_query="SELECT * FROM [MuCore_Market] where [is_sold] = '0' order by start_date desc";
-if(safe_input($_GET['op2'],'') == 'List'){
-if(safe_input($_GET['op3'],'') OR safe_input($_GET['op3'],'') == 0){
-
-$list_item_type=safe_input($_GET['op3'],'');
-
-if(is_numeric($list_item_type)){
-$cont = 1;
-}
-
-if($cont == 1){
-$list_query = "SELECT * FROM [MuCore_Market] where [is_sold] = '0'  AND cat_id = '$list_item_type' order by start_date desc";
-}
-}
-}
 $m_table_class='';
 
 $listResult = mssql_query($list_query);
@@ -636,7 +657,21 @@ if ($MarketItemInfo['category'] == 14) {
 $creditsDisplay = ($credits_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($credits_price).'</strong><span class="market-price-label">Credits</span></span>';
 $pcpointsDisplay = ($pcpoints_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($pcpoints_price).'</strong><span class="market-price-label">WCoinP</span></span>';
 $zenDisplay = ($zen_price=='-') ? '<span class="market-price dash">-</span>' : '<span class="market-price"><strong>'.number_format($zen_price).'</strong><span class="market-price-label">Zen</span></span>';
-$tooltipContent = "<center><img src=".$MarketItemInfo['thumb']."><br><font color=white>".$itemMetaLabel.": ".$itemMetaValue."</font><br><font color=#FF99CC>".$MarketItemInfo['jog']."</font><font color=FFCC00>".$MarketItemInfo['harm']."</font><br>$option $luck $skill $exl<br><font color=#4d668d>".$MarketItemInfo['socket']."</font></center>";
+
+$tooltipContent = '<div style="text-align:center; display:inline-block; min-width:160px;">';
+$tooltipContent .= '<img src="'.$MarketItemInfo['thumb'].'"><br>';
+$tooltipContent .= '<span style="color:white">'.$itemMetaLabel.': '.$itemMetaValue.'</span><br>';
+$tooltipContent .= '<span style="color:#FF99CC">'.$MarketItemInfo['jog'].'</span>';
+$tooltipContent .= '<span style="color:#FFCC00">'.$MarketItemInfo['harm'].'</span><br>';
+if (!empty($option)) $tooltipContent .= $option.'<br>';
+if (!empty($luck))   $tooltipContent .= $luck.'<br>';
+if (!empty($skill))  $tooltipContent .= $skill.'<br>';
+if (!empty($exl))    $tooltipContent .= $exl.'<br>';
+if (!empty($MarketItemInfo['socket'])) {
+    $tooltipContent .= '<span style="color:#4d668d">'.$MarketItemInfo['socket'].'</span>';
+}
+$tooltipContent .= '</div>';
+
 $tooltipEscaped = addslashes($tooltipContent);
 $itemCell = '
 <div class="market-item">
@@ -689,6 +724,50 @@ unset($exl);
 }
 }
 unset($i);
+if ($totalPages > 1) {
+    echo '<div class="market-pagination">';
+    if ($page > 1) {
+        $prevUrl = $paginationBase . '&page=' . ($page - 1);
+        echo '<a href="' . $prevUrl . '" class="market-pagination__link">&laquo; Trước</a>';
+    } else {
+        echo '<span class="market-pagination__link is-disabled">&laquo; Trước</span>';
+    }
+    $maxVisible = 5;
+    $startPage = max(1, $page - 2);
+    $endPage = min($totalPages, $startPage + $maxVisible - 1);
+    if (($endPage - $startPage + 1) < $maxVisible) {
+        $startPage = max(1, $endPage - $maxVisible + 1);
+    }
+    if ($startPage > 1) {
+        $firstUrl = $paginationBase . '&page=1';
+        echo '<a href="' . $firstUrl . '" class="market-pagination__link">1</a>';
+        if ($startPage > 2) {
+            echo '<span class="market-pagination__ellipsis">...</span>';
+        }
+    }
+    for ($p = $startPage; $p <= $endPage; $p++) {
+        if ($p == $page) {
+            echo '<span class="market-pagination__link is-active">' . $p . '</span>';
+        } else {
+            $pageUrl = $paginationBase . '&page=' . $p;
+            echo '<a href="' . $pageUrl . '" class="market-pagination__link">' . $p . '</a>';
+        }
+    }
+    if ($endPage < $totalPages) {
+        if ($endPage < $totalPages - 1) {
+            echo '<span class="market-pagination__ellipsis">...</span>';
+        }
+        $lastUrl = $paginationBase . '&page=' . $totalPages;
+        echo '<a href="' . $lastUrl . '" class="market-pagination__link">' . $totalPages . '</a>';
+    }
+    if ($page < $totalPages) {
+        $nextUrl = $paginationBase . '&page=' . ($page + 1);
+        echo '<a href="' . $nextUrl . '" class="market-pagination__link">Sau &raquo;</a>';
+    } else {
+        echo '<span class="market-pagination__link is-disabled">Sau &raquo;</span>';
+    }
+    echo '</div>';
+}
 ?>
 </table></td></table></div></div>
 <div id="market-buy-modal" class="market-modal">

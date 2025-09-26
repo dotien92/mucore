@@ -611,14 +611,14 @@ MUCore CSS End
                             <div align="center"><table width="190" align="center">
                           <tr>
                           <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">#</span></div></td>
-                          <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">Nombre</span></div></td>
-                          <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">Nivel</span></div></td>
+                          <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">Name</span></div></td>
+                          <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">Level</span></div></td>
                           <td class="cabecerarank"><div align="center"><span style="color:#DDBE49;">Resets</span></div></td>
                         </tr>
 
                           <tr>
                             <?
-$Chars=$core_db->Execute("select TOP 10 Name,cLevel,Resets from Character Where ctlcode !='32' and ctlcode !='8' order by Resets desc, cLevel desc");
+$Chars=$core_db->Execute("select TOP 10 Name,cLevel,resetcount from Character Where ctlcode !='32' and ctlcode !='8' order by Resets desc, cLevel desc");
 while(!$Chars->EOF){
 ?>
                             <td><div align="center" class="Estilo36">
@@ -708,7 +708,7 @@ $AsistenteGuildInfo = $core_db->Execute("SELECT Name FROM GuildMember WHERE G_Na
 
                 <aside id="right">
                     <section id="slider_bg" >
-                            <? include('pages_modules/quick_chat.php'); ?>
+                        <? include('pages_modules/quick_chat.php'); ?>
                     </section>
 
                     <div id="content_ajax">
