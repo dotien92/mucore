@@ -207,6 +207,361 @@ function quick_chat_render_market_tokens($message)
     );
 }
 
+function quick_chat_sql_escape($value)
+{
+    return str_replace("'", "''", (string) $value);
+}
+
+function quick_chat_normalize_item_blob($data)
+{
+    if ($data === null) {
+        return '';
+    }
+    if (!is_string($data)) {
+        $data = (string) $data;
+    }
+    if ($data === '') {
+        return '';
+    }
+
+    if (strpos($data, '0x') === 0 || strpos($data, '0X') === 0) {
+        $data = substr($data, 2);
+    }
+
+    $trimmed = trim($data);
+    if ($trimmed !== '' && preg_match('/^[0-9A-Fa-f]+$/', $trimmed)) {
+        return strtoupper($trimmed);
+    }
+
+    $hex = bin2hex($data);
+    return $hex !== '' ? strtoupper($hex) : '';
+}
+
+function quick_chat_extract_item_slots($hex, $slotCount)
+{
+    $slotCount = (int) $slotCount;
+    if ($slotCount < 1) {
+        return array();
+    }
+
+    $hex = strtoupper((string) $hex);
+    if ($hex === '') {
+        return array();
+    }
+
+    $slotSize = 20;
+    $length = strlen($hex);
+    $maxSlots = min($slotCount, (int) floor($length / $slotSize));
+
+    if ($maxSlots < 1) {
+        return array();
+    }
+
+    $items = array();
+    for ($slot = 0; $slot < $maxSlots; $slot++) {
+        $offset = $slot * $slotSize;
+        $chunk = substr($hex, $offset, $slotSize);
+        if ($chunk === false || strlen($chunk) !== $slotSize) {
+            break;
+        }
+        if ($chunk === '' || $chunk === str_repeat('F', $slotSize)) {
+            continue;
+        }
+        if (!ctype_xdigit($chunk)) {
+            continue;
+        }
+        $items[] = array(
+            'slot' => $slot,
+            'hex'  => $chunk,
+        );
+    }
+
+    return $items;
+}
+
+function quick_chat_encode_character_key($name)
+{
+    $encoded = rtrim(strtr(base64_encode((string) $name), '+/', '-_'), '=');
+    return 'c-' . $encoded;
+}
+
+function quick_chat_personal_group_meta($key)
+{
+    $key = (string) $key;
+    if ($key === 'w') {
+        return array('type' => 'warehouse', 'label' => 'Warehouse');
+    }
+    if (strpos($key, 'c-') === 0) {
+        $payload = substr($key, 2);
+        if ($payload !== '') {
+            $payload = strtr($payload, '-_', '+/');
+            $pad = strlen($payload) % 4;
+            if ($pad > 0) {
+                $payload .= str_repeat('=', 4 - $pad);
+            }
+            $decoded = base64_decode($payload, true);
+            if ($decoded !== false && $decoded !== '') {
+                return array('type' => 'character', 'label' => $decoded);
+            }
+        }
+        return array('type' => 'character', 'label' => 'Character');
+    }
+
+    return array('type' => 'unknown', 'label' => 'Inventory');
+}
+
+function quick_chat_format_personal_item($slotInfo, $originKey, $originLabel)
+{
+    if (!is_array($slotInfo) || empty($slotInfo['hex'])) {
+        return null;
+    }
+
+    $hex = strtoupper($slotInfo['hex']);
+    $info = ItemInfo($hex);
+    if (!$info || empty($info['name'])) {
+        return null;
+    }
+
+    $detail = quick_chat_format_item_detail(0, $info);
+    if (!$detail) {
+        return null;
+    }
+
+    $detail['slot'] = isset($slotInfo['slot']) ? (int) $slotInfo['slot'] : 0;
+    $detail['hex'] = $hex;
+    $detail['origin_key'] = $originKey;
+    $detail['origin_label'] = $originLabel;
+    $meta = quick_chat_personal_group_meta($originKey);
+    $detail['origin_type'] = isset($meta['type']) ? $meta['type'] : 'unknown';
+    if (isset($info['thumb'])) {
+        $detail['thumb'] = $info['thumb'];
+    }
+
+    return $detail;
+}
+
+function quick_chat_collect_personal_group($hex, $slotCount, $originKey, $originLabel)
+{
+    $items = array();
+    $slots = quick_chat_extract_item_slots($hex, $slotCount);
+    foreach ($slots as $slotInfo) {
+        $detail = quick_chat_format_personal_item($slotInfo, $originKey, $originLabel);
+        if ($detail) {
+            $items[] = $detail;
+        }
+    }
+
+    return $items;
+}
+
+function quick_chat_get_account_personal_items($account)
+{
+    $account = trim((string) $account);
+    if ($account === '') {
+        return array();
+    }
+
+    $groups = array();
+    $accountEscaped = quick_chat_sql_escape($account);
+
+    if (function_exists('mssql_query')) {
+        $warehouseRes = @mssql_query(
+            "SELECT TOP 1 [Items] FROM [warehouse] WHERE [AccountID] = '" . $accountEscaped . "'"
+        );
+        if ($warehouseRes) {
+            $row = mssql_fetch_array($warehouseRes, MSSQL_ASSOC);
+            if ($row && isset($row['Items'])) {
+                $hex = quick_chat_normalize_item_blob($row['Items']);
+                $items = quick_chat_collect_personal_group($hex, 120, 'w', 'Warehouse');
+                if (!empty($items)) {
+                    $groups[] = array(
+                        'key' => 'w',
+                        'title' => 'Warehouse',
+                        'type' => 'warehouse',
+                        'items' => $items,
+                    );
+                }
+            }
+            if (function_exists('mssql_free_result')) {
+                mssql_free_result($warehouseRes);
+            }
+        }
+
+        $charRes = @mssql_query(
+            "SELECT [Name], [Inventory] FROM [Character] WHERE [AccountID] = '" . $accountEscaped . "' ORDER BY [Name]"
+        );
+        if ($charRes) {
+            while ($row = mssql_fetch_array($charRes, MSSQL_ASSOC)) {
+                if (empty($row['Inventory'])) {
+                    continue;
+                }
+                $name = isset($row['Name']) ? trim((string) $row['Name']) : '';
+                $hex = quick_chat_normalize_item_blob($row['Inventory']);
+                if ($hex === '') {
+                    continue;
+                }
+                $groupKey = quick_chat_encode_character_key($name !== '' ? $name : 'Character');
+                $meta = quick_chat_personal_group_meta($groupKey);
+                $items = quick_chat_collect_personal_group($hex, 76, $groupKey, $meta['label']);
+                if (!empty($items)) {
+                    $groups[] = array(
+                        'key' => $groupKey,
+                        'title' => $meta['label'],
+                        'type' => 'character',
+                        'items' => $items,
+                    );
+                }
+            }
+            if (function_exists('mssql_free_result')) {
+                mssql_free_result($charRes);
+            }
+        }
+    }
+
+    return $groups;
+}
+
+function quick_chat_personal_item_details_for_token($groupKey, $hex)
+{
+    static $cache = array();
+
+    $groupKey = (string) $groupKey;
+    $hex = strtoupper((string) $hex);
+
+    if (strlen($hex) !== 20 || !ctype_xdigit($hex)) {
+        return null;
+    }
+
+    $cacheKey = strtolower($groupKey) . ':' . $hex;
+    if (array_key_exists($cacheKey, $cache)) {
+        return $cache[$cacheKey];
+    }
+
+    $info = ItemInfo($hex);
+    if (!$info || empty($info['name'])) {
+        $cache[$cacheKey] = null;
+        return null;
+    }
+
+    $detail = quick_chat_format_item_detail(0, $info);
+    if (!$detail) {
+        $cache[$cacheKey] = null;
+        return null;
+    }
+
+    $meta = quick_chat_personal_group_meta($groupKey);
+    $detail['origin_key'] = $groupKey;
+    $detail['origin_label'] = $meta['label'];
+    $detail['origin_type'] = $meta['type'];
+    $detail['hex'] = $hex;
+    if (isset($info['thumb'])) {
+        $detail['thumb'] = $info['thumb'];
+    }
+
+    $cache[$cacheKey] = $detail;
+    return $detail;
+}
+
+function quick_chat_render_personal_reference($details)
+{
+    if (!$details || empty($details['label'])) {
+        return '';
+    }
+
+    $label = $details['label'];
+    $origin = isset($details['origin_label']) ? $details['origin_label'] : '';
+    if ($origin !== '') {
+        $label = '[' . $origin . '] ' . $label;
+    }
+
+    $tooltip = isset($details['tooltip']) ? $details['tooltip'] : '';
+    $titleColor = isset($details['title_color']) ? $details['title_color'] : '#B9955B';
+    $titleBackground = isset($details['title_background']) ? $details['title_background'] : '#000000';
+
+    $onMouseOver = 'Tip(' . json_encode($tooltip)
+        . ', TITLEFONTCOLOR,' . json_encode($titleColor)
+        . ', TITLE,' . json_encode($details['label'])
+        . ', TITLEBGCOLOR,' . json_encode($titleBackground) . ')';
+
+    $attributes = array(
+        'class="quick-chat__personal-item"',
+        'data-origin-type="' . htmlspecialchars(isset($details['origin_type']) ? $details['origin_type'] : '', ENT_QUOTES, 'UTF-8') . '"',
+        'data-origin-label="' . htmlspecialchars($origin, ENT_QUOTES, 'UTF-8') . '"',
+        'onmouseover="' . htmlspecialchars($onMouseOver, ENT_QUOTES, 'UTF-8') . '"',
+        'onmouseout="UnTip()"'
+    );
+
+    return '<span ' . implode(' ', $attributes) . '>'
+        . htmlspecialchars($label, ENT_QUOTES, 'UTF-8')
+        . '</span>';
+}
+
+function quick_chat_render_message_tokens($message)
+{
+    $pattern = '/\/(market_(\d{1,10})|myitem-([A-Za-z0-9\-_]{1,64})-([0-9A-F]{20}))/i';
+    $hasMatch = preg_match_all($pattern, $message, $matches, PREG_OFFSET_CAPTURE);
+    if (!$hasMatch) {
+        return array(
+            'html' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8'),
+            'market_item_ids' => array(),
+            'personal_items' => array(),
+        );
+    }
+
+    $html = '';
+    $marketIds = array();
+    $personalItems = array();
+    $lastIndex = 0;
+
+    foreach ($matches[0] as $idx => $match) {
+        $matchText = $match[0];
+        $matchStart = $match[1];
+        $segment = substr($message, $lastIndex, $matchStart - $lastIndex);
+        if ($segment !== '') {
+            $html .= htmlspecialchars($segment, ENT_QUOTES, 'UTF-8');
+        }
+
+        $marketIdRaw = isset($matches[2][$idx][0]) ? $matches[2][$idx][0] : '';
+        if ($marketIdRaw !== '') {
+            $itemDetails = quick_chat_market_item_details($marketIdRaw);
+            if ($itemDetails) {
+                $html .= quick_chat_render_market_reference($itemDetails);
+                $marketIds[] = (int) $itemDetails['id'];
+            } else {
+                $html .= '<span class="quick-chat__market-missing">Item #' . htmlspecialchars($marketIdRaw, ENT_QUOTES, 'UTF-8') . ' không khả dụng.</span>';
+            }
+        } else {
+            $groupKey = isset($matches[3][$idx][0]) ? $matches[3][$idx][0] : '';
+            $itemHex = isset($matches[4][$idx][0]) ? $matches[4][$idx][0] : '';
+            $details = quick_chat_personal_item_details_for_token($groupKey, $itemHex);
+            if ($details) {
+                $html .= quick_chat_render_personal_reference($details);
+                $personalItems[] = array(
+                    'group_key' => $details['origin_key'],
+                    'origin_label' => isset($details['origin_label']) ? $details['origin_label'] : '',
+                    'hex' => $details['hex'],
+                    'label' => $details['label'],
+                );
+            } else {
+                $html .= '<span class="quick-chat__personal-missing">Item cá nhân không khả dụng.</span>';
+            }
+        }
+
+        $lastIndex = $matchStart + strlen($matchText);
+    }
+
+    $tail = substr($message, $lastIndex);
+    if ($tail !== '') {
+        $html .= htmlspecialchars($tail, ENT_QUOTES, 'UTF-8');
+    }
+
+    return array(
+        'html' => $html,
+        'market_item_ids' => $marketIds,
+        'personal_items' => $personalItems,
+    );
+}
+
 function quick_chat_prepare_messages($messages)
 {
     if (!is_array($messages)) {
@@ -216,10 +571,13 @@ function quick_chat_prepare_messages($messages)
     foreach ($messages as &$row) {
         $text = isset($row['message']) ? (string) $row['message'] : '';
 
-        $renderedInfo = quick_chat_render_market_tokens($text);
+        $renderedInfo = quick_chat_render_message_tokens($text);
         $row['rendered'] = $renderedInfo['html'];
-        if (!empty($renderedInfo['ids'])) {
-            $row['market_item_ids'] = array_values(array_unique($renderedInfo['ids']));
+        if (!empty($renderedInfo['market_item_ids'])) {
+            $row['market_item_ids'] = array_values(array_unique($renderedInfo['market_item_ids']));
+        }
+        if (!empty($renderedInfo['personal_items'])) {
+            $row['personal_items'] = $renderedInfo['personal_items'];
         }
     }
     unset($row);
@@ -278,6 +636,58 @@ if ($action === 'mymarkets') {
         'success' => true,
         'items'   => $items,
         'now'     => time(),
+    ));
+}
+
+if ($action === 'myitems') {
+    if ($user_login !== '1' || empty($user_auth_id)) {
+        quick_chat_render_json(array('success' => false, 'error' => 'not_authenticated'));
+    }
+
+    $groupsRaw = quick_chat_get_account_personal_items($user_auth_id);
+    $groups = array();
+
+    foreach ($groupsRaw as $group) {
+        if (!is_array($group) || empty($group['items'])) {
+            continue;
+        }
+
+        $items = array();
+        foreach ($group['items'] as $item) {
+            if (!is_array($item) || empty($item['hex'])) {
+                continue;
+            }
+            $token = '/myitem-' . (isset($group['key']) ? $group['key'] : 'w') . '-' . strtoupper($item['hex']);
+            $items[] = array(
+                'hex' => strtoupper($item['hex']),
+                'label' => isset($item['label']) ? $item['label'] : '',
+                'tooltip' => isset($item['tooltip']) ? $item['tooltip'] : '',
+                'title_color' => isset($item['title_color']) ? $item['title_color'] : '#B9955B',
+                'title_background' => isset($item['title_background']) ? $item['title_background'] : '#000000',
+                'slot' => isset($item['slot']) ? (int) $item['slot'] : null,
+                'origin_key' => isset($item['origin_key']) ? $item['origin_key'] : (isset($group['key']) ? $group['key'] : ''),
+                'origin_label' => isset($item['origin_label']) ? $item['origin_label'] : (isset($group['title']) ? $group['title'] : ''),
+                'token' => $token,
+                'thumb' => isset($item['thumb']) ? $item['thumb'] : '',
+            );
+        }
+
+        if (empty($items)) {
+            continue;
+        }
+
+        $groups[] = array(
+            'key' => isset($group['key']) ? $group['key'] : 'w',
+            'title' => isset($group['title']) ? $group['title'] : '',
+            'type' => isset($group['type']) ? $group['type'] : '',
+            'items' => $items,
+        );
+    }
+
+    quick_chat_render_json(array(
+        'success' => true,
+        'groups' => $groups,
+        'now' => time(),
     ));
 }
 
@@ -347,6 +757,11 @@ $quick_chat_commands = array(
         'insert' => '/mymarket',
         'description' => 'Liệt kê item bạn đang đăng bán.',
     ),
+    array(
+        'name' => 'myitem',
+        'insert' => '/myitem',
+        'description' => 'Liệt kê item hiện có trong warehouse và nhân vật.',
+    ),
 );
 ?>
 <div class="quick-chat">
@@ -401,6 +816,7 @@ $quick_chat_commands = array(
                 </div>
                 <div class="quick-chat__suggestions quick-chat__floating-panel" id="quick-chat-suggestions"></div>
                 <div class="quick-chat__mymarkets-panel quick-chat__floating-panel" id="quick-chat-mymarkets"></div>
+                <div class="quick-chat__myitems-panel quick-chat__floating-panel" id="quick-chat-myitems"></div>
             </div>
         </form>
     </div>
@@ -456,6 +872,22 @@ window.quickChatConfig = {
 .quick-chat__mymarkets-item:last-child{border-bottom:none;}
 .quick-chat__mymarkets-item--active{background:#1f1f1f;color:#ffd27f;}
 .quick-chat__mymarkets-item-id{font-size:11px;color:#9bd1ff;}
+.quick-chat__myitems-panel{background:#141414;border:1px solid #2f2f2f;max-height:220px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);display:none;padding:6px 0;}
+.quick-chat__myitems-panel--visible{display:block;}
+.quick-chat__myitems-group{padding:4px 10px 8px;}
+.quick-chat__myitems-group-title{font-weight:600;margin-bottom:4px;color:#9bd1ff;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+.quick-chat__myitems-empty{padding:8px;color:#9bd1ff;font-style:italic;}
+.quick-chat__myitems-item{padding:6px 8px;border:1px solid transparent;margin-bottom:4px;cursor:pointer;color:#d7d7d7;background:#1a1a1a;display:flex;align-items:center;gap:8px;border-radius:2px;}
+.quick-chat__myitems-item:last-child{margin-bottom:0;}
+.quick-chat__myitems-item--active{border-color:#ffd27f;background:#262626;color:#ffd27f;}
+.quick-chat__myitems-item-thumb{width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.quick-chat__myitems-item-thumb img{max-width:100%;max-height:100%;display:block;}
+.quick-chat__myitems-item-label{flex:1;line-height:1.3;}
+.quick-chat__myitems-item-text{display:block;font-weight:600;color:#e1e1e1;}
+.quick-chat__myitems-item-origin{font-size:11px;color:#9bd1ff;display:block;}
+.quick-chat__personal-item{color:#c2e4ff;text-decoration:underline;cursor:pointer;white-space:nowrap;}
+.quick-chat__personal-item:hover{color:#ffd27f;}
+.quick-chat__personal-missing{color:#ff6666;font-style:italic;}
 .quick-chat__suggestions{display:none;background:#141414;border:1px solid #2f2f2f;max-height:150px;overflow-y:auto;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
 .quick-chat__suggestions--visible{display:block;}
 .quick-chat__suggestion{padding:6px 8px;cursor:pointer;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid rgba(255,255,255,0.05);}

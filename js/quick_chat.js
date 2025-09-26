@@ -21,6 +21,7 @@
     var $display = $('#quick-chat-display');
     var $suggestions = $('#quick-chat-suggestions');
     var $mymarkets = $('#quick-chat-mymarkets');
+    var $myitems = $('#quick-chat-myitems');
     var commands = $.isArray(cfg.commands) ? cfg.commands : [];
 
     var suggestionState = {
@@ -34,6 +35,14 @@
         visible: false,
         loading: false,
         items: [],
+        index: -1
+    };
+
+    var myitemsState = {
+        visible: false,
+        loading: false,
+        groups: [],
+        flat: [],
         index: -1
     };
 
@@ -154,6 +163,202 @@
             $mymarkets.removeClass('quick-chat__mymarkets-panel--visible').empty();
         }
         setStatus('');
+    }
+
+    function hideMyItems() {
+        if (myitemsState.visible && typeof UnTip === 'function') {
+            try { UnTip(); } catch (e) {}
+        }
+        myitemsState.visible = false;
+        myitemsState.loading = false;
+        myitemsState.groups = [];
+        myitemsState.flat = [];
+        myitemsState.index = -1;
+        if ($myitems && $myitems.length) {
+            $myitems.removeClass('quick-chat__myitems-panel--visible').empty();
+        }
+        setStatus('');
+    }
+
+    function showMyItemsMessage(text) {
+        if (!$myitems.length) {
+            return;
+        }
+        $myitems.empty().append(
+            $('<div class="quick-chat__myitems-empty"/>').text(text || '')
+        );
+        $myitems.addClass('quick-chat__myitems-panel--visible');
+        myitemsState.visible = true;
+        myitemsState.index = -1;
+        myitemsState.flat = [];
+    }
+
+    function setActiveMyItem(index) {
+        if (!$myitems.length) {
+            return;
+        }
+        $myitems.find('.quick-chat__myitems-item').removeClass('quick-chat__myitems-item--active');
+        if (index >= 0) {
+            var $target = $myitems.find('.quick-chat__myitems-item[data-index="' + index + '"]');
+            if ($target.length) {
+                $target.addClass('quick-chat__myitems-item--active');
+            }
+        }
+        myitemsState.index = index;
+    }
+
+    function renderMyItems(groups) {
+        if (!$myitems.length) {
+            return;
+        }
+        $myitems.empty();
+        myitemsState.visible = true;
+        myitemsState.loading = false;
+        myitemsState.groups = $.isArray(groups) ? groups : [];
+        myitemsState.flat = [];
+        myitemsState.index = -1;
+
+        if (!myitemsState.groups.length) {
+            showMyItemsMessage('Kho đồ hiện trống.');
+            return;
+        }
+
+        for (var g = 0; g < myitemsState.groups.length; g++) {
+            var group = myitemsState.groups[g];
+            if (!group || !$.isArray(group.items) || !group.items.length) {
+                continue;
+            }
+            var groupKey = group.key || '';
+            var groupTitle = group.title || '';
+
+            var $group = $('<div class="quick-chat__myitems-group"/>').attr('data-group', groupKey);
+            if (groupTitle) {
+                $('<div class="quick-chat__myitems-group-title"/>').text(groupTitle).appendTo($group);
+            }
+
+            for (var j = 0; j < group.items.length; j++) {
+                var item = group.items[j];
+                if (!item || !item.token) {
+                    continue;
+                }
+                var flatIndex = myitemsState.flat.length;
+                myitemsState.flat.push({
+                    token: item.token,
+                    item: item,
+                    groupKey: groupKey,
+                    groupTitle: groupTitle
+                });
+
+                var $row = $('<div class="quick-chat__myitems-item"/>')
+                    .attr('data-index', flatIndex)
+                    .attr('data-token', item.token);
+
+                var thumbSrc = item.thumb || '';
+                var $thumb = $('<span class="quick-chat__myitems-item-thumb"/>');
+                if (thumbSrc) {
+                    $('<img alt=""/>').attr('src', thumbSrc).appendTo($thumb);
+                }
+                $row.append($thumb);
+
+                var $label = $('<span class="quick-chat__myitems-item-label"/>');
+                $('<span class="quick-chat__myitems-item-text"/>').text(item.label || '').appendTo($label);
+                var originLabel = item.origin_label || groupTitle || '';
+                if (originLabel) {
+                    $('<span class="quick-chat__myitems-item-origin"/>').text(originLabel).appendTo($label);
+                }
+                $row.append($label);
+
+                attachmymarketTooltip($row, item);
+                $group.append($row);
+            }
+
+            if ($group.children().length) {
+                $myitems.append($group);
+            }
+        }
+
+        if (!myitemsState.flat.length) {
+            showMyItemsMessage('Không tìm thấy item khả dụng.');
+            return;
+        }
+
+        $myitems.addClass('quick-chat__myitems-panel--visible');
+        setActiveMyItem(0);
+        setStatus('Chọn item để chèn vào chat.');
+    }
+
+    function applyMyItem(entry) {
+        if (!entry || !$input.length) {
+            return;
+        }
+        var token = entry.token || '';
+        if (!token) {
+            return;
+        }
+        var value = $input.val() || '';
+        var el = $input.get(0);
+        var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
+        var context = detectSlashCommand(value, caret);
+        if (!context || context.raw.toLowerCase() !== 'myitem') {
+            hideMyItems();
+            return;
+        }
+
+        var before = value.substring(0, context.start);
+        var after = value.substring(context.end);
+        var newValue = before + token + ' ' + after;
+        $input.val(newValue);
+
+        if (el && typeof el.setSelectionRange === 'function') {
+            var newCaret = (before + token + ' ').length;
+            el.setSelectionRange(newCaret, newCaret);
+        }
+
+        hideMyItems();
+        hideSuggestions();
+        $input.focus();
+    }
+
+    function applyMyItemByIndex(index) {
+        if (index < 0 || index >= myitemsState.flat.length) {
+            return;
+        }
+        applyMyItem(myitemsState.flat[index]);
+    }
+
+    function requestMyItems() {
+        if (!canPost) {
+            setStatus('Bạn cần đăng nhập để sử dụng lệnh này.');
+            return;
+        }
+        if (myitemsState.loading) {
+            return;
+        }
+        hideSuggestions();
+        hidemymarkets();
+        myitemsState.loading = true;
+        showMyItemsMessage('Đang tải item của bạn...');
+        $.ajax({
+            url: buildUrl('myitems'),
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response && response.success) {
+                    renderMyItems(response.groups || []);
+                } else if (response && response.error === 'not_authenticated') {
+                    hideMyItems();
+                    setStatus('Bạn cần đăng nhập để xem item.');
+                } else {
+                    showMyItemsMessage('Không thể tải danh sách item.');
+                }
+            },
+            error: function () {
+                showMyItemsMessage('Không thể tải danh sách item.');
+            },
+            complete: function () {
+                myitemsState.loading = false;
+            }
+        });
     }
 
     function showmymarketsMessage(text) {
@@ -404,7 +609,23 @@
         var value = $input.val();
         var caret = typeof el.selectionStart === 'number' ? el.selectionStart : value.length;
         var context = detectSlashCommand(value, caret);
+        if (!context) {
+            hideSuggestions();
+            hidemymarkets();
+            hideMyItems();
+            return;
+        }
         var lowerRaw = context && context.raw ? String(context.raw).toLowerCase() : '';
+        if (lowerRaw === 'myitem') {
+            hideSuggestions();
+            if (!myitemsState.visible && !myitemsState.loading) {
+                requestMyItems();
+            }
+            return;
+        }
+        if (myitemsState.visible) {
+            hideMyItems();
+        }
         if (lowerRaw === 'mymarket') {
             hideSuggestions();
             if (!mymarketsState.visible && !mymarketsState.loading) {
@@ -414,10 +635,6 @@
         }
         if (mymarketsState.visible) {
             hidemymarkets();
-        }
-        if (!context) {
-            hideSuggestions();
-            return;
         }
         if (/\d/.test(context.raw)) {
             hideSuggestions();
@@ -437,6 +654,7 @@
         }
         if (!matches.length) {
             hideSuggestions();
+            hideMyItems();
             return;
         }
         showSuggestions(matches, context);
@@ -469,6 +687,49 @@
 
     function handleSuggestionKeydown(evt) {
         var key = evt.which || evt.keyCode;
+
+        if (myitemsState.visible) {
+            if (key === 27) { // esc
+                evt.preventDefault();
+                hideMyItems();
+                return;
+            }
+            if (!myitemsState.flat.length) {
+                return;
+            }
+            if (key === 38) { // up
+                evt.preventDefault();
+                if (myitemsState.index > 0) {
+                    setActiveMyItem(myitemsState.index - 1);
+                } else {
+                    setActiveMyItem(myitemsState.flat.length - 1);
+                }
+                return;
+            }
+            if (key === 40) { // down
+                evt.preventDefault();
+                if (myitemsState.index < myitemsState.flat.length - 1) {
+                    setActiveMyItem(myitemsState.index + 1);
+                } else {
+                    setActiveMyItem(0);
+                }
+                return;
+            }
+            if (key === 9) { // tab cycles items
+                evt.preventDefault();
+                if (evt.shiftKey) {
+                    setActiveMyItem(myitemsState.index > 0 ? myitemsState.index - 1 : myitemsState.flat.length - 1);
+                } else {
+                    setActiveMyItem(myitemsState.index < myitemsState.flat.length - 1 ? myitemsState.index + 1 : 0);
+                }
+                return;
+            }
+            if (key === 13) { // enter selects item
+                evt.preventDefault();
+                applyMyItemByIndex(myitemsState.index >= 0 ? myitemsState.index : 0);
+                return;
+            }
+        }
 
         if (mymarketsState.visible) {
             if (key === 27) { // esc
@@ -891,6 +1152,10 @@
                 requestmymarkets();
                 return false;
             }
+            if (/^\/myitem$/i.test(message)) {
+                requestMyItems();
+                return false;
+            }
             setStatus('Sending...');
             $send.attr('disabled', 'disabled');
             var displayName = getDisplayValue();
@@ -911,6 +1176,7 @@
                         $input.val('');
                         hideSuggestions();
                         hidemymarkets();
+                        hideMyItems();
                         if ($display.length && win.localStorage) {
                             var currentDisplay = getDisplayValue();
                             if (currentDisplay) {
@@ -963,6 +1229,7 @@
             window.setTimeout(function () {
                 hideSuggestions();
                 hidemymarkets();
+                hideMyItems();
             }, 100);
         });
     }
@@ -999,6 +1266,23 @@
             var idx = parseInt($(this).attr('data-index'), 10);
             if (!isNaN(idx)) {
                 setActivemymarket(idx);
+            }
+        });
+    }
+
+    if ($myitems.length) {
+        bindEvent($myitems, 'mousedown', '.quick-chat__myitems-item', function (evt) {
+            evt.preventDefault();
+            var idx = parseInt($(this).attr('data-index'), 10);
+            if (isNaN(idx)) {
+                idx = 0;
+            }
+            applyMyItemByIndex(idx);
+        });
+        bindEvent($myitems, 'mousemove', '.quick-chat__myitems-item', function () {
+            var idx = parseInt($(this).attr('data-index'), 10);
+            if (!isNaN(idx)) {
+                setActiveMyItem(idx);
             }
         });
     }
